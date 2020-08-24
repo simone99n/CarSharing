@@ -164,8 +164,8 @@ public class FinestraConGerarchia extends JFrame {
 
 
         form.add(new JLabel("Foto del mezzo: "));
-        JLabel foto = new JLabel(new ImageIcon(modelli.get(0).getFoto()));
-        form.add(foto);
+        //JLabel foto = new JLabel(new ImageIcon(modelli.get(0).getFoto()));
+      //  form.add(foto);
 
     }
 

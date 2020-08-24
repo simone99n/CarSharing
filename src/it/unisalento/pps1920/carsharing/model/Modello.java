@@ -5,7 +5,6 @@ public class Modello {
     private int id;
     private String nome;
     private int numPosti;
-
     private byte[] foto;
 
     public int getId() {

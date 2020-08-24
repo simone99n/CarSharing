@@ -25,7 +25,7 @@ public class DbConnection {
 
    private DbConnection() {
 	   if(connesso != true)
-			connetti("carsharing", "root", "wasd123");
+			connetti("carsharing", "root", "simosamu99");
    }
    
    // Apre la connessione con il Database
