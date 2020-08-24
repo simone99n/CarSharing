@@ -2,6 +2,7 @@ package it.unisalento.pps1920.carsharing;
 
 import it.unisalento.pps1920.carsharing.dao.interfaces.IClienteDAO;
 import it.unisalento.pps1920.carsharing.dao.mysql.ClienteDAO;
+import it.unisalento.pps1920.carsharing.model.Cliente;
 import it.unisalento.pps1920.carsharing.util.Session;
 import it.unisalento.pps1920.carsharing.view.FinestraConGerarchia;
 

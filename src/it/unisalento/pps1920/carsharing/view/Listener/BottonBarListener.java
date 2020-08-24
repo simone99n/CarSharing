@@ -7,6 +7,7 @@ import it.unisalento.pps1920.carsharing.dao.interfaces.IStazioneDAO;
 import it.unisalento.pps1920.carsharing.dao.mysql.LocalitaDAO;
 import it.unisalento.pps1920.carsharing.dao.mysql.MezzoDAO;
 import it.unisalento.pps1920.carsharing.dao.mysql.StazioneDAO;
+import it.unisalento.pps1920.carsharing.model.Cliente;
 import it.unisalento.pps1920.carsharing.model.Prenotazione;
 import it.unisalento.pps1920.carsharing.model.Stazione;
 import it.unisalento.pps1920.carsharing.util.DateUtil;
