@@ -1,8 +1,5 @@
 package it.unisalento.pps1920.carsharing.util;
 
-import it.unisalento.pps1920.carsharing.model.Cliente;
-
-import javax.print.attribute.HashAttributeSet;
 import java.util.HashMap;
 
 public class Session {

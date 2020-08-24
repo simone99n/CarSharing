@@ -2,9 +2,7 @@ package it.unisalento.pps1920.carsharing.dao.mysql;
 
 import it.unisalento.pps1920.carsharing.DbConnection;
 import it.unisalento.pps1920.carsharing.dao.interfaces.IAddettoDAO;
-import it.unisalento.pps1920.carsharing.dao.interfaces.IClienteDAO;
 import it.unisalento.pps1920.carsharing.model.Addetto;
-import it.unisalento.pps1920.carsharing.model.Cliente;
 
 import java.util.ArrayList;
 

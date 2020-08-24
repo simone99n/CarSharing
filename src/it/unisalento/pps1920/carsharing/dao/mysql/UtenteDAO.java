@@ -18,7 +18,7 @@ public class UtenteDAO implements IUtenteDAO
         ArrayList<String[]>res= DbConnection.getInstance().eseguiQuery("SELECT * FROM utente WHERE idutente="+id+";");
         String[] riga=res.get(0);
         u=new Utente();
-        u.setIdutente(id);
+        u.setId(id);
         u.setUsername(riga[1]);
         u.setEmail(riga[3]);
         return u;
@@ -31,7 +31,7 @@ public class UtenteDAO implements IUtenteDAO
         for (String[] riga : res)
         {
             Utente u=new Utente();
-            u.setIdutente(Integer.parseInt(riga[0]));
+            u.setId(Integer.parseInt(riga[0]));
             u.setUsername(riga[1]);
             u.setEmail(riga[3]);
             user.add(u);
@@ -39,7 +39,7 @@ public class UtenteDAO implements IUtenteDAO
         return user;
     }
 
-    public boolean salvaRegistrazione(Cliente c,Utente user)
+    public boolean salvaRegistrazione(Cliente c, Utente user)
     {
 
         Utente verify_exist_user=findByUsername(user.getUsername());
@@ -48,7 +48,7 @@ public class UtenteDAO implements IUtenteDAO
         {
             String sql="INSERT INTO utente VALUES (NULL,"+user.getUsername()+","+user.getPassword()+","+ user.getEmail()+")";
             DbConnection.getInstance().eseguiAggiornamento(sql);
-            String sql1="INSERT INTO cliente VALUES (NULL,"+c.getNome()+","+c.getCognome()+","+c.getResidenza().getId_residenza()+","+c.getEta()+","+c.getNum_tel()+","+ Arrays.toString(c.getFoto()) +")";
+            String sql1="INSERT INTO cliente VALUES (NULL,"+c.getNome()+","+c.getCognome()+","+c.getResidenza()+","+c.getEta()+","+c.getNum_tel()+","+ Arrays.toString(c.getFoto()) +")";
             DbConnection.getInstance().eseguiAggiornamento(sql1);
             return true;
         }
@@ -73,7 +73,7 @@ public class UtenteDAO implements IUtenteDAO
             return null;
         String[] riga=res.get(0);
         Utente u=new Utente();
-        u.setIdutente(Integer.parseInt(riga[0]));
+        u.setId(Integer.parseInt(riga[0]));
         u.setUsername(riga[1]);
         u.setEmail(riga[3]);
         return u;
@@ -85,7 +85,7 @@ public class UtenteDAO implements IUtenteDAO
             return null;
         String[] riga=res.get(0);
         Utente u=new Utente();
-        u.setIdutente(Integer.parseInt(riga[0]));
+        u.setId(Integer.parseInt(riga[0]));
         u.setUsername(riga[1]);
         u.setEmail(riga[3]);
         return u;
