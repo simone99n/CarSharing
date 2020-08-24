@@ -20,8 +20,8 @@ public class ViewTest {
         //PrimaFinestraGridLayout win = new PrimaFinestraGridLayout();
         //PrimaFinestraBorderLayout win = new PrimaFinestraBorderLayout();
 
-        FinestraConGerarchia win = new FinestraConGerarchia();
-        win.setVisible(true);
+        FinestraConGerarchia win = new FinestraConGerarchia();  //creazione finestra
+        win.setVisible(true);                                   //rendere visibile finestra
 
         IClienteDAO iDAO = new ClienteDAO();
         Cliente clienteLoggato = iDAO.findById(3);
