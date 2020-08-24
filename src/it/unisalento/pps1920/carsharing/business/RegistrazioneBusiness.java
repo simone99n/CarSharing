@@ -1,5 +1,6 @@
 package it.unisalento.pps1920.carsharing.business;
 import it.unisalento.pps1920.carsharing.dao.mysql.UtenteDAO;
+import it.unisalento.pps1920.carsharing.model.Cliente;
 import it.unisalento.pps1920.carsharing.model.Utente;
 import it.unisalento.pps1920.carsharing.util.MailHelper;
 
@@ -15,7 +16,7 @@ public class RegistrazioneBusiness
             return instance;
     }
 
-    public boolean inviaRegistrazione(Cliente c,Utente user)
+    public boolean inviaRegistrazione(Cliente c, Utente user)
     {
         UtenteDAO u=new UtenteDAO();
         boolean state = u.salvaRegistrazione(c,user);
