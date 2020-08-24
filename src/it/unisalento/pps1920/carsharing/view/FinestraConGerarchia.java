@@ -7,7 +7,6 @@ import it.unisalento.pps1920.carsharing.dao.mysql.StazioneDAO;
 import it.unisalento.pps1920.carsharing.model.*;
 import it.unisalento.pps1920.carsharing.view.Listener.BottonBarListener;
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
