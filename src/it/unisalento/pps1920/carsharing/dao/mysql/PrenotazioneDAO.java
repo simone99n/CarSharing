@@ -66,7 +66,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
 
     @Override
     public void salvaPrenotazione(Prenotazione p) {
-
+        //TODO AGGIUSTARE TUTTO 25-08
         String strDataPrenotazione = DateUtil.stringFromDate(p.getData());
         String strDataInizio = DateUtil.stringFromDate(p.getDataInizio());
         String strDataFine = DateUtil.stringFromDate(p.getDataFine());
