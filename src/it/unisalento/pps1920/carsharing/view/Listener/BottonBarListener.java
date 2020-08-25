@@ -75,8 +75,8 @@ public class BottonBarListener implements ActionListener {
         p.setLocalita(posto);
         p.setPartenza(partenza);
         p.setArrivo(arrivo);
-        if(PrenotazioneBusiness.getInstance().disponibilitaMezzo(modello)){
-            mezzo = PrenotazioneBusiness.getInstance().returnOneMezzo(modello);
+        if(PrenotazioneBusiness.getInstance().disponibilitaMezzo(modello)){     //per ogni modello esistono più mezzi(uno per ogni targa), perciò SE c'è disponibilità di mezzi dato un certo modello
+            mezzo = PrenotazioneBusiness.getInstance().returnOneMezzo(modello); //ALLORA se ne seleziona uno
         }
         //TODO creare un else
         /*IMezzoDAO mDao = new MezzoDAO();
