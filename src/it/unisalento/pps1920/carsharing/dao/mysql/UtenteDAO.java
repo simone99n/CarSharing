@@ -1,5 +1,4 @@
 package it.unisalento.pps1920.carsharing.dao.mysql;
-
 import it.unisalento.pps1920.carsharing.DbConnection;
 import it.unisalento.pps1920.carsharing.dao.interfaces.IUtenteDAO;
 import it.unisalento.pps1920.carsharing.model.Cliente;
@@ -38,7 +37,7 @@ public class UtenteDAO implements IUtenteDAO
         }
         return user;
     }
-
+    @Override
     public boolean salvaRegistrazione(Cliente c, Utente user)
     {
 
@@ -63,7 +62,7 @@ public class UtenteDAO implements IUtenteDAO
             return false;
         }
            return false;
-        }
+    }
 
 
     @Override
@@ -78,7 +77,7 @@ public class UtenteDAO implements IUtenteDAO
         u.setEmail(riga[3]);
         return u;
     }
-
+    @Override
     public Utente findByEmail(String email) {
         ArrayList<String[]> res=DbConnection.getInstance().eseguiQuery("SELECT * FROM utente WHERE email="+email+";");
         if(res==null)
