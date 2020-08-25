@@ -5,6 +5,8 @@ public class Mezzo {
     private int id;
     private String targa;
     private Modello modello;
+    private String alimentazione;
+    private float prezzo;
 
     public int getId() {
         return id;
@@ -20,6 +22,22 @@ public class Mezzo {
 
     public void setTarga(String targa) {
         this.targa = targa;
+    }
+
+    public String getAlimentazione() {
+        return alimentazione;
+    }
+
+    public void setAlimentazione(String alimentazione) {
+        this.alimentazione = alimentazione;
+    }
+
+    public float getPrezzo() {
+        return prezzo;
+    }
+
+    public void setPrezzo(float prezzo) {
+        this.prezzo = prezzo;
     }
 
     public Modello getModello() {

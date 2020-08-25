@@ -53,6 +53,16 @@ public class PrenotazioneBusiness {
         return true;
     }
 
+    public boolean disponibilitaMezzo(Modello mod) {
+        IMezzoDAO mezzotemp= new MezzoDAO();
+        return mezzotemp.findOneByModello(mod) != null; //restituisce TRUE se Mezzo è disponibile, FALSE altrimenti
+    }
+
+    public Mezzo returnOneMezzo(Modello mod) {
+        IMezzoDAO mezzotemp= new MezzoDAO();
+        return mezzotemp.findOneByModello(mod);
+    }
+
     public ArrayList<Prenotazione> cercaMatch(Date inizio,
                                               Date fine,
                                               Stazione partenza,

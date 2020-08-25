@@ -31,6 +31,29 @@ public class MezzoDAO implements IMezzoDAO {
         return m;
     }
 
+    public Mezzo findOneByModello(Modello mod) {
+        //si vuole selezionare un mezzo targato dato un selezionato modello
+        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT * FROM mezzo WHERE modello_idmodello = (SELECT idmodello FROM modello WHERE nome = '"+mod.getNome()+"');");
+        Mezzo mezzoFinded = new Mezzo();
+        if(res.size()>=1) {
+
+            String[] riga = res.get(0); //prende la row restituita dalla query SQL
+
+            mezzoFinded.setId(Integer.parseInt(riga[0]));
+            mezzoFinded.setTarga(riga[1]);
+            mezzoFinded.setModello(mod);
+            mezzoFinded.setAlimentazione(riga[3]);
+            mezzoFinded.setPrezzo(Float.parseFloat(riga[4]));
+           /* IModelloDAO mDao = new ModelloDAO();
+            Modello modello = mDao.findById(Integer.parseInt(riga[2]));
+            m.setModello(modello);
+            */
+            return mezzoFinded;
+        }
+
+        return null;
+    }
+
     @Override
     public ArrayList<Mezzo> findAll() {
         return null;
