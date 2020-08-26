@@ -10,10 +10,8 @@ public class LocalitaDAO implements ILocalitaDAO {
 
     public Localita findById(int id)
     {
-        System.out.println("LocalitaDAO.findById()-----inizio");
         Localita loc;
         ArrayList<String[]> risultato = DbConnection.getInstance().eseguiQuery("SELECT * FROM localita WHERE idlocalita="+id+";");
-        System.out.println("LocalitaDAO.findById()-----prima if");
         if(risultato.size()==1) {
             loc = new Localita();
             String[] riga = risultato.get(0);
@@ -25,8 +23,7 @@ public class LocalitaDAO implements ILocalitaDAO {
 
         }
         else {
-            //LOCALITA NON TROVATA
-            loc = null;
+            loc = null; //LOCALITA NON TROVATA
         }
 
         return loc;

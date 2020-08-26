@@ -17,21 +17,21 @@ public class TableModelPrenotazioni extends AbstractTableModel  {
     @Override
     public int getRowCount() {
         return prenotazioni.size();
-    }
+    } //setup numero righe
 
     @Override
     public int getColumnCount() {
         return 7;
-    }
+    }                //setup numero colonne
 
     @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
+    public Object getValueAt(int rowIndex, int columnIndex) {       //setip tabella (ogni chiamata di getValueAt restituisce il setup di una sola cella!)
 
         Prenotazione p = prenotazioni.get(rowIndex);
 
         //BINDING
         switch(columnIndex) {
-            case 0: return p.getCliente().getUsername();
+            case 0: return p.getId();
             case 1: return p.getPartenza().getNome();
             case 2: return p.getArrivo().getNome();
             case 3: return p.getLocalita().getCitta();
@@ -57,7 +57,7 @@ public class TableModelPrenotazioni extends AbstractTableModel  {
             case 6: p.setDataFine(DateUtil.dateTimeFromString((String)value)); break;
         }
 
-        //TODO richiamare il metodo di business modificaPrenotazione che chiamera il DAO per update sql
+        //TODO richiamare il metodo di business modificaPrenotazione che chiamerà il DAO per update sql
 
     }
 }
