@@ -89,4 +89,16 @@ public class UtenteDAO implements IUtenteDAO
         u.setEmail(riga[3]);
         return u;
     }
+    @Override
+    public int checkIdpassw(Utente user)
+    {
+        ArrayList<String[]>check_username_passw= DbConnection.getInstance().eseguiQuery("SELECT id FROM utente WHERE username="+user.getUsername()+" AND password="+user.getPassword()+";");
+        if(check_username_passw!=null)
+        {
+            String[] riga=check_username_passw.get(0);
+            return Integer.parseInt(riga[0]);
+        }
+        else
+            return -1;
+    }
 }
