@@ -8,10 +8,13 @@ import it.unisalento.pps1920.carsharing.model.*;
 import it.unisalento.pps1920.carsharing.view.Listener.BottonBarListener;
 import it.unisalento.pps1920.carsharing.view.Listener.ImageChangeListener;
 
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;

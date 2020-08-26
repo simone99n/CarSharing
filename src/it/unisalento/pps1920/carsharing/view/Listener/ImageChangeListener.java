@@ -1,10 +1,7 @@
 package it.unisalento.pps1920.carsharing.view.Listener;
 
-import it.unisalento.pps1920.carsharing.model.Prenotazione;
-import it.unisalento.pps1920.carsharing.model.Stazione;
 import it.unisalento.pps1920.carsharing.view.FinestraConGerarchia;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
