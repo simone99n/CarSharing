@@ -177,10 +177,9 @@ public class FinestraConGerarchia extends JFrame {
         for(Localita l : localitas) localita.addItem(l);
         for(Modello m : modelli) modello.addItem(m);
 
-
         form.add(new JLabel("Foto del mezzo: "));
 
-        JLabel foto = new JLabel(new ImageIcon(modelli.get(modello.getSelectedIndex()).getFoto())); //TODO sistemare visualizzazioni immagini auto
+        JLabel foto = new JLabel(new ImageIcon(modelli.get(modello.getSelectedIndex()).getFoto())); //TODO sistemare visualizzazioni immagini
         form.add(foto);
 
         modello.addActionListener(imageListener);
