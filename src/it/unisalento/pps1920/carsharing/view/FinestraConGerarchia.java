@@ -12,6 +12,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class FinestraConGerarchia extends JFrame {
 
@@ -137,9 +139,15 @@ public class FinestraConGerarchia extends JFrame {
         funzionalita1.add(form, BorderLayout.CENTER);
 
 
-        form.add(new JLabel("Data inizio: "));
+        form.add(new JLabel("Data inizio: [aaaa-MM-gg hh:mm]"));
         form.add(dataInizio);
-        form.add(new JLabel("Data fine: "));
+
+     /*   Calendar calendar = Calendar.getInstance();
+        form.add(calendar);
+        Date date =  calendar.getTime();
+    */
+
+        form.add(new JLabel("Data fine: [aaaa-mm-gg hh:mm]"));
         form.add(dataFine);
         form.add(new JLabel("Numero di posti: "));
         form.add(numPostiOccupati);

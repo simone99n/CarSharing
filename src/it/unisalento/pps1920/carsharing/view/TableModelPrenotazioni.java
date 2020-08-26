@@ -25,7 +25,7 @@ public class TableModelPrenotazioni extends AbstractTableModel  {
     }                //setup numero colonne
 
     @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {       //setip tabella (ogni chiamata di getValueAt restituisce il setup di una sola cella!)
+    public Object getValueAt(int rowIndex, int columnIndex) {       //setup tabella (ogni chiamata di getValueAt restituisce il setup di una sola cella!)
 
         Prenotazione p = prenotazioni.get(rowIndex);
 

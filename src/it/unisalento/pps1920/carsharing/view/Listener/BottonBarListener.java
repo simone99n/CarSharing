@@ -61,14 +61,16 @@ public class BottonBarListener implements ActionListener {
         Stazione arrivo = (Stazione)win.arrivo.getSelectedItem();
         Localita posto = (Localita)win.localita.getSelectedItem();
         Modello modello = (Modello)win.modello.getSelectedItem();
+        String datapartenza = win.dataInizio.getText();
+        String dataarrivo = win.dataFine.getText();
         Mezzo mezzo = new Mezzo();
         int postiOccupati = Integer.parseInt(win.numPostiOccupati.getText());
 
-        //TODO rimuovere i riferimenti ai DAO sostituendo con metodi di business
         Prenotazione p = new Prenotazione();
-
-        p.setDataInizio(DateUtil.dateTimeFromString("2019-12-03 09:00:00")); //sistemare
-        p.setDataFine(DateUtil.dateTimeFromString("2019-12-06 19:00:00"));   //sistemare
+        System.out.println(dataarrivo);
+        //p.setDataFine(DateUtil.dateTimeFromString("2019-12-06 19:00:00"));
+        p.setDataInizio(DateUtil.dateTimeFromString(datapartenza +":00"));
+        p.setDataFine(DateUtil.dateTimeFromString(dataarrivo +":00"));
         p.setData(new Date());
         p.setCliente(clienteLoggato);
         p.setNumPostiOccupati(postiOccupati);
@@ -79,13 +81,13 @@ public class BottonBarListener implements ActionListener {
             mezzo = PrenotazioneBusiness.getInstance().returnOneMezzo(modello); //ALLORA se ne seleziona uno
         }
         //TODO creare un else
+
         /*IMezzoDAO mDao = new MezzoDAO();
         p.setMezzo(mDao.findById(2));
          */
         p.setMezzo(mezzo);
-        System.out.println("BLATTE1");
-        PrenotazioneBusiness.getInstance().inviaPrenotazione(p); // <----problema
-        System.out.println("BLATTE2");
+
+        PrenotazioneBusiness.getInstance().inviaPrenotazione(p);
 
         return p;
     }
