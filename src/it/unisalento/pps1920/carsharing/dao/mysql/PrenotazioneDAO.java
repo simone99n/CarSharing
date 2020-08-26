@@ -5,6 +5,7 @@ import it.unisalento.pps1920.carsharing.dao.interfaces.*;
 import it.unisalento.pps1920.carsharing.model.*;
 import it.unisalento.pps1920.carsharing.util.DateUtil;
 import it.unisalento.pps1920.carsharing.util.Session;
+import it.unisalento.pps1920.carsharing.view.FinestraConGerarchia;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -80,7 +81,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         p.setId(Integer.parseInt(res.get(0)[0]));
 
         Cliente clienteLoggato = (Cliente) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
-        sql = "INSERT INTO effettua VALUES ("+clienteLoggato.getId()+","+p.getId()+","+p.getNumPostiOccupati()+",123456, '15-21', 666);";
+        sql = "INSERT INTO effettua VALUES ("+clienteLoggato.getId()+","+p.getId()+","+p.getNumPostiOccupati()+",123456, '15-21', 666);"; //TODO sistemare inserimento dati carta
 
         if(DbConnection.getInstance().eseguiAggiornamento(sql))
             System.out.println("Prenotazione correttamente salvata nel DB (tabella EFFETTUA)");
@@ -88,4 +89,6 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
             System.out.println("[ERROR] Prenotazione NON salvata nel DB (tabella EFFETTUA)");
 
     }
+
+
 }

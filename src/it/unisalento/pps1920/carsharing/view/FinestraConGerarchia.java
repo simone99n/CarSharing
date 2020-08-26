@@ -6,6 +6,7 @@ import it.unisalento.pps1920.carsharing.dao.mysql.PrenotazioneDAO;
 import it.unisalento.pps1920.carsharing.dao.mysql.StazioneDAO;
 import it.unisalento.pps1920.carsharing.model.*;
 import it.unisalento.pps1920.carsharing.view.Listener.BottonBarListener;
+import it.unisalento.pps1920.carsharing.view.Listener.ImageChangeListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,8 +22,9 @@ public class FinestraConGerarchia extends JFrame {
     JPanel funzionalita1;
     JPanel pannelloConTabella;
     BottonBarListener listener;
+    ImageChangeListener imageListener;
 
-
+    public JPanel form;
     public JTextField dataInizio = new JTextField(20);
     public JTextField dataFine = new JTextField(20);
     public JTextField numPostiOccupati = new JTextField(2);
@@ -41,6 +43,7 @@ public class FinestraConGerarchia extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         listener = new BottonBarListener(this);
+        imageListener = new ImageChangeListener(this);
 
         Container c=getContentPane();
 
@@ -128,12 +131,12 @@ public class FinestraConGerarchia extends JFrame {
         funzionalita1.setLayout(new BorderLayout());
 
         funzionalita1.add(new JLabel("Nuova prenotazione"), BorderLayout.NORTH);
-        JButton avanti = new JButton("Avanti >");
+        JButton avanti = new JButton("PRENOTA ORA!");
         avanti.addActionListener(listener);
         avanti.setActionCommand(BottonBarListener.PULSANTE_SALVA_PRENOTAZIONE);
         funzionalita1.add(avanti, BorderLayout.SOUTH);
 
-        JPanel form = new JPanel();
+        form = new JPanel();
         form.setLayout(new GridLayout(8,2));
 
         funzionalita1.add(form, BorderLayout.CENTER);
@@ -159,6 +162,8 @@ public class FinestraConGerarchia extends JFrame {
         form.add(localita);
         form.add(new JLabel("Modello del mezzo: "));
         form.add(modello);
+      /*  modello.addActionListener(listener);
+        modello.setActionCommand(BottonBarListener.MODIFICA_FOTO); */
 
         ArrayList<Stazione> stazioni = PrenotazioneBusiness.getInstance().getStazioni();
         ArrayList<Localita> localitas = PrenotazioneBusiness.getInstance().getLocalita();
@@ -171,10 +176,24 @@ public class FinestraConGerarchia extends JFrame {
 
 
         form.add(new JLabel("Foto del mezzo: "));
-        JLabel foto = new JLabel(new ImageIcon(modelli.get(0).getFoto()));
+
+        JLabel foto = new JLabel(new ImageIcon(modelli.get(modello.getSelectedIndex()).getFoto())); //TODO sistemare visualizzazioni immagini auto
         form.add(foto);
 
+        modello.addActionListener(imageListener);
+        modello.setActionCommand(ImageChangeListener.MODIFICA_FOTO);
+
     }
+
+    public void setupImage() {
+        form.remove(15);
+        ArrayList<Modello> modelli = PrenotazioneBusiness.getInstance().getModelli();
+        JLabel foto = new JLabel(new ImageIcon(modelli.get(modello.getSelectedIndex()).getFoto()));
+        form.add(foto);
+        repaint();
+        revalidate();
+    }
+
 
     private void setupPannelloConTabella() {
 

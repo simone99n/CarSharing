@@ -25,6 +25,7 @@ public class BottonBarListener implements ActionListener {
     public static final String PULSANTE_ANNULLA = "PULSANTE_ANNULLA";
     public static final String PULSANTE_NUOVA_PRENOTAZONE = "PULSANTE_NUOVA_PRENOTAZONE";
     public static final String PULSANTE_SALVA_PRENOTAZIONE = "PULSANTE_SALVA_PRENOTAZIONE";
+    //public static final String MODIFICA_FOTO = "MODIFICA_FOTO";
 
     private FinestraConGerarchia win;
 
@@ -53,6 +54,10 @@ public class BottonBarListener implements ActionListener {
         else if(PULSANTE_SALVA_PRENOTAZIONE.equals(command)) {
             Prenotazione nuova = salvaPrenotazione();
         }
+        /*else if(MODIFICA_FOTO.equals(command)){
+            System.out.println("PROVA");
+        }
+        */
     }
 
     private Prenotazione salvaPrenotazione() {
@@ -84,7 +89,7 @@ public class BottonBarListener implements ActionListener {
 
         /*IMezzoDAO mDao = new MezzoDAO();
         p.setMezzo(mDao.findById(2));
-         */
+        */
         p.setMezzo(mezzo);
 
         PrenotazioneBusiness.getInstance().inviaPrenotazione(p);
