@@ -1,9 +1,6 @@
 package it.unisalento.pps1920.carsharing.business;
 
-import it.unisalento.pps1920.carsharing.dao.interfaces.ILocalitaDAO;
-import it.unisalento.pps1920.carsharing.dao.interfaces.IMezzoDAO;
-import it.unisalento.pps1920.carsharing.dao.interfaces.IModelloDAO;
-import it.unisalento.pps1920.carsharing.dao.interfaces.IStazioneDAO;
+import it.unisalento.pps1920.carsharing.dao.interfaces.*;
 import it.unisalento.pps1920.carsharing.dao.mysql.*;
 import it.unisalento.pps1920.carsharing.model.*;
 import it.unisalento.pps1920.carsharing.util.MailHelper;
@@ -50,6 +47,16 @@ public class PrenotazioneBusiness {
 
         return true;
     }
+
+    public void sharingCheck(Prenotazione p){
+        IPrenotazioneDAO tmp = new PrenotazioneDAO();
+        if(tmp.sharingCheckDAO(p)){
+            System.out.println("Siamo nel PrenotazioneBussines, YES Sharing");
+            //TODO portare a schermata 'SHARING CONFIRM'
+
+        }
+    }
+
 
     public boolean modificaPrenotazione(Prenotazione p) {
         // logica di business

@@ -9,4 +9,5 @@ public interface IPrenotazioneDAO extends IBaseDAO<Prenotazione> {
     //dammi tutte le prenotazioni di un cliente
 
     public void salvaPrenotazione(Prenotazione p);
+    public boolean sharingCheckDAO(Prenotazione p);
 }

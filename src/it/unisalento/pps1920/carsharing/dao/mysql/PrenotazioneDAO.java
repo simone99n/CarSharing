@@ -90,5 +90,67 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
 
     }
 
+    public boolean sharingCheckDAO(Prenotazione p){
+        //1. Trovare l'id del modello del mezzo scelto
+        String query1 = "SELECT modello_idmodello FROM mezzo WHERE idmezzo='"+p.getMezzo().getId()+"';";
+        ArrayList<String[]> res1 = DbConnection.getInstance().eseguiQuery(query1);
+        int idModelloScelto = Integer.parseInt(res1.get(0)[0]);
+
+        //2. Trovare tutti i mezzi di quel modello
+        String a = "SELECT idmezzo FROM mezzo WHERE modello_idmodello='"+idModelloScelto+"'";
+        ArrayList<String[]> arrayMezzi = DbConnection.getInstance().eseguiQuery(a);
+
+        //3. Trovare il numero di posti del modello
+        String query4 = "SELECT num_posti FROM modello WHERE idmodello='"+idModelloScelto+"';";
+        ArrayList<String[]> res4 = DbConnection.getInstance().eseguiQuery(query4);
+        int postiTotali = Integer.parseInt(res4.get(0)[0]);
+
+        //4.Trovare tutte le prenotazioni con quei mezzi con caratteristiche uguali alla nostra Prenotazione p
+
+        for (String[] strings : arrayMezzi) { //todo controllare se lo scorrimento del for si ferma al punto giusto
+            String query2 = "SELECT idprenotazione,num_posti_occupati FROM prenotazione WHERE mezzo_idmezzo=" + strings[0] + " AND " +
+                    "idstazione_partenza=" + p.getPartenza() + "AND idstazione_arrivo=" + p.getArrivo() + " AND localita_idlocalita= '" + p.getLocalita() + "'" +
+                    "AND dataInizio='" + p.getDataInizio() + "' AND dataFine='" + p.getDataFine() + "';";
+
+            ArrayList<String[]> arrayPrenotazioni = DbConnection.getInstance().eseguiQuery(query2);
+
+            //todo aggiungere controllo se query restituisce NULL
+
+            int[] idPrenotazione = new int[arrayPrenotazioni.size()];
+            int[] numeroPosti = new int[arrayPrenotazioni.size()];
+
+            for (int j = 0; j < arrayPrenotazioni.size(); j++) {
+                idPrenotazione[j] = Integer.parseInt(arrayPrenotazioni.get(j)[0]);
+                numeroPosti[j] = Integer.parseInt(arrayPrenotazioni.get(j)[1]);
+            }
+            for (int k = 0; k < arrayPrenotazioni.size(); k++) {
+                int postiComplessivi = p.getNumPostiOccupati() + numeroPosti[k];
+                if (postiComplessivi <= postiTotali) {
+                    System.out.println("Il numero di posti consente lo Sharing");
+                    Cliente clienteLoggato = (Cliente) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
+                    String sql1 = "INSERT INTO effettua VALUES (" + clienteLoggato.getId() + "," + idPrenotazione[k]
+                            + p.getNumPostiOccupati() + ", 99999999, '12-21', 222)"; //todo sistemare inserimento dati carta
+                    if (DbConnection.getInstance().eseguiAggiornamento(sql1))
+                        System.out.println("1. SHARING correttamente salvato nel DB (tabella EFFETTUA)");
+                    else
+                        System.out.println("1. [ERROR] SHARING NON correttamente salvato nel DB (tabella EFFETTUA)");
+
+
+                    String sql2 = "UPDATE prenotazione SET num_posti_occupati=" + postiComplessivi + " WHERE idprenotazione=" + idPrenotazione[k] + ";";
+                    if (DbConnection.getInstance().eseguiAggiornamento(sql2))
+                        System.out.println("2. SHARING correttamente salvato nel DB (update tabella prenotazione - num_posti_occupati)");
+                    else
+                        System.out.println("2. [ERROR] SHARING NON correttamente salvato nel DB (update tabella prenotazione - num_posti_occupati)");
+                    return true;
+                }
+
+            }
+
+        }
+
+        System.out.println("[!!!]----------ERROR----------------");
+        return false;
+
+    }
 
 }
