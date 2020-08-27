@@ -66,16 +66,6 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
     @Override
     public void salvaPrenotazione(Prenotazione p) { //INSERIMENTO DELLA PRENOTAZIONE DEL DB
 
-
-        if(sharingCheckDAO(p)){
-            System.out.println("PrenotazioneBussines.sharingCheck: YES Sharing");
-            //TODO portare a schermata 'SHARING CONFIRM'
-            return;
-        }
-        else{
-            System.out.println("PrenotazioneBussines.sharingCheck: NO Sharing");
-        }
-
         String strDataPrenotazione = DateUtil.stringFromDate(p.getData());
         String strDataInizio = DateUtil.stringFromDate(p.getDataInizio());
         String strDataFine = DateUtil.stringFromDate(p.getDataFine());
@@ -87,7 +77,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
             System.out.println("Prenotazione correttamente salvata nel DB");
         else
             System.out.println("[ERROR] Prenotazione NON salvata nel DB");
-        //sql = "SELECT last_insert_id()";
+
         ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT last_insert_id()");
         p.setId(Integer.parseInt(res.get(0)[0]));
 
@@ -101,7 +91,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
 
     }
 
-    public boolean sharingCheckDAO(Prenotazione p){
+    public ArrayList<String> sharingCheckDAO(Prenotazione p){
         //1. Trovare l'id del modello del mezzo scelto
         String query1 = "SELECT modello_idmodello FROM mezzo WHERE idmezzo='"+p.getMezzo().getId()+"';";
         ArrayList<String[]> res1 = DbConnection.getInstance().eseguiQuery(query1);
@@ -118,7 +108,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
 
         //4.Trovare tutte le prenotazioni con quei mezzi con caratteristiche uguali alla nostra Prenotazione p
 
-        for (String[] strings : arrayMezzi) { //todo controllare se lo scorrimento del for si ferma al punto giusto
+        for (String[] strings : arrayMezzi) { //todo controllare se lo scorrimento del "for" si ferma al punto giusto
             String query2 = "SELECT idprenotazione,num_posti_occupati FROM prenotazione WHERE mezzo_idmezzo=" + strings[0] + " AND " +
                     "idstazione_partenza='" + p.getPartenza().getId() + "' AND idstazione_arrivo='" + p.getArrivo().getId() + "' AND localita_idlocalita= '" + p.getLocalita().getId() + "'" +
                     " AND dataInizio='" + DateUtil.stringFromDate(p.getDataInizio()) + "' AND dataFine='" + DateUtil.stringFromDate(p.getDataFine()) + "';";
@@ -138,37 +128,43 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
                 int postiComplessivi = p.getNumPostiOccupati() + numeroPosti[k];
 
                 if (postiComplessivi <= postiTotali) {
-                    System.out.println("Il numero di posti consente lo Sharing");
+                    ArrayList<String> finale = new ArrayList<>();
                     Cliente clienteLoggato = (Cliente) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
-                    System.out.println("PRE");
-                    String sql1 = "INSERT INTO effettua VALUES (" + clienteLoggato.getId() + "," + idPrenotazione[k] +"," + p.getNumPostiOccupati() + ", 99999999, '12-21', 222)";
-                    //todo sistemare inserimento dati carta
-                    System.out.println(sql1);
-                    if (DbConnection.getInstance().eseguiAggiornamento(sql1))
-                        System.out.println("1. SHARING correttamente salvato nel DB (tabella EFFETTUA)");
-                    else{
-                        System.out.println("1. [ERROR] SHARING NON correttamente salvato nel DB (tabella EFFETTUA)");
-                        System.out.println("Hai già effettuato la prenotazione!!!");
-                    }
-
-
-
-                    String sql2 = "UPDATE prenotazione SET num_posti_occupati=" + postiComplessivi + " WHERE idprenotazione=" + idPrenotazione[k] + ";";
-
-                    if (DbConnection.getInstance().eseguiAggiornamento(sql2))
-                        System.out.println("2. SHARING correttamente salvato nel DB (update tabella prenotazione - num_posti_occupati)");
-                    else
-                        System.out.println("2. [ERROR] SHARING NON correttamente salvato nel DB (update tabella prenotazione - num_posti_occupati)");
-
-                    return true;
+                    finale.add("true");
+                    finale.add(String.valueOf(clienteLoggato.getId()));  //id cliente
+                    finale.add(String.valueOf(idPrenotazione[k]));       //prenotazione coinvolta nello sharing
+                    finale.add(String.valueOf(p.getNumPostiOccupati())); //posti che si vogliono occupare
+                    finale.add(String.valueOf(postiComplessivi));        //posti complessivi dello sharing
+                    return finale;
                 }
-
             }
-
         }
 
         System.out.println("[!!!]----------ERROR----------------");
-        return false;
+        ArrayList<String> finale = new ArrayList<>();
+        finale.add("false");
+        return finale;
+    }
+
+    public void salvaPrenotazioneSharing(ArrayList<String> array){
+        System.out.println("Il numero di posti consente lo Sharing");
+        //Cliente clienteLoggato = (Cliente) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
+        String sql1 = "INSERT INTO effettua VALUES (" + array.get(1) + "," + array.get(2) +"," + array.get(3) + ", 99999999, '12-21', 222)";
+        //todo sistemare inserimento dati carta
+        System.out.println(sql1);
+        if (DbConnection.getInstance().eseguiAggiornamento(sql1))
+            System.out.println("1. SHARING correttamente salvato nel DB (tabella EFFETTUA)");
+        else{
+            System.out.println("1. [ERROR] SHARING NON correttamente salvato nel DB (tabella EFFETTUA)");
+            System.out.println("Hai già effettuato la prenotazione!!!");
+        }
+
+        String sql2 = "UPDATE prenotazione SET num_posti_occupati=" + array.get(4) + " WHERE idprenotazione=" + array.get(2) + ";";
+
+        if (DbConnection.getInstance().eseguiAggiornamento(sql2))
+            System.out.println("2. SHARING correttamente salvato nel DB (update tabella prenotazione - num_posti_occupati)");
+        else
+            System.out.println("2. [ERROR] SHARING NON correttamente salvato nel DB (update tabella prenotazione - num_posti_occupati)");
 
     }
 

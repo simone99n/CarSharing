@@ -72,7 +72,6 @@ public class BottonBarListener implements ActionListener {
         int postiOccupati = Integer.parseInt(win.numPostiOccupati.getText());
 
         Prenotazione p = new Prenotazione();
-        System.out.println(dataarrivo);
         //p.setDataFine(DateUtil.dateTimeFromString("2019-12-06 19:00:00"));
         p.setDataInizio(DateUtil.dateTimeFromString(datapartenza +":00"));
         p.setDataFine(DateUtil.dateTimeFromString(dataarrivo +":00"));
@@ -91,13 +90,8 @@ public class BottonBarListener implements ActionListener {
             return null;
         }
 
-        /*IMezzoDAO mDao = new MezzoDAO();
-        p.setMezzo(mDao.findById(2));
-        */
         p.setMezzo(mezzo);
-
         PrenotazioneBusiness.getInstance().inviaPrenotazione(p);
-
         return p;
     }
 }

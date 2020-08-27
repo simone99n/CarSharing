@@ -21,11 +21,35 @@ public class PrenotazioneBusiness {
 
     private PrenotazioneBusiness(){}
 
-    public boolean inviaPrenotazione(Prenotazione p) {
+    public void inviaPrenotazione(Prenotazione p) {
         // logica di business
-
         // 1. chiamare il dao prenotazione per salvare la prenotazione
-        new PrenotazioneDAO().salvaPrenotazione(p);
+
+        ArrayList<String> arrayInfo = new PrenotazioneDAO().sharingCheckDAO(p);     //controlla se è possibile fare uno sharing
+        if(arrayInfo.get(0).equals("true")){                                        //SE è possibile fare lo sharing
+                                                                                    //todo -> ALLORA proporre sharing a utente
+            new PrenotazioneDAO().salvaPrenotazioneSharing(arrayInfo);                            //sharing effettuato
+            ArrayList<String> testo = new ArrayList<String>();
+            testo.add("Codice prenotazione: "+arrayInfo.get(2));
+            testo.add("Veicolo: "+p.getMezzo().getModello().getNome());
+            testo.add("TARGA: "+p.getMezzo().getTarga());
+            testo.add("Periodo prenotazione: dal "+p.getDataInizio()+" al "+p.getDataFine());
+            testo.add("Date e ora prenotazione: "+p.getData());
+            testo.add("Stampa questo file e presentati in stazione");
+            PdfHelper.getInstance().creaPdf(testo);                                 // 4. generare pdf per l'utente
+        }
+        else{
+
+            new PrenotazioneDAO().salvaPrenotazione(p);
+            ArrayList<String> testo = new ArrayList<String>();
+            testo.add("Codice prenotazione: "+p.getId());
+            testo.add("Veicolo: "+p.getMezzo().getModello().getNome());
+            testo.add("TARGA: "+p.getMezzo().getTarga());
+            testo.add("Periodo prenotazione: dal "+p.getDataInizio()+" al "+p.getDataFine());
+            testo.add("Date e ora prenotazione: "+p.getData());
+            testo.add("Stampa questo file e presentati in stazione");
+            PdfHelper.getInstance().creaPdf(testo);                                 // 4. generare pdf per l'utente
+        }
 
         // 2. inviare mail all'addetto del parco automezzi
         String dest1 = p.getArrivo().getAddetto().getEmail();
@@ -35,32 +59,13 @@ public class PrenotazioneBusiness {
         String dest2 = p.getCliente().getEmail();
         MailHelper.getInstance().send(dest2, "Prenotazione confermata!", "In data: "+p.getData());
 
-        // 4. generare pdf per l'utente
-        ArrayList<String> testo = new ArrayList<String>();
-        testo.add("Codice prenotazione: "+p.getId());
-        testo.add("Veicolo: "+p.getMezzo().getModello().getNome());
-        testo.add("TARGA: "+p.getMezzo().getTarga());
-        testo.add("Periodo prenotazione: dal "+p.getDataInizio()+" al "+p.getDataFine());
-        testo.add("Date e ora prenotazione: "+p.getData());
-        testo.add("Stampa questo file e presentati in stazione");
-        PdfHelper.getInstance().creaPdf(testo);
+    }
 
-        return true;
+
+    public void inviaSharing(Prenotazione p) {
+
     }
-/*
-    public boolean sharingCheck(Prenotazione p){
-        IPrenotazioneDAO tmp = new PrenotazioneDAO();
-        if(tmp.sharingCheckDAO(p)){
-            System.out.println("PrenotazioneBussines.sharingCheck: YES Sharing");
-            //TODO portare a schermata 'SHARING CONFIRM'
-            return true;
-        }
-        else{
-            System.out.println("PrenotazioneBussines.sharingCheck: NO Sharing");
-            return  false;
-        }
-    }
-*/
+
 
     public boolean modificaPrenotazione(Prenotazione p) {
         // logica di business
