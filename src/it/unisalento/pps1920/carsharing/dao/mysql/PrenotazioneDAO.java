@@ -4,6 +4,7 @@ import it.unisalento.pps1920.carsharing.DbConnection;
 import it.unisalento.pps1920.carsharing.dao.interfaces.*;
 import it.unisalento.pps1920.carsharing.model.*;
 import it.unisalento.pps1920.carsharing.util.DateUtil;
+import it.unisalento.pps1920.carsharing.util.MailHelper;
 import it.unisalento.pps1920.carsharing.util.Session;
 import it.unisalento.pps1920.carsharing.view.FinestraConGerarchia;
 
@@ -91,7 +92,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
 
     }
 
-    public ArrayList<String> sharingCheckDAO(Prenotazione p){
+    public ArrayList<String> sharingCheck(Prenotazione p){
         //1. Trovare l'id del modello del mezzo scelto
         String query1 = "SELECT modello_idmodello FROM mezzo WHERE idmezzo='"+p.getMezzo().getId()+"';";
         ArrayList<String[]> res1 = DbConnection.getInstance().eseguiQuery(query1);
@@ -146,7 +147,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         return finale;
     }
 
-    public void salvaPrenotazioneSharing(ArrayList<String> array){
+    public ArrayList<String[]> salvaPrenotazioneSharing(ArrayList<String> array){
         System.out.println("Il numero di posti consente lo Sharing");
         //Cliente clienteLoggato = (Cliente) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
         String sql1 = "INSERT INTO effettua VALUES (" + array.get(1) + "," + array.get(2) +"," + array.get(3) + ", 99999999, '12-21', 222)";
@@ -166,6 +167,16 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         else
             System.out.println("2. [ERROR] SHARING NON correttamente salvato nel DB (update tabella prenotazione - num_posti_occupati)");
 
+
+        //inviamo un'email anche all'altro cliente coinvolto
+        String sql3 = "SELECT cliente_utente_idutente FROM effettua WHERE prenotazione_idprenotazione="+array.get(2)+";";
+        ArrayList<String[]> clienti = DbConnection.getInstance().eseguiQuery(sql3);
+        ArrayList<String[]> emails = new ArrayList<>();
+        for (String[] strings : clienti) {
+            String emailsql = "SELECT email FROM utente WHERE idutente=" + strings[0] + ";";
+            emails = DbConnection.getInstance().eseguiQuery(emailsql);
+        }
+        return emails;
     }
 
 }
