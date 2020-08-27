@@ -24,7 +24,7 @@ public class ViewTest {
         win.setVisible(true);                                   //rendere visibile finestra
 
         IClienteDAO iDAO = new ClienteDAO();
-        Cliente clienteLoggato = iDAO.findById(1);
+        Cliente clienteLoggato = iDAO.findById(7);
         Session.getInstance().inserisci(Session.UTENTE_LOGGATO, clienteLoggato);
     }
 }

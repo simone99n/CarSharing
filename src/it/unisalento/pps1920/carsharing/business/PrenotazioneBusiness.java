@@ -47,16 +47,20 @@ public class PrenotazioneBusiness {
 
         return true;
     }
-
-    public void sharingCheck(Prenotazione p){
+/*
+    public boolean sharingCheck(Prenotazione p){
         IPrenotazioneDAO tmp = new PrenotazioneDAO();
         if(tmp.sharingCheckDAO(p)){
-            System.out.println("Siamo nel PrenotazioneBussines, YES Sharing");
+            System.out.println("PrenotazioneBussines.sharingCheck: YES Sharing");
             //TODO portare a schermata 'SHARING CONFIRM'
-
+            return true;
+        }
+        else{
+            System.out.println("PrenotazioneBussines.sharingCheck: NO Sharing");
+            return  false;
         }
     }
-
+*/
 
     public boolean modificaPrenotazione(Prenotazione p) {
         // logica di business
