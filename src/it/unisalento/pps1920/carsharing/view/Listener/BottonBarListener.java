@@ -30,6 +30,7 @@ public class BottonBarListener implements ActionListener {
 
     private FinestraConGerarchia win;
 
+
     public BottonBarListener(FinestraConGerarchia win) {
         this.win = win;
     }
@@ -92,7 +93,7 @@ public class BottonBarListener implements ActionListener {
         }
 
         p.setMezzo(mezzo);
-        PrenotazioneBusiness.getInstance().inviaPrenotazione(p);
+        PrenotazioneBusiness.getInstance().inviaPrenotazione(p,false);
         return p;
     }
 

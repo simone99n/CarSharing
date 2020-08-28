@@ -6,6 +6,7 @@ import it.unisalento.pps1920.carsharing.model.*;
 import it.unisalento.pps1920.carsharing.util.MailHelper;
 import it.unisalento.pps1920.carsharing.util.PdfHelper;
 import it.unisalento.pps1920.carsharing.view.ConfirmSharing;
+import it.unisalento.pps1920.carsharing.view.Listener.SharingListener;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,19 +24,19 @@ public class PrenotazioneBusiness {
     private PrenotazioneBusiness(){}
 
 
-
-    public boolean inviaPrenotazione(Prenotazione p) {
+    public boolean inviaPrenotazione(Prenotazione p,boolean state) {
         // logica di business
         // 1. chiamare il dao prenotazione per salvare la prenotazione
 
         ArrayList<String> arrayInfo = new PrenotazioneDAO().sharingCheck(p);//controlla se è possibile fare uno sharing
 
-        if(arrayInfo.get(0).equals("true")) {                                                                            //SE è possibile fare lo sharing
+        if(arrayInfo.get(0).equals("true") && !state) {                                                                            //SE è possibile fare lo sharing
 
             ConfirmSharing confermare = new ConfirmSharing();
             confermare.setVisible(true);
+            SharingListener.p=p;
         }
-        if(arrayInfo.get(0).equals("true")){                                                                            //SE è possibile fare lo sharing
+        if(arrayInfo.get(0).equals("true") && state){                                                                            //SE è possibile fare lo sharing
 
             ArrayList<String[]> emails = new PrenotazioneDAO().salvaPrenotazioneSharing(arrayInfo);                       //sharing effettuato
             if(emails == null){
@@ -59,9 +60,9 @@ public class PrenotazioneBusiness {
             testo.add("Date e ora prenotazione: "+p.getData());
             testo.add("Stampa questo file e presentati in stazione");
             PdfHelper.getInstance().creaPdf(testo);                                 // 4. generare pdf per l'utente
-
+            return  true;
         }
-        else{
+        else if(arrayInfo.get(0).equals("false")){
 
             new PrenotazioneDAO().salvaPrenotazione(p);                             //salva prenotazione senza sharing
             ArrayList<String> testo = new ArrayList<String>();
@@ -76,13 +77,13 @@ public class PrenotazioneBusiness {
 
             String dest2 = p.getCliente().getEmail();
             MailHelper.getInstance().send(dest2, "Prenotazione confermata!", "In data: "+p.getData()); // 3. inviare mail di conferma all'utente
-
+            // 2. inviare mail all'addetto del parco automezzi
+            String dest1 = p.getArrivo().getAddetto().getEmail();
+            MailHelper.getInstance().send(dest1, "Nuova prenotazione", "In data: "+p.getData());
+            return true;
 
         }
-        // 2. inviare mail all'addetto del parco automezzi
-        String dest1 = p.getArrivo().getAddetto().getEmail();
-        MailHelper.getInstance().send(dest1, "Nuova prenotazione", "In data: "+p.getData());
-        return true;
+        return false;
     }
 
 

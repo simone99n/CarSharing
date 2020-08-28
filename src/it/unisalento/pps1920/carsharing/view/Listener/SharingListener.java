@@ -11,11 +11,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+
+
 public class SharingListener implements ActionListener {
 
     public static final String ACCETTA = "ACCETTA";
     public static final String RIFIUTA = "RIFIUTA";
-
+    public static Prenotazione p;
 
     private ConfirmSharing win;
 
@@ -31,7 +33,7 @@ public class SharingListener implements ActionListener {
 
         if(ACCETTA.equals(command)){
             System.out.println("Il cliente ha accettato lo sharing");
-
+            PrenotazioneBusiness.getInstance().inviaPrenotazione(p,true);
         }
         else if(RIFIUTA.equals(command)){
             System.out.println("Il cliente ha rifiutato lo sharing");
