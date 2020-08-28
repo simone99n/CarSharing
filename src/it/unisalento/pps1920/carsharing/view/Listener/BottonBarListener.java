@@ -93,7 +93,7 @@ public class BottonBarListener implements ActionListener {
         }
 
         p.setMezzo(mezzo);
-        PrenotazioneBusiness.getInstance().inviaPrenotazione(p,false);
+        PrenotazioneBusiness.getInstance().inviaPrenotazione(p,0);
         return p;
     }
 

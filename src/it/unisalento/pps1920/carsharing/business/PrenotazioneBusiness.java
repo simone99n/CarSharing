@@ -24,19 +24,18 @@ public class PrenotazioneBusiness {
     private PrenotazioneBusiness(){}
 
 
-    public boolean inviaPrenotazione(Prenotazione p,boolean state) {
+    public boolean inviaPrenotazione(Prenotazione p,int state) {
         // logica di business
         // 1. chiamare il dao prenotazione per salvare la prenotazione
 
         ArrayList<String> arrayInfo = new PrenotazioneDAO().sharingCheck(p);//controlla se è possibile fare uno sharing
 
-        if(arrayInfo.get(0).equals("true") && !state) {                                                                            //SE è possibile fare lo sharing
-
+        if(arrayInfo.get(0).equals("true") && state==0) {                                                                            //SE è possibile fare lo sharing
             ConfirmSharing confermare = new ConfirmSharing();
             confermare.setVisible(true);
             SharingListener.p=p;
         }
-        if(arrayInfo.get(0).equals("true") && state){                                                                            //SE è possibile fare lo sharing
+        if(arrayInfo.get(0).equals("true") && state==1){                                                                            //SE è possibile fare lo sharing
 
             ArrayList<String[]> emails = new PrenotazioneDAO().salvaPrenotazioneSharing(arrayInfo);                       //sharing effettuato
             if(emails == null){
@@ -62,7 +61,7 @@ public class PrenotazioneBusiness {
             PdfHelper.getInstance().creaPdf(testo);                                 // 4. generare pdf per l'utente
             return  true;
         }
-        else if(arrayInfo.get(0).equals("false")){
+        else if(arrayInfo.get(0).equals("false") || state==2){
 
             new PrenotazioneDAO().salvaPrenotazione(p);                             //salva prenotazione senza sharing
             ArrayList<String> testo = new ArrayList<String>();

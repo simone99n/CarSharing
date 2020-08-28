@@ -21,12 +21,12 @@ public class ViewTest {
         FinestraConGerarchia win = new FinestraConGerarchia();  //creazione finestra
         win.setVisible(true);                                   //rendere visibile finestra
 
-    //    ConfirmSharing win2 = new ConfirmSharing();
-    //    win2.setVisible(true);
+        ConfirmSharing win2 = new ConfirmSharing();
+        win2.setVisible(true);
 
 
         IClienteDAO iDAO = new ClienteDAO();
-        Cliente clienteLoggato = iDAO.findById(2);
+        Cliente clienteLoggato = iDAO.findById(1);
         Session.getInstance().inserisci(Session.UTENTE_LOGGATO, clienteLoggato);
     }
 }
