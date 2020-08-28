@@ -64,34 +64,6 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
 
     }
 
-    @Override
-    public void salvaPrenotazione(Prenotazione p) { //INSERIMENTO DELLA PRENOTAZIONE DEL DB
-
-        String strDataPrenotazione = DateUtil.stringFromDate(p.getData());
-        String strDataInizio = DateUtil.stringFromDate(p.getDataInizio());
-        String strDataFine = DateUtil.stringFromDate(p.getDataFine());
-
-        String sql = "INSERT INTO prenotazione VALUES (NULL, '"+strDataPrenotazione+"',"+p.getMezzo().getId()+","+p.getNumPostiOccupati()+","+
-                                                        p.getPartenza().getId()+","+p.getArrivo().getId()+","+p.getLocalita().getId()+",'"+strDataInizio+"','"+strDataFine+"');";
-        //System.out.println(sql);
-        if(DbConnection.getInstance().eseguiAggiornamento(sql))
-            System.out.println("Prenotazione correttamente salvata nel DB");
-        else
-            System.out.println("[ERROR] Prenotazione NON salvata nel DB");
-
-        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT last_insert_id()");
-        p.setId(Integer.parseInt(res.get(0)[0]));
-
-        Cliente clienteLoggato = (Cliente) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
-        sql = "INSERT INTO effettua VALUES ("+clienteLoggato.getId()+","+p.getId()+","+p.getNumPostiOccupati()+",123456, '15-21', 666);"; //TODO sistemare inserimento dati carta
-
-        if(DbConnection.getInstance().eseguiAggiornamento(sql))
-            System.out.println("Prenotazione correttamente salvata nel DB (tabella EFFETTUA)");
-        else
-            System.out.println("[ERROR] Prenotazione NON salvata nel DB (tabella EFFETTUA)");
-
-    }
-
     public ArrayList<String> sharingCheck(Prenotazione p){
         //1. Trovare l'id del modello del mezzo scelto
         String query1 = "SELECT modello_idmodello FROM mezzo WHERE idmezzo='"+p.getMezzo().getId()+"';";
@@ -158,6 +130,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         else{
             System.out.println("1. [ERROR] SHARING NON correttamente salvato nel DB (tabella EFFETTUA)");
             System.out.println("Hai già effettuato la prenotazione!!!");
+            return null;
         }
 
         String sql2 = "UPDATE prenotazione SET num_posti_occupati=" + array.get(4) + " WHERE idprenotazione=" + array.get(2) + ";";
@@ -177,6 +150,34 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
             emails = DbConnection.getInstance().eseguiQuery(emailsql);
         }
         return emails;
+    }
+
+    @Override
+    public void salvaPrenotazione(Prenotazione p) { //INSERIMENTO DELLA PRENOTAZIONE DEL DB
+
+        String strDataPrenotazione = DateUtil.stringFromDate(p.getData());
+        String strDataInizio = DateUtil.stringFromDate(p.getDataInizio());
+        String strDataFine = DateUtil.stringFromDate(p.getDataFine());
+
+        String sql = "INSERT INTO prenotazione VALUES (NULL, '"+strDataPrenotazione+"',"+p.getMezzo().getId()+","+p.getNumPostiOccupati()+","+
+                p.getPartenza().getId()+","+p.getArrivo().getId()+","+p.getLocalita().getId()+",'"+strDataInizio+"','"+strDataFine+"');";
+        //System.out.println(sql);
+        if(DbConnection.getInstance().eseguiAggiornamento(sql))
+            System.out.println("Prenotazione correttamente salvata nel DB");
+        else
+            System.out.println("[ERROR] Prenotazione NON salvata nel DB");
+
+        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT last_insert_id()");
+        p.setId(Integer.parseInt(res.get(0)[0]));
+
+        Cliente clienteLoggato = (Cliente) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
+        sql = "INSERT INTO effettua VALUES ("+clienteLoggato.getId()+","+p.getId()+","+p.getNumPostiOccupati()+",123456, '15-21', 666);"; //TODO sistemare inserimento dati carta
+
+        if(DbConnection.getInstance().eseguiAggiornamento(sql))
+            System.out.println("Prenotazione correttamente salvata nel DB (tabella EFFETTUA)");
+        else
+            System.out.println("[ERROR] Prenotazione NON salvata nel DB (tabella EFFETTUA)");
+
     }
 
 }

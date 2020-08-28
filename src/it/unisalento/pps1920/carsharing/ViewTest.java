@@ -3,11 +3,9 @@ package it.unisalento.pps1920.carsharing;
 import it.unisalento.pps1920.carsharing.dao.interfaces.IClienteDAO;
 import it.unisalento.pps1920.carsharing.dao.mysql.ClienteDAO;
 import it.unisalento.pps1920.carsharing.model.Cliente;
+import it.unisalento.pps1920.carsharing.model.Prenotazione;
 import it.unisalento.pps1920.carsharing.util.Session;
-import it.unisalento.pps1920.carsharing.view.FinestraConGerarchia;
-import it.unisalento.pps1920.carsharing.view.PrimaFinestra;
-import it.unisalento.pps1920.carsharing.view.PrimaFinestraBorderLayout;
-import it.unisalento.pps1920.carsharing.view.PrimaFinestraGridLayout;
+import it.unisalento.pps1920.carsharing.view.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,6 +20,10 @@ public class ViewTest {
 
         FinestraConGerarchia win = new FinestraConGerarchia();  //creazione finestra
         win.setVisible(true);                                   //rendere visibile finestra
+
+        ConfirmSharing win2 = new ConfirmSharing();
+        win2.setVisible(true);
+
 
         IClienteDAO iDAO = new ClienteDAO();
         Cliente clienteLoggato = iDAO.findById(7);

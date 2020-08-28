@@ -12,6 +12,7 @@ import it.unisalento.pps1920.carsharing.dao.mysql.StazioneDAO;
 import it.unisalento.pps1920.carsharing.model.*;
 import it.unisalento.pps1920.carsharing.util.DateUtil;
 import it.unisalento.pps1920.carsharing.util.Session;
+import it.unisalento.pps1920.carsharing.view.ConfirmSharing;
 import it.unisalento.pps1920.carsharing.view.FinestraConGerarchia;
 
 import javax.swing.*;
@@ -94,4 +95,7 @@ public class BottonBarListener implements ActionListener {
         PrenotazioneBusiness.getInstance().inviaPrenotazione(p);
         return p;
     }
+
+
+
 }

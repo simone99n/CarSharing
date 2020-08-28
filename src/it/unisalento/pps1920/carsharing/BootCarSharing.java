@@ -63,7 +63,7 @@ public class BootCarSharing {
         IMezzoDAO mDao = new MezzoDAO();
         p.setMezzo(mDao.findById(2));
 
-        PrenotazioneBusiness.getInstance().inviaPrenotazione(p);
+       // PrenotazioneBusiness.getInstance().inviaPrenotazione(p);
 
     }
 
