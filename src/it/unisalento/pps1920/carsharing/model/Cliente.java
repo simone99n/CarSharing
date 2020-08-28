@@ -7,7 +7,7 @@ public class Cliente extends Utente
     private String nome;
     private String cognome;
     private int eta;
-    private int num_tel;
+    private String num_tel;
     private String residenza;
     private byte[] foto;
 
@@ -43,11 +43,11 @@ public class Cliente extends Utente
         this.eta = eta;
     }
 
-    public int getNum_tel() {
+    public String getNum_tel() {
         return num_tel;
     }
 
-    public void setNum_tel(int num_tel) {
+    public void setNum_tel(String num_tel) {
         this.num_tel = num_tel;
     }
 

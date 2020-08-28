@@ -54,7 +54,7 @@ public class UtenteDAO implements IUtenteDAO
         {
             String sql="INSERT INTO utente VALUES (NULL,'"+user.getUsername()+"','"+user.getPassword()+"','"+ user.getEmail()+"')";
             DbConnection.getInstance().eseguiAggiornamento(sql);
-            String sql1="INSERT INTO cliente VALUES (NULL,'"+c.getNome()+"','"+c.getCognome()+"','"+c.getResidenza()+"',"+c.getEta()+","+c.getNum_tel()+","+ Arrays.toString(c.getFoto()) +")";
+            String sql1="INSERT INTO cliente VALUES (NULL,'"+c.getNome()+"','"+c.getCognome()+"',"+c.getNum_tel()+",'"+c.getResidenza()+"',"+c.getEta()+","+ Arrays.toString(c.getFoto()) +")";
             DbConnection.getInstance().eseguiAggiornamento(sql1);
             return true;
         }
@@ -110,45 +110,44 @@ public class UtenteDAO implements IUtenteDAO
     @Override
     public Recogniser checkIdpassw(Utente user)
     {
+        Recogniser rec = new Recogniser();
+
         ArrayList<String[]>check_username_passw1= DbConnection.getInstance().eseguiQuery("SELECT idutente FROM utente INNER JOIN cliente WHERE utente.idutente=cliente.utente_idutente AND  username='"+user.getUsername()+"' AND password='"+user.getPassword()+"';");
         if(!check_username_passw1.isEmpty())
         {
-            Recogniser rec = new Recogniser();
             String[] riga= check_username_passw1.get(0);
            rec.setId(Integer.parseInt(riga[0]));
             rec.setType("cliente");
             return rec;
         }
 
-        ArrayList<String[]>check_username_passw2= DbConnection.getInstance().eseguiQuery("SELECT idutente FROM utente INNER JOIN addetto WHERE utente.idutente=cliente.utente_idutente AND  username='"+user.getUsername()+"' AND password='"+user.getPassword()+"';");
+        ArrayList<String[]>check_username_passw2= DbConnection.getInstance().eseguiQuery("SELECT idutente FROM utente INNER JOIN addetto WHERE utente.idutente=addetto.utente_idutente AND  username='"+user.getUsername()+"' AND password='"+user.getPassword()+"';");
         if(!check_username_passw2.isEmpty())
         {
-            Recogniser rec = new Recogniser();
             String[] riga= check_username_passw2.get(0);
             rec.setId(Integer.parseInt(riga[0]));
             rec.setType("addetto");
             return rec;
         }
 
-        ArrayList<String[]>check_username_passw3= DbConnection.getInstance().eseguiQuery("SELECT idutente FROM utente INNER JOIN operatore WHERE utente.idutente=cliente.utente_idutente AND  username='"+user.getUsername()+"' AND password='"+user.getPassword()+"';");
+        ArrayList<String[]>check_username_passw3= DbConnection.getInstance().eseguiQuery("SELECT idutente FROM utente INNER JOIN operatore WHERE utente.idutente=operatore.utente_idutente AND  username='"+user.getUsername()+"' AND password='"+user.getPassword()+"';");
         if(!check_username_passw3.isEmpty())
         {
-            Recogniser rec = new Recogniser();
             String[] riga= check_username_passw3.get(0);
             rec.setId(Integer.parseInt(riga[0]));
             rec.setType("operatore");
             return rec;
         }
 
-        ArrayList<String[]>check_username_passw4= DbConnection.getInstance().eseguiQuery("SELECT idutente FROM utente INNER JOIN amministratore WHERE utente.idutente=cliente.utente_idutente AND  username='"+user.getUsername()+"' AND password='"+user.getPassword()+"';");
+        ArrayList<String[]>check_username_passw4= DbConnection.getInstance().eseguiQuery("SELECT idutente FROM utente INNER JOIN amministratore WHERE utente.idutente=amministratore.utente_idutente AND  username='"+user.getUsername()+"' AND password='"+user.getPassword()+"';");
         if(!check_username_passw4.isEmpty())
         {
-            Recogniser rec = new Recogniser();
             String[] riga= check_username_passw4.get(0);
             rec.setId(Integer.parseInt(riga[0]));
             rec.setType("amministratore");
             return rec;
         }
-        return null;
+        rec.setId(0);
+        return rec;
     }
 }

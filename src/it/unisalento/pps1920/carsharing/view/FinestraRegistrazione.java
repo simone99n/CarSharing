@@ -11,19 +11,18 @@ import java.text.SimpleDateFormat;
 
 public class FinestraRegistrazione extends JFrame
 {
-    JButton butt= new JButton("REGISTRATI!");
     JPanel centro;
     JPanel sud;
     JPanel nord;
     BottonRegListener listener;
-    public JTextField Nome = new JTextField(20);
-    public JTextField Cognome = new JTextField(20);
-    public JTextField Email = new JTextField(20);
-    public JTextField Username = new JTextField(20);
-    public JTextField Password = new JTextField(20);
-    public JTextField Telefono = new JTextField(20);
-    public JTextField Residenza = new JTextField(20);
-    public JTextField Eta = new JTextField(20);
+    public JTextField nome = new JTextField(20);
+    public JTextField cognome = new JTextField(20);
+    public JTextField email = new JTextField(20);
+    public JTextField username = new JTextField(20);
+    public JTextField password = new JTextField(20);
+    public JTextField telefono = new JTextField(20);
+    public JTextField residenza = new JTextField(20);
+    public JTextField eta = new JTextField(20);
 
     public FinestraRegistrazione()
     {
@@ -50,21 +49,21 @@ public class FinestraRegistrazione extends JFrame
         centro.setLayout(new GridLayout(8,2));
         centro.setBackground(Color.yellow);
         centro.add(new JLabel("     Nome: "));
-        centro.add(Nome);
+        centro.add(nome);
         centro.add(new JLabel("     Cognome"));
-        centro.add(Cognome);
+        centro.add(cognome);
         centro.add(new JLabel("     Email: "));
-        centro.add(Email);
+        centro.add(email);
         centro.add(new JLabel("     Username"));
-        centro.add(Username);
+        centro.add(username);
         centro.add(new JLabel("     Telefono: "));
-        centro.add(Telefono);
+        centro.add(telefono);
         centro.add(new JLabel("     Password"));
-        centro.add(Password);
+        centro.add(password);
         centro.add(new JLabel("     Residenza: "));
-        centro.add(Residenza);
-        centro.add(new JLabel("     Eta': "));
-        centro.add(Eta);
+        centro.add(residenza);
+        centro.add(new JLabel("     Eta' (Anno di nascita es: 1998): "));
+        centro.add(eta);
 
         sud.setLayout(new FlowLayout());
         this.setSize(700,700);

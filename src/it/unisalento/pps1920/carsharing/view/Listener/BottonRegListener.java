@@ -45,17 +45,16 @@ public class BottonRegListener implements ActionListener {
         RegistrazioneBusiness reg = new RegistrazioneBusiness();
         Utente user= new Utente();
         Cliente cli=new Cliente();
-        cli.setNome(win.Nome.getText());
-        cli.setCognome(win.Cognome.getText());
-        cli.setEta(Integer.parseInt(win.Eta.getText()));
-        //cli.setNum_tel(Integer.parseInt(win.Telefono.getText()));
-        cli.setResidenza(win.Residenza.getText());
-        user.setUsername(win.Username.getText());
-        user.setPassword(win.Password.getText());
-        user.setEmail(win.Email.getText());
+        cli.setNome(win.nome.getText());
+        cli.setCognome(win.cognome.getText());
+        cli.setEta(Integer.parseInt(win.eta.getText()));
+        cli.setNum_tel(win.telefono.getText());
+        cli.setResidenza(win.residenza.getText());
+        user.setUsername(win.username.getText());
+        user.setPassword(win.password.getText());
+        user.setEmail(win.email.getText());
         state=reg.inviaRegistrazione(cli,user);
         return state;
 
     }
 }
-

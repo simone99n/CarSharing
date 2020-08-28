@@ -23,7 +23,7 @@ public class RegistrazioneBusiness
     if(state)
     {
         String dest = user.getEmail();
-        //MailHelper.getInstance().send(dest, "Conferma Registrazione", "La registrazione da te effettuata il giorno "+GregorianCalendar.getInstance().getTime()+" è stata effettuata con successo! \\n In seguito ti forniremo  un riepilogo complessivo dei dati a te associati: \n Nome "+c.getNome()+" \n Cognome "+c.getCognome()+" \n Username: "+user.getUsername()+"\n Password: "+user.getPassword()+"\n Email: "+user.getEmail()+"\n\n Informazioni secondarie:\n Residenza: "+c.getResidenza()+"\n Età: "+c.getEta()+"\n Numero Tel/cell : "+c.getNum_tel()+" \n\n GRAZIE PER ESSERTI REGISTRATO, BUONA GUIDA! ");
+        MailHelper.getInstance().send(dest, "Conferma Registrazione", "La registrazione da te effettuata il giorno "+GregorianCalendar.getInstance().getTime()+" è stata effettuata con successo! \n In seguito ti forniremo  un riepilogo complessivo dei dati a te associati: \n Nome: "+c.getNome()+" \n Cognome: "+c.getCognome()+" \n Username: "+user.getUsername()+"\n Password: "+user.getPassword()+"\n Email: "+user.getEmail()+"\n Informazioni secondarie:\n Residenza: "+c.getResidenza()+"\n Età: "+c.getEta()+"\n Numero Tel/cell : "+c.getNum_tel()+" \n\n GRAZIE PER ESSERTI REGISTRATO, BUONA GUIDA! ");
         state=true;
     }
         return state;
