@@ -3,11 +3,55 @@ package it.unisalento.pps1920.carsharing.model;
 public class Cliente extends Utente {
 
     private int id;
+    private String nome;
+    private String cognome;
+    private String telefono;
+    private String residenza;
+    private int annoNascita;
+    private String email;
     private String username;
     private String password;
-    private String email;
 
-    @Override
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCognome() {
+        return cognome;
+    }
+
+    public void setCognome(String cognome) {
+        this.cognome = cognome;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getResidenza() {
+        return residenza;
+    }
+
+    public void setResidenza(String residenza) {
+        this.residenza = residenza;
+    }
+
+    public int getAnnoNascita() {
+        return annoNascita;
+    }
+
+    public void setAnnoNascita(int annoNascita) {
+        this.annoNascita = annoNascita;
+    }
+
     public int getId() {
         return id;
     }

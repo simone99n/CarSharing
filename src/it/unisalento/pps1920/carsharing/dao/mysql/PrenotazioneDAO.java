@@ -4,13 +4,10 @@ import it.unisalento.pps1920.carsharing.DbConnection;
 import it.unisalento.pps1920.carsharing.dao.interfaces.*;
 import it.unisalento.pps1920.carsharing.model.*;
 import it.unisalento.pps1920.carsharing.util.DateUtil;
-import it.unisalento.pps1920.carsharing.util.MailHelper;
 import it.unisalento.pps1920.carsharing.util.Session;
-import it.unisalento.pps1920.carsharing.view.FinestraConGerarchia;
+import it.unisalento.pps1920.carsharing.view.FinestraSharing;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class PrenotazioneDAO implements IPrenotazioneDAO {
     @Override
@@ -104,6 +101,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
                     ArrayList<String> finale = new ArrayList<>();
                     Cliente clienteLoggato = (Cliente) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
                     finale.add("true");
+                    System.out.println("id prenotazione in sharingCheck: "+idPrenotazione[k]);
                     finale.add(String.valueOf(clienteLoggato.getId()));  //id cliente
                     finale.add(String.valueOf(idPrenotazione[k]));       //prenotazione coinvolta nello sharing
                     finale.add(String.valueOf(p.getNumPostiOccupati())); //posti che si vogliono occupare
@@ -149,6 +147,9 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
             String emailsql = "SELECT email FROM utente WHERE idutente=" + strings[0] + ";";
             emails = DbConnection.getInstance().eseguiQuery(emailsql);
         }
+
+
+        FinestraSharing.idPrenotazione= Integer.parseInt(array.get(2));
         return emails;
     }
 
@@ -180,4 +181,17 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
 
     }
 
+
+    public ArrayList<String[]> getClienteInfo(int idPrenotazione, int index){
+        String sql1 = "SELECT cliente_utente_idutente FROM effettua WHERE prenotazione_idprenotazione='" + idPrenotazione+ "';";
+        ArrayList<String[]> arrayIdClienti = DbConnection.getInstance().eseguiQuery(sql1);
+        String sql2 = "SELECT nome, cognome, residenza, anno_nascita FROM cliente WHERE utente_idutente='" + arrayIdClienti.get(index)[0] + "';";
+        return DbConnection.getInstance().eseguiQuery(sql2);
+    }
+
+    public int getNumClienti(int idPrenotazione) {
+        String sql1 = "SELECT cliente_utente_idutente FROM effettua WHERE prenotazione_idprenotazione='" + idPrenotazione+ "';";
+        ArrayList<String[]> arrayIdClienti = DbConnection.getInstance().eseguiQuery(sql1);
+        return arrayIdClienti.size();
+    }
 }

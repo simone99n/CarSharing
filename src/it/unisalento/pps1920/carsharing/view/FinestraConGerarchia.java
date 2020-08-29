@@ -148,10 +148,10 @@ public class FinestraConGerarchia extends JFrame {
         form.add(new JLabel("Data inizio: [aaaa-MM-gg hh:mm]"));
         form.add(dataInizio);
 
-     /*   Calendar calendar = Calendar.getInstance();
+        /*   Calendar calendar = Calendar.getInstance();
         form.add(calendar);
         Date date =  calendar.getTime();
-    */
+        */
 
         form.add(new JLabel("Data fine: [aaaa-mm-gg hh:mm]"));
         form.add(dataFine);

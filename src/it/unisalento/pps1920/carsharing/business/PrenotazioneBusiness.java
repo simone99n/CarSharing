@@ -5,7 +5,7 @@ import it.unisalento.pps1920.carsharing.dao.mysql.*;
 import it.unisalento.pps1920.carsharing.model.*;
 import it.unisalento.pps1920.carsharing.util.MailHelper;
 import it.unisalento.pps1920.carsharing.util.PdfHelper;
-import it.unisalento.pps1920.carsharing.view.ConfirmSharing;
+import it.unisalento.pps1920.carsharing.view.FinestraSharing;
 import it.unisalento.pps1920.carsharing.view.Listener.SharingListener;
 
 import java.util.ArrayList;
@@ -27,18 +27,29 @@ public class PrenotazioneBusiness {
     public boolean inviaPrenotazione(Prenotazione p,int state) {
         // logica di business
         // 1. chiamare il dao prenotazione per salvare la prenotazione
-
         ArrayList<String> arrayInfo = new PrenotazioneDAO().sharingCheck(p);//controlla se è possibile fare uno sharing
 
-        if(arrayInfo.get(0).equals("true") && state==0) {                                                                            //SE è possibile fare lo sharing
-            ConfirmSharing confermare = new ConfirmSharing();
+        if(arrayInfo.get(0).equals("true") && state==0) {
+            //SE è possibile fare lo sharing
+            System.out.println("Entro if");
+
+            FinestraSharing.idPrenotazione = Integer.parseInt(arrayInfo.get(2));
+
+            System.out.println("ConfirmSharing.idPrenotazione="+ FinestraSharing.idPrenotazione);
+
+            FinestraSharing confermare = new FinestraSharing();
             confermare.setVisible(true);
+
+            System.out.println("inviaPrenmoptaziopnme: "+arrayInfo.get(2));
+
             SharingListener.p=p;
+
         }
+
         if(arrayInfo.get(0).equals("true") && state==1){                                                                            //SE è possibile fare lo sharing
 
             ArrayList<String[]> emails = new PrenotazioneDAO().salvaPrenotazioneSharing(arrayInfo);                       //sharing effettuato
-            if(emails == null){
+            if(emails.isEmpty()){
                 return false;
             }
 
@@ -96,6 +107,30 @@ public class PrenotazioneBusiness {
         return true;
     }
 
+/*
+    public ArrayList<String[]> getNomeFromIdPrenotazione(int idPrenotazione){
+       IPrenotazioneDAO temp = new PrenotazioneDAO();
+        return temp.getClienteNome(idPrenotazione);
+    }
+
+    public ArrayList<String[]> getCognomeFromIdPrenotazione(int idPrenotazione){
+        IPrenotazioneDAO temp = new PrenotazioneDAO();
+        return temp.getClienteCognome(idPrenotazione);
+    }
+*/
+
+    public ArrayList<String[]> getInfoClienteFromIdPrenotazione(int idPrenotazione, int index) {
+        IPrenotazioneDAO temp = new PrenotazioneDAO();
+        return temp.getClienteInfo(idPrenotazione,index);
+    }
+
+    public int getNumClienti(int idPrenotazione) {
+        IPrenotazioneDAO temp = new PrenotazioneDAO();
+        return temp.getNumClienti(idPrenotazione);
+    }
+
+
+
     public boolean disponibilitaMezzo(Modello mod) {
         IMezzoDAO mezzotemp= new MezzoDAO();
         return mezzotemp.findOneByModello(mod) != null; //restituisce TRUE se Mezzo è disponibile, FALSE altrimenti
@@ -135,4 +170,6 @@ public class PrenotazioneBusiness {
         IMezzoDAO mDAo = new MezzoDAO();
         return mDAo.findAll();
     }
+
+
 }

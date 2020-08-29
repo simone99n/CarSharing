@@ -12,4 +12,7 @@ public interface IPrenotazioneDAO extends IBaseDAO<Prenotazione> {
 
     public void salvaPrenotazione(Prenotazione p);
     public ArrayList<String> sharingCheck(Prenotazione p);
+    public ArrayList<String[]> getClienteInfo(int idPrenotazione, int index);
+    public int getNumClienti(int idPrenotazione);
+
 }
