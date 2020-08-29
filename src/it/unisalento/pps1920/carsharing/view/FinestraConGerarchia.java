@@ -134,7 +134,7 @@ public class FinestraConGerarchia extends JFrame {
         revalidate();
     }
 
-    private void setupPannelloNuovaPrenotazione() {
+    public void setupPannelloNuovaPrenotazione() {
         funzionalita1 = new JPanel();
 
         funzionalita1.setLayout(new BorderLayout());

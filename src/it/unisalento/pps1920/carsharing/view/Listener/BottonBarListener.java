@@ -54,7 +54,11 @@ public class BottonBarListener implements ActionListener {
             salvaAccessori();
         }
         else if(PULSANTE_NO_ACCESSORI.equals(command)) {
-            System.out.println("Pulsante NON accessori");
+            win.setupPannelloNuovaPrenotazione();
+            win.mostraPannelloNuovaPrenotazione();
+        }
+        else if(PULSANTE_ANNULLA.equals(command)) {
+            System.out.println("Pulsante ANNULLA");
         }
 
 
