@@ -61,7 +61,6 @@ public class BottonBarListener implements ActionListener {
             System.out.println("Pulsante ANNULLA");
         }
 
-
     }
 
     private Prenotazione salvaPrenotazione() {
