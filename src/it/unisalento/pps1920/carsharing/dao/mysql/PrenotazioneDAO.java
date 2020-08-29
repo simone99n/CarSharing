@@ -62,6 +62,8 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
     }
 
     public ArrayList<String> sharingCheck(Prenotazione p){
+
+        Cliente clienteLoggato = (Cliente) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
         //1. Trovare l'id del modello del mezzo scelto
         String query1 = "SELECT modello_idmodello FROM mezzo WHERE idmezzo='"+p.getMezzo().getId()+"';";
         ArrayList<String[]> res1 = DbConnection.getInstance().eseguiQuery(query1);
@@ -99,7 +101,6 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
 
                 if (postiComplessivi <= postiTotali) {
                     ArrayList<String> finale = new ArrayList<>();
-                    Cliente clienteLoggato = (Cliente) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
                     finale.add("true");
                     System.out.println("id prenotazione in sharingCheck: "+idPrenotazione[k]);
                     finale.add(String.valueOf(clienteLoggato.getId()));  //id cliente
@@ -154,7 +155,13 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
     }
 
     @Override
-    public void salvaPrenotazione(Prenotazione p) { //INSERIMENTO DELLA PRENOTAZIONE DEL DB
+    public boolean salvaPrenotazione(Prenotazione p) { //INSERIMENTO DELLA PRENOTAZIONE DEL DB
+
+        if(p.getNumPostiOccupati()>p.getMezzo().getModello().getNumPosti()){
+            System.out.println("Numero di posti inserito > posti disponibili nel veicolo");
+            //TODO  alert (finestra) di avviso
+            return false;
+        }
 
         String strDataPrenotazione = DateUtil.stringFromDate(p.getData());
         String strDataInizio = DateUtil.stringFromDate(p.getDataInizio());
@@ -179,7 +186,32 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         else
             System.out.println("[ERROR] Prenotazione NON salvata nel DB (tabella EFFETTUA)");
 
+
+        return true;
     }
+
+    public boolean inserisciAccessori(Accessorio acc){
+        if(acc!=null){
+            Cliente clienteLoggato = (Cliente) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
+            String sql = "INSERT INTO accessorio_prenotazione VALUES ('" +acc.getId()+ "','" +getLastPrenotazione(clienteLoggato)+"')";
+            System.out.println(sql);
+            if (DbConnection.getInstance().eseguiAggiornamento(sql)){
+                System.out.println(">> Accessorio salvato nel DB (tabella accessorio_prenotazione)");
+                return true;
+            }
+            else{
+                System.out.println(">> [ERROR]Accessorio NON salvato nel DB (tabella accessorio_prenotazione)");
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public int getLastPrenotazione(Cliente cliente){
+        String sql1 = "SELECT prenotazione_idprenotazione FROM effettua WHERE cliente_utente_idutente='" + cliente.getId()+ "'ORDER BY prenotazione_idprenotazione DESC;";
+        return Integer.parseInt(DbConnection.getInstance().eseguiQuery(sql1).get(0)[0]);
+    }
+
 
 
     public ArrayList<String[]> getClienteInfo(int idPrenotazione, int index){

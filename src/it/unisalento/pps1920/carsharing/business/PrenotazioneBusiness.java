@@ -70,37 +70,38 @@ public class PrenotazioneBusiness {
             testo.add("Date e ora prenotazione: "+p.getData());
             testo.add("Stampa questo file e presentati in stazione");
             PdfHelper.getInstance().creaPdf(testo);                                 // 4. generare pdf per l'utente
-            return  true;
+            return true;
         }
         else if(arrayInfo.get(0).equals("false") || state==2){
 
-            new PrenotazioneDAO().salvaPrenotazione(p);                             //salva prenotazione senza sharing
-            ArrayList<String> testo = new ArrayList<String>();
-            testo.add("Codice prenotazione: "+p.getId());
-            testo.add("Veicolo: "+p.getMezzo().getModello().getNome());
-            testo.add("TARGA: "+p.getMezzo().getTarga());
-            testo.add("Data inizio "+p.getDataInizio());
-            testo.add("Data fine "+p.getDataFine());
-            testo.add("Date e ora prenotazione: "+p.getData());
-            testo.add("Stampa questo file e presentati in stazione");
-            PdfHelper.getInstance().creaPdf(testo);                                 // 4. generare pdf per l'utente
+            if(new PrenotazioneDAO().salvaPrenotazione(p)){                         //salva prenotazione senza sharing
+                ArrayList<String> testo = new ArrayList<String>();
+                testo.add("Codice prenotazione: "+p.getId());
+                testo.add("Veicolo: "+p.getMezzo().getModello().getNome());
+                testo.add("TARGA: "+p.getMezzo().getTarga());
+                testo.add("Data inizio "+p.getDataInizio());
+                testo.add("Data fine "+p.getDataFine());
+                testo.add("Date e ora prenotazione: "+p.getData());
+                testo.add("Stampa questo file e presentati in stazione");
+                PdfHelper.getInstance().creaPdf(testo);                                 // 4. generare pdf per l'utente
 
-            String dest2 = p.getCliente().getEmail();
-            MailHelper.getInstance().send(dest2, "Prenotazione confermata!", "In data: "+p.getData()); // 3. inviare mail di conferma all'utente
-            // 2. inviare mail all'addetto del parco automezzi
-            String dest1 = p.getArrivo().getAddetto().getEmail();
-            MailHelper.getInstance().send(dest1, "Nuova prenotazione", "In data: "+p.getData());
-            return true;
+                String dest2 = p.getCliente().getEmail();
+                MailHelper.getInstance().send(dest2, "Prenotazione confermata!", "In data: "+p.getData()); // 3. inviare mail di conferma all'utente
+                // 2. inviare mail all'addetto del parco automezzi
+                String dest1 = p.getArrivo().getAddetto().getEmail();
+                MailHelper.getInstance().send(dest1, "Nuova prenotazione", "In data: "+p.getData());
+                return true;
+            }
+
 
         }
         return false;
     }
 
-
-
-
-
-
+    public void inserisciAccessori(Accessorio access){
+        IPrenotazioneDAO ins = new PrenotazioneDAO();
+        ins.inserisciAccessori(access);
+    }
 
     public boolean modificaPrenotazione(Prenotazione p) {
         // logica di business
@@ -163,6 +164,11 @@ public class PrenotazioneBusiness {
 
     public ArrayList<Modello> getModelli(){
         IModelloDAO mDao = new ModelloDAO();
+        return mDao.findAll();
+    }
+
+    public ArrayList<Accessorio> getAccessori(){
+        IAccessorioDAO mDao = new AccessorioDAO();
         return mDao.findAll();
     }
 

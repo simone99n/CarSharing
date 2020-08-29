@@ -22,7 +22,7 @@ import java.util.Date;
 public class FinestraConGerarchia extends JFrame {
 
     JPanel nord, centro, sud;
-    JPanel funzionalita1;
+    JPanel funzionalita1,funzionalitaAccessori;
     JPanel pannelloConTabella;
     BottonBarListener listener;
     ImageChangeListener imageListener;
@@ -35,6 +35,12 @@ public class FinestraConGerarchia extends JFrame {
     public JComboBox<Stazione> arrivo = new JComboBox<Stazione>();
     public JComboBox<Localita> localita = new JComboBox<Localita>();
     public JComboBox<Modello> modello = new JComboBox<Modello>();
+    public JComboBox<Accessorio> accessorio1 = new JComboBox<Accessorio>();
+    public JComboBox<Accessorio> accessorio2 = new JComboBox<Accessorio>();
+    public JComboBox<Accessorio> accessorio3 = new JComboBox<Accessorio>();
+    public JComboBox<Accessorio> accessorio4 = new JComboBox<Accessorio>();
+    public JComboBox<Accessorio> accessorio5 = new JComboBox<Accessorio>();
+
 
     private JTextField testo;
 
@@ -165,8 +171,6 @@ public class FinestraConGerarchia extends JFrame {
         form.add(localita);
         form.add(new JLabel("Modello del mezzo: "));
         form.add(modello);
-      /*  modello.addActionListener(listener);
-        modello.setActionCommand(BottonBarListener.MODIFICA_FOTO); */
 
         ArrayList<Stazione> stazioni = PrenotazioneBusiness.getInstance().getStazioni();
         ArrayList<Localita> localitas = PrenotazioneBusiness.getInstance().getLocalita();
@@ -186,6 +190,73 @@ public class FinestraConGerarchia extends JFrame {
         modello.setActionCommand(ImageChangeListener.MODIFICA_FOTO);
 
     }
+
+
+    public void mostraAccessori() {
+        //1. rimuovo schermata vecchia
+        this.getContentPane().remove(funzionalita1);
+        nord.removeAll();
+        sud.removeAll();
+        nord.add(new JLabel("ACCESSORI DISPONIBILI: "));
+        //2.setup nuova schermata
+        funzionalitaAccessori = new JPanel();
+
+        ArrayList<Accessorio> accessori = PrenotazioneBusiness.getInstance().getAccessori();
+
+        funzionalitaAccessori.setLayout(new GridLayout(5,2));
+
+ /*       for(Accessorio a : accessori){
+            funzionalitaAccessori.add(new JLabel(a.getNome()));
+            funzionalitaAccessori.add(new JCheckBox());
+            funzionalitaAccessori.add(new JLabel("  "));
+            //funzionalitaAccessori.add(new JLabel());
+        }
+
+  */
+
+        funzionalitaAccessori.add(new JLabel("Accessorio 1: "));
+        funzionalitaAccessori.add(accessorio1);
+        funzionalitaAccessori.add(new JLabel("Accessorio 2: "));
+        funzionalitaAccessori.add(accessorio2);
+        funzionalitaAccessori.add(new JLabel("Accessorio 3: "));
+        funzionalitaAccessori.add(accessorio3);
+        funzionalitaAccessori.add(new JLabel("Accessorio 4: "));
+        funzionalitaAccessori.add(accessorio4);
+        funzionalitaAccessori.add(new JLabel("Accessorio 5: "));
+        funzionalitaAccessori.add(accessorio5);
+
+        accessorio1.addItem(null);
+        accessorio2.addItem(null);
+        accessorio3.addItem(null);
+        accessorio4.addItem(null);
+        accessorio5.addItem(null);
+        for(Accessorio a : accessori){
+            accessorio1.addItem(a);
+            accessorio2.addItem(a);
+            accessorio3.addItem(a);
+            accessorio4.addItem(a);
+            accessorio5.addItem(a);
+        }
+
+        JButton accessoriButton = new JButton("Aggiungi accessori");
+        JButton noAccessoriButton = new JButton("Non aggiungere");
+
+        accessoriButton.addActionListener(listener);
+        noAccessoriButton.addActionListener(listener);
+
+        accessoriButton.setActionCommand(BottonBarListener.PULSANTE_ACCESSORI);
+        noAccessoriButton.setActionCommand(BottonBarListener.PULSANTE_NO_ACCESSORI);
+
+        sud.add(accessoriButton);
+        sud.add(noAccessoriButton);
+
+        this.getContentPane().add(funzionalitaAccessori, BorderLayout.CENTER);
+
+        //3. Aggiorno UI
+        repaint();
+        revalidate();
+    }
+
 
     public void setupImage() {
         form.remove(15);

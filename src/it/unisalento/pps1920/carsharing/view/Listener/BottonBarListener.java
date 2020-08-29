@@ -17,6 +17,8 @@ public class BottonBarListener implements ActionListener {
     public static final String PULSANTE_ANNULLA = "PULSANTE_ANNULLA";
     public static final String PULSANTE_NUOVA_PRENOTAZONE = "PULSANTE_NUOVA_PRENOTAZONE";
     public static final String PULSANTE_SALVA_PRENOTAZIONE = "PULSANTE_SALVA_PRENOTAZIONE";
+    public static final String PULSANTE_ACCESSORI = "PULSANTE_ACCESSORI";
+    public static final String PULSANTE_NO_ACCESSORI = "PULSANTE_NO_ACCESSORI";
     //public static final String MODIFICA_FOTO = "MODIFICA_FOTO";
 
     private FinestraConGerarchia win;
@@ -46,11 +48,16 @@ public class BottonBarListener implements ActionListener {
         }
         else if(PULSANTE_SALVA_PRENOTAZIONE.equals(command)) {
             Prenotazione nuova = salvaPrenotazione();
+            win.mostraAccessori();
         }
-        /*else if(MODIFICA_FOTO.equals(command)){
-            System.out.println("PROVA");
+        else if(PULSANTE_ACCESSORI.equals(command)) {
+            salvaAccessori();
         }
-        */
+        else if(PULSANTE_NO_ACCESSORI.equals(command)) {
+            System.out.println("Pulsante NON accessori");
+        }
+
+
     }
 
     private Prenotazione salvaPrenotazione() {
@@ -88,6 +95,18 @@ public class BottonBarListener implements ActionListener {
         return p;
     }
 
+    private void salvaAccessori() {
+        Accessorio a1 = (Accessorio) win.accessorio1.getSelectedItem();
+        Accessorio a2 = (Accessorio) win.accessorio2.getSelectedItem();
+        Accessorio a3 = (Accessorio) win.accessorio3.getSelectedItem();
+        Accessorio a4 = (Accessorio) win.accessorio4.getSelectedItem();
+        Accessorio a5 = (Accessorio) win.accessorio5.getSelectedItem();
 
+        PrenotazioneBusiness.getInstance().inserisciAccessori(a1);
+        PrenotazioneBusiness.getInstance().inserisciAccessori(a2);
+        PrenotazioneBusiness.getInstance().inserisciAccessori(a3);
+        PrenotazioneBusiness.getInstance().inserisciAccessori(a4);
+        PrenotazioneBusiness.getInstance().inserisciAccessori(a5);
+    }
 
 }

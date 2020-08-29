@@ -28,6 +28,8 @@ public class FinestraSharing extends JFrame{
         sud = new JPanel();
         c.add(nord, BorderLayout.NORTH);
         c.add(sud, BorderLayout.SOUTH);
+        c.add(new JScrollPane(nord), BorderLayout.CENTER);
+
         sud.setLayout(new FlowLayout());
         JButton accetta = new JButton("ACCETTA");
         sud.add(accetta);
