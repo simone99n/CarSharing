@@ -3,10 +3,9 @@ package it.unisalento.pps1920.carsharing.dao.mysql;
 import it.unisalento.pps1920.carsharing.DbConnection;
 import it.unisalento.pps1920.carsharing.dao.interfaces.IAccessorioDAO;
 import it.unisalento.pps1920.carsharing.model.Accessorio;
-import it.unisalento.pps1920.carsharing.model.Addetto;
-import it.unisalento.pps1920.carsharing.model.Localita;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class AccessorioDAO implements IAccessorioDAO {
 
@@ -24,7 +23,6 @@ public class AccessorioDAO implements IAccessorioDAO {
 
         return a;
     }
-
 
     public ArrayList<Accessorio> findAll() {
 
@@ -44,5 +42,23 @@ public class AccessorioDAO implements IAccessorioDAO {
 
         return accs;
 
+    }
+
+    public ArrayList<Accessorio> findByPrenotazione(int id){
+        String sql1="SELECT accessorio_idaccessorio FROM accessorio_prenotazione WHERE prenotazione_idprenotazione="+id+";";
+        ArrayList<String[]> accessoriId = DbConnection.getInstance().eseguiQuery(sql1);
+        ArrayList<Accessorio> accs = new ArrayList<Accessorio>();
+
+        for(int i=0; i<accessoriId.size();i++){
+            String sql2="SELECT nomeaccessorio FROM accessorio WHERE idaccessorio='" +accessoriId.get(i)[0]+"';";
+            String[] prova = DbConnection.getInstance().eseguiQuery(sql2).get(0);
+
+            Accessorio a = new Accessorio();
+            a.setId(id);
+            a.setNome(prova[0]);
+            accs.add(a);
+
+        }
+        return accs;
     }
 }

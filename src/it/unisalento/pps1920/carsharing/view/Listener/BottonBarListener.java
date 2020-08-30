@@ -4,7 +4,7 @@ import it.unisalento.pps1920.carsharing.business.PrenotazioneBusiness;
 import it.unisalento.pps1920.carsharing.model.*;
 import it.unisalento.pps1920.carsharing.util.DateUtil;
 import it.unisalento.pps1920.carsharing.util.Session;
-import it.unisalento.pps1920.carsharing.view.FinestraConGerarchia;
+import it.unisalento.pps1920.carsharing.view.FinestraCliente;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -19,12 +19,12 @@ public class BottonBarListener implements ActionListener {
     public static final String PULSANTE_SALVA_PRENOTAZIONE = "PULSANTE_SALVA_PRENOTAZIONE";
     public static final String PULSANTE_ACCESSORI = "PULSANTE_ACCESSORI";
     public static final String PULSANTE_NO_ACCESSORI = "PULSANTE_NO_ACCESSORI";
-    //public static final String MODIFICA_FOTO = "MODIFICA_FOTO";
+    public static final String PULSANTE_MODIFICA = "PULSANTE_MODIFICA";
+    public static final String PULSANTE_CANCELLA_ACCESSORIO = "PULSANTE_CANCELLA_ACCESSORIO";
 
-    private FinestraConGerarchia win;
+    private FinestraCliente win;
 
-
-    public BottonBarListener(FinestraConGerarchia win) {
+    public BottonBarListener(FinestraCliente win) {
         this.win = win;
     }
 
@@ -49,17 +49,28 @@ public class BottonBarListener implements ActionListener {
         else if(PULSANTE_SALVA_PRENOTAZIONE.equals(command)) {
             win.mostraAccessori();
             Prenotazione nuova = salvaPrenotazione();
-
         }
         else if(PULSANTE_ACCESSORI.equals(command)) {
             salvaAccessori();
+            win.dispose();
+            FinestraCliente win = new FinestraCliente();
+            win.setVisible(true);
         }
         else if(PULSANTE_NO_ACCESSORI.equals(command)) {
-            win.setupPannelloNuovaPrenotazione();
-            win.mostraPannelloNuovaPrenotazione();
+            win.dispose();
+            FinestraCliente win = new FinestraCliente();
+            win.setVisible(true);
         }
         else if(PULSANTE_ANNULLA.equals(command)) {
-            System.out.println("Pulsante ANNULLA");
+            win.dispose();
+            FinestraCliente win = new FinestraCliente();
+            win.setVisible(true);
+        }
+        else if(PULSANTE_MODIFICA.equals(command)) {
+            System.out.println("Mod");
+        }
+        else if(PULSANTE_CANCELLA_ACCESSORIO.equals(command)){
+            System.out.println("Canc acc");
         }
 
     }

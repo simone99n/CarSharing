@@ -44,7 +44,6 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
 
         return p;
     }
-
     @Override
     public ArrayList<Prenotazione> findAll() {
 
@@ -212,8 +211,6 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         return Integer.parseInt(DbConnection.getInstance().eseguiQuery(sql1).get(0)[0]);
     }
 
-
-
     public ArrayList<String[]> getClienteInfo(int idPrenotazione, int index){
         String sql1 = "SELECT cliente_utente_idutente FROM effettua WHERE prenotazione_idprenotazione='" + idPrenotazione+ "';";
         ArrayList<String[]> arrayIdClienti = DbConnection.getInstance().eseguiQuery(sql1);
@@ -226,4 +223,18 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         ArrayList<String[]> arrayIdClienti = DbConnection.getInstance().eseguiQuery(sql1);
         return arrayIdClienti.size();
     }
+
+    public ArrayList<Prenotazione> findAllForCliente(){
+        Cliente clienteLoggato = (Cliente) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
+        ArrayList<Prenotazione> prenotazioni = new ArrayList<Prenotazione>();
+        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT prenotazione_idprenotazione FROM effettua WHERE cliente_utente_idutente ='"+clienteLoggato.getId()+"';");
+        for (String[] re : res) {
+            Prenotazione p = findById(Integer.parseInt(re[0]));
+            prenotazioni.add(p);
+        }
+
+        return prenotazioni;
+    }
+
+
 }

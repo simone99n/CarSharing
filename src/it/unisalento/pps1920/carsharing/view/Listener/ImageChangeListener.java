@@ -1,6 +1,6 @@
 package it.unisalento.pps1920.carsharing.view.Listener;
 
-import it.unisalento.pps1920.carsharing.view.FinestraConGerarchia;
+import it.unisalento.pps1920.carsharing.view.FinestraCliente;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,9 +9,9 @@ public class ImageChangeListener implements ActionListener{
 
     public static final String MODIFICA_FOTO = "MODIFICA_FOTO";
 
-    private FinestraConGerarchia win;
+    private FinestraCliente win;
 
-    public ImageChangeListener(FinestraConGerarchia win) {
+    public ImageChangeListener(FinestraCliente win) {
         this.win = win;
     }
 
