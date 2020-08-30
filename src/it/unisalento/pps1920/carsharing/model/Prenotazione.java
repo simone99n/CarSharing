@@ -14,6 +14,15 @@ public class Prenotazione {
     private Localita localita;
     private Date dataInizio;
     private Date dataFine;
+    private boolean state;
+
+    public boolean isState() {
+        return state;
+    }
+
+    public void setState(boolean state) {
+        this.state = state;
+    }
 
     public Date getDataInizio() {
         return dataInizio;

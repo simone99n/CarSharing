@@ -113,38 +113,50 @@ public class UtenteDAO implements IUtenteDAO
         Recogniser rec = new Recogniser();
 
         ArrayList<String[]>check_username_passw1= DbConnection.getInstance().eseguiQuery("SELECT idutente FROM utente INNER JOIN cliente WHERE utente.idutente=cliente.utente_idutente AND  username='"+user.getUsername()+"' AND password='"+user.getPassword()+"';");
+        ArrayList<String[]>take_name1=DbConnection.getInstance().eseguiQuery("SELECT nome FROM cliente INNER JOIN utente WHERE utente.idutente=cliente.utente_idutente AND username='"+user.getUsername()+"';");
         if(!check_username_passw1.isEmpty())
         {
             String[] riga= check_username_passw1.get(0);
            rec.setId(Integer.parseInt(riga[0]));
-            rec.setType("cliente");
+            rec.setType("Cliente");
+            riga = take_name1.get(0);
+            rec.setNome(riga[0]);
             return rec;
         }
 
         ArrayList<String[]>check_username_passw2= DbConnection.getInstance().eseguiQuery("SELECT idutente FROM utente INNER JOIN addetto WHERE utente.idutente=addetto.utente_idutente AND  username='"+user.getUsername()+"' AND password='"+user.getPassword()+"';");
+        ArrayList<String[]>take_name2=DbConnection.getInstance().eseguiQuery("SELECT nome FROM addetto INNER JOIN utente WHERE utente.idutente=addetto.utente_idutente AND username='"+user.getUsername()+"';");
         if(!check_username_passw2.isEmpty())
         {
             String[] riga= check_username_passw2.get(0);
             rec.setId(Integer.parseInt(riga[0]));
-            rec.setType("addetto");
+            rec.setType("Addetto");
+            riga = take_name2.get(0);
+            rec.setNome(riga[0]);
             return rec;
         }
 
         ArrayList<String[]>check_username_passw3= DbConnection.getInstance().eseguiQuery("SELECT idutente FROM utente INNER JOIN operatore WHERE utente.idutente=operatore.utente_idutente AND  username='"+user.getUsername()+"' AND password='"+user.getPassword()+"';");
+        ArrayList<String[]>take_name3=DbConnection.getInstance().eseguiQuery("SELECT nome FROM operatore INNER JOIN utente WHERE utente.idutente=operatore.utente_idutente AND username='"+user.getUsername()+"';");
         if(!check_username_passw3.isEmpty())
         {
             String[] riga= check_username_passw3.get(0);
             rec.setId(Integer.parseInt(riga[0]));
-            rec.setType("operatore");
+            rec.setType("Operatore");
+            riga = take_name3.get(0);
+            rec.setNome(riga[0]);
             return rec;
         }
 
         ArrayList<String[]>check_username_passw4= DbConnection.getInstance().eseguiQuery("SELECT idutente FROM utente INNER JOIN amministratore WHERE utente.idutente=amministratore.utente_idutente AND  username='"+user.getUsername()+"' AND password='"+user.getPassword()+"';");
+        ArrayList<String[]>take_name4=DbConnection.getInstance().eseguiQuery("SELECT nome FROM amministratore INNER JOIN utente WHERE utente.idutente=amministratore.utente_idutente AND username='"+user.getUsername()+"';");
         if(!check_username_passw4.isEmpty())
         {
             String[] riga= check_username_passw4.get(0);
             rec.setId(Integer.parseInt(riga[0]));
-            rec.setType("amministratore");
+            rec.setType("Amministratore");
+            riga = take_name4.get(0);
+            rec.setNome(riga[0]);
             return rec;
         }
         rec.setId(0);

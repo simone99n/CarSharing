@@ -3,6 +3,7 @@ package it.unisalento.pps1920.carsharing.dao.mysql;
 import it.unisalento.pps1920.carsharing.DbConnection;
 import it.unisalento.pps1920.carsharing.dao.interfaces.IAddettoDAO;
 import it.unisalento.pps1920.carsharing.dao.interfaces.IStazioneDAO;
+import it.unisalento.pps1920.carsharing.model.Operatore;
 import it.unisalento.pps1920.carsharing.model.Stazione;
 
 import java.util.ArrayList;
@@ -38,5 +39,19 @@ public class StazioneDAO implements IStazioneDAO {
         }
 
         return stazioni;
+    }
+
+    @Override
+    public Stazione findStationByOperatorId(int id)
+    {
+        System.out.println(""+id);
+        ArrayList<String []>res=DbConnection.getInstance().eseguiQuery("SELECT * FROM stazione WHERE operatore_utente_idutente="+id+";");
+        String [] riga = res.get(0);
+        Stazione s = new Stazione();
+        s.setNome(riga[1]);
+        s.setId(Integer.parseInt(riga[0]));
+        s.setLatitudine(Double.parseDouble(riga[2]));
+        s.setLongitudine(Double.parseDouble(riga[3]));
+        return s;
     }
 }

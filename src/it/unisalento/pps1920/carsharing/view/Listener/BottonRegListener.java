@@ -6,6 +6,7 @@ import it.unisalento.pps1920.carsharing.model.Cliente;
 import it.unisalento.pps1920.carsharing.model.Prenotazione;
 import it.unisalento.pps1920.carsharing.model.Utente;
 import it.unisalento.pps1920.carsharing.model.model_support.Recogniser;
+import it.unisalento.pps1920.carsharing.view.FinestraCliente;
 import it.unisalento.pps1920.carsharing.view.FinestraRegistrazione;
 
 import javax.swing.*;
@@ -13,7 +14,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class BottonRegListener implements ActionListener {
-
+    Utente user= new Utente();
+    Cliente cli=new Cliente();
     private FinestraRegistrazione win;
     public static final String PULSANTE_REGISTRATI = "PULSANTE_REGISTRATI";
     public static final String PULSANTE_ANNULLA = "PULSANTE_ANNULLA";
@@ -30,6 +32,11 @@ public class BottonRegListener implements ActionListener {
         {
             boolean state;
             state=salvaRegistrazione();
+            if(state)
+            {
+                win.dispose();
+                FinestraCliente fcl=new FinestraCliente(user.getId(),cli.getNome());
+            }
         }
 
         else if(PULSANTE_ANNULLA.equals(command)) {
@@ -38,13 +45,11 @@ public class BottonRegListener implements ActionListener {
 
     }
 
-    private boolean salvaRegistrazione()
+    private boolean salvaRegistrazione() //
     {
 
        boolean state;
         RegistrazioneBusiness reg = new RegistrazioneBusiness();
-        Utente user= new Utente();
-        Cliente cli=new Cliente();
         cli.setNome(win.nome.getText());
         cli.setCognome(win.cognome.getText());
         cli.setEta(Integer.parseInt(win.eta.getText()));

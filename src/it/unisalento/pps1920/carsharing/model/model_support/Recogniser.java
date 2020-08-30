@@ -3,14 +3,22 @@ package it.unisalento.pps1920.carsharing.model.model_support;
 public class Recogniser {
 
     int id;
-    String Type;
-
+    String type;
+    String nome;
     public void setId(int id) {
         this.id = id;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
     public void setType(String type) {
-        Type = type;
+        this.type = type;
     }
 
     public int getId() {
@@ -18,6 +26,6 @@ public class Recogniser {
     }
 
     public String getType() {
-        return Type;
+        return type;
     }
 }

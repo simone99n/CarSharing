@@ -24,8 +24,12 @@ public class AddettoDAO implements IAddettoDAO {
         return a;
     }
 
+
+
     @Override
     public ArrayList<Addetto> findAll() {
         return null;
     }
+
+
 }

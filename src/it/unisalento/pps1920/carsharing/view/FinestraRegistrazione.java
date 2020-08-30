@@ -66,7 +66,7 @@ public class FinestraRegistrazione extends JFrame
         centro.add(eta);
 
         sud.setLayout(new FlowLayout());
-        this.setSize(700,700);
+        this.setSize(400,400);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
 
