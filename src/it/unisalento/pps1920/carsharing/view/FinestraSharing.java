@@ -38,7 +38,6 @@ public class FinestraSharing extends JFrame{
 
         setupShowCliente(); //-----------------------------------
 
-
         accetta.addActionListener(listener);
         rifiuta.addActionListener(listener);
         accetta.setActionCommand(SharingListener.ACCETTA);
@@ -76,22 +75,6 @@ public class FinestraSharing extends JFrame{
             nord.add(new JLabel());
             nord.add(new JLabel());
         }
-     /*
-        for (String[] strings : all) {
-            nord.add(new JLabel("Cliente: "));
-            nord.add(new JLabel());
-            nord.add(new JLabel("Nome: "));
-            nord.add(new JLabel(strings[0]));
-            nord.add(new JLabel("Cognome: "));
-            nord.add(new JLabel(strings[1]));
-            nord.add(new JLabel("Residenza: "));
-            nord.add(new JLabel(strings[2]));
-            nord.add(new JLabel("Anno di nascita: "));
-            nord.add(new JLabel(strings[3]));
-            nord.add(new JLabel("Foto: "));
-            nord.add(new JLabel());
-        }
-*/
 
     }
 

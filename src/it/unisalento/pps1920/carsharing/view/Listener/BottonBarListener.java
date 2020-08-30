@@ -47,8 +47,9 @@ public class BottonBarListener implements ActionListener {
             win.mostraPannelloNuovaPrenotazione();
         }
         else if(PULSANTE_SALVA_PRENOTAZIONE.equals(command)) {
-            Prenotazione nuova = salvaPrenotazione();
             win.mostraAccessori();
+            Prenotazione nuova = salvaPrenotazione();
+
         }
         else if(PULSANTE_ACCESSORI.equals(command)) {
             salvaAccessori();

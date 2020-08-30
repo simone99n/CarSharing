@@ -26,7 +26,7 @@ public class ViewTest {
 */
 
         IClienteDAO iDAO = new ClienteDAO();
-        Cliente clienteLoggato = iDAO.findById(8);
+        Cliente clienteLoggato = iDAO.findById(2);
         Session.getInstance().inserisci(Session.UTENTE_LOGGATO, clienteLoggato);
 
 /*
