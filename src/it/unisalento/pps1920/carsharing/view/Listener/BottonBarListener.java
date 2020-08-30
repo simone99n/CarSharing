@@ -100,7 +100,8 @@ public class BottonBarListener implements ActionListener {
             mezzo = PrenotazioneBusiness.getInstance().returnOneMezzo(modello); //ALLORA se ne seleziona uno
         }
         else{
-            //TODO tornare alla home
+            win.dispose();
+            FinestraCliente win = new FinestraCliente();
             System.out.println("Non ci sono mezzi disponibili");
             return null;
         }

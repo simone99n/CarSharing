@@ -173,18 +173,18 @@ public class FinestraCliente extends JFrame {
         meta.add(dataFineMod);
         meta.add(new JLabel("       "));
 
-
-
         for(int i=0; i<acc.size();i++){
             meta.add(new JLabel("Accessorio "+(i+1)));
             meta.add(new JLabel(acc.get(i).getNome()));
             JPanel tmp = new JPanel();
             tmp.setLayout(new FlowLayout());
+
             meta.add(tmp);
             JButton butt = new JButton("X");
             tmp.add(butt, FlowLayout.LEFT);
             butt.addActionListener(listener);
             butt.setActionCommand(BottonBarListener.PULSANTE_CANCELLA_ACCESSORIO);
+
         }
 
         ArrayList<Stazione> stazioni = PrenotazioneBusiness.getInstance().getStazioni();
