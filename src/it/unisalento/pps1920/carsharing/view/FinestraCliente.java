@@ -564,6 +564,74 @@ public class FinestraCliente extends JFrame {
         repaint();
         revalidate();
     }
+    public void mostraPrezzo(Prenotazione p,float prezzo){
+        BorderLayout bl = (BorderLayout) this.getContentPane().getLayout();
+        this.getContentPane().remove(bl.getLayoutComponent(BorderLayout.CENTER));
+        //   this.getContentPane().remove(bl.getLayoutComponent(BorderLayout.NORTH));
+        //  this.getContentPane().remove(bl.getLayoutComponent(BorderLayout.SOUTH));
+
+        JPanel contenitore = new JPanel();
+        JPanel up = new JPanel();
+        JPanel med = new JPanel();
+        JPanel down = new JPanel();
+
+        up.setLayout(new FlowLayout());
+        up.add(new JLabel("<<<RIEPILOGO PRENOTAZIONE>>>"));
+
+        contenitore.setLayout(new BorderLayout());
+        contenitore.add(up, BorderLayout.NORTH);
+        contenitore.add(med, BorderLayout.CENTER);
+        contenitore.add(down, BorderLayout.SOUTH);
+        this.getContentPane().add(contenitore, BorderLayout.CENTER);
+        up.setLayout(new FlowLayout());
+        down.setLayout(new FlowLayout());
+        med.setLayout(new GridLayout(6,4));
+
+        med.add(new JLabel("    "));
+        med.add(new JLabel("Stazione partenza: "));
+        med.add(new JLabel(p.getPartenza().getNome()));
+        med.add(new JLabel("    "));
+
+        med.add(new JLabel("    "));
+        med.add(new JLabel("Stazione arrivo: "));
+        med.add(new JLabel(p.getArrivo().getNome()));
+        med.add(new JLabel("    "));
+
+        med.add(new JLabel("    "));
+        med.add(new JLabel("Data inizio: "));
+        med.add(new JLabel(p.getDataInizio().toString()));
+        med.add(new JLabel("    "));
+
+        med.add(new JLabel("    "));
+        med.add(new JLabel("Data fine: "));
+        med.add(new JLabel(p.getDataFine().toString()));
+        med.add(new JLabel("    "));
+
+        med.add(new JLabel("    "));
+        med.add(new JLabel("Mezzo: "));
+        med.add(new JLabel(p.getMezzo().getModello().getNome()));
+        med.add(new JLabel("    "));
+
+        med.add(new JLabel("    "));
+        med.add(new JLabel("Prezzo: "));
+        med.add(new JLabel(String.valueOf(prezzo)));
+        med.add(new JLabel("    "));
+
+        JButton pagaOra = new JButton("PAGA ORA");
+        pagaOra.addActionListener(listener);
+        pagaOra.setActionCommand(BottonBarListener.PULSANTE_PAGA);
+        down.add(pagaOra);
+/*
+        JButton  = new JButton("<- INDIETRO");
+        indietro.addActionListener(listener);
+        indietro.setActionCommand(BottonBarListener.PULSANTE_ANNULLA2);
+        down.add(indietro);
+*/
+
+        //3. refresh della UI
+        repaint();
+        revalidate();
+    }
 
     public void setupImage() {
 

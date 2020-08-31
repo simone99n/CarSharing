@@ -132,14 +132,47 @@ public class PrenotazioneBusiness {
         return mezzotemp.findOneByModello(mod);
     }
 
-    //public float
+    public float calcolaPrezzo(Prenotazione nuova, int annoInizio, int meseInizio, int giornoInizio, int annoFine, int meseFine, int giornoFine) {
+        float prezzo = nuova.getMezzo().getPrezzo();
+        int numAnni=annoFine-annoInizio; //numero di anni
 
-    public ArrayList<Prenotazione> cercaMatch(Date inizio,
-                                              Date fine,
-                                              Stazione partenza,
-                                              Stazione arrivo,
-                                              Localita localita,
-                                              int numPosti) {
+        if(annoFine==annoInizio){                                       //se avviene tutto nello stesso anno
+            if(meseFine==meseInizio){                                           //se avviene anche nello stesso mese
+                int numGiorni=giornoFine-giornoInizio;
+                return prezzo*numGiorni;
+            }
+            else {                                                              //se avviene in mesi diversi
+                int numMesi=meseFine-meseInizio;
+                if(giornoFine>giornoInizio){                                            //se giornoFine>giornoInizio
+                    int numGiorni=giornoFine-giornoInizio;
+                    return (numMesi*30*prezzo)+(numGiorni*prezzo);
+                }
+                else if(giornoFine<giornoInizio){                                       //se giornoFine<giornoInizio
+                    int numGiorni=giornoInizio-giornoFine;
+                    return (numMesi*30*prezzo)-(numGiorni*prezzo);
+                }
+                else {                                                                  //se giornoFine=giornoInizio
+                    return (numMesi*30*prezzo);
+                }
+            }
+        }
+        else{                                                             //se avviene in anni diversi, C'E' LO SCONTOOOOOOOOOOOOOOOO
+            if(meseFine==meseInizio){
+                return prezzo*365*(annoFine-annoInizio);
+            }
+            else if(meseFine>meseInizio){
+                int numMesi=meseFine-meseInizio;
+                return prezzo*365*(annoFine-annoInizio) + prezzo*30*numMesi;
+            }
+            else {
+                int numMesi=meseInizio-meseFine;
+                return prezzo*365*(annoFine-annoInizio) - prezzo*30*numMesi;
+            }
+        }
+
+    }
+
+    public ArrayList<Prenotazione> cercaMatch(Date inizio, Date fine, Stazione partenza, Stazione arrivo, Localita localita, int numPosti) {
 
         return null;
     }

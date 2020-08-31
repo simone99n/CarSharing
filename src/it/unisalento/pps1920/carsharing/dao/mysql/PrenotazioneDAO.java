@@ -236,5 +236,4 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         return prenotazioni;
     }
 
-
 }

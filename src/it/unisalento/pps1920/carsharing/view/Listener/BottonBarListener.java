@@ -11,10 +11,10 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class BottonBarListener implements ActionListener {
 
+    public static final String PULSANTE_PAGA = "PULSANTE_PAGA";
     public static final String PULSANTE_OK = "PULSANTE_OK";
     public static final String PULSANTE_ANNULLA = "PULSANTE_ANNULLA";
     public static final String PULSANTE_ANNULLA2 = "PULSANTE_ANNULLA2";
@@ -29,6 +29,7 @@ public class BottonBarListener implements ActionListener {
     public static final String PULSANTE_AVANTI = "PULSANTE_AVANTI";
     public static final String PULSANTE_AVANTI2 = "PULSANTE_AVANTI2";
     public static final String PULSANTE_AVANTI3 = "PULSANTE_AVANTI3";
+    Prenotazione nuova;
 
     private FinestraCliente win;
 
@@ -93,18 +94,43 @@ public class BottonBarListener implements ActionListener {
                             System.out.println("Giorno inizio non può coincidere con giorno fine");
                         }
                         else{
-                            win.mostraAccessori();
-                            Prenotazione nuova = salvaPrenotazione();
+                            nuova = salvaPrenotazione();
+                            float prezzoFinale;
+                            if(nuova!=null){
+                                prezzoFinale=PrenotazioneBusiness.getInstance().calcolaPrezzo(nuova, Integer.parseInt(annoEmeseInizio[0]),Integer.parseInt(annoEmeseInizio[1]), Integer.parseInt(giornoEoraInizio[0]),Integer.parseInt(annoEmeseFine[0]),Integer.parseInt(annoEmeseFine[1]),Integer.parseInt(giornoEoraFine[0]));
+                                win.mostraPrezzo(nuova,prezzoFinale);
+                                win.mostraAccessori();
+                            }
+                            else{
+                                System.out.println("BottonBarListener Error PULSANTE_SALVA_PRENOTAZIONE");
+                            }
+
                         }
                     }
-                    else{
-                        win.mostraAccessori();
-                        Prenotazione nuova = salvaPrenotazione();
+                    else{ //todo uguale all'else precedente
+                        nuova = salvaPrenotazione();
+                        float prezzoFinale;
+                        if(nuova!=null){
+                            prezzoFinale=PrenotazioneBusiness.getInstance().calcolaPrezzo(nuova, Integer.parseInt(annoEmeseInizio[0]),Integer.parseInt(annoEmeseInizio[1]), Integer.parseInt(giornoEoraInizio[0]),Integer.parseInt(annoEmeseFine[0]),Integer.parseInt(annoEmeseFine[1]),Integer.parseInt(giornoEoraFine[0]));
+                            win.mostraPrezzo(nuova,prezzoFinale);
+                            win.mostraAccessori();
+                        }
+                        else{
+                            System.out.println("BottonBarListener Error PULSANTE_SALVA_PRENOTAZIONE");
+                        }
                     }
                 }
-                else{
-                    win.mostraAccessori();
-                    Prenotazione nuova = salvaPrenotazione();
+                else{ //todo uguale all'else precedente
+                    nuova = salvaPrenotazione();
+                    float prezzoFinale;
+                    if(nuova!=null){
+                        prezzoFinale=PrenotazioneBusiness.getInstance().calcolaPrezzo(nuova, Integer.parseInt(annoEmeseInizio[0]),Integer.parseInt(annoEmeseInizio[1]), Integer.parseInt(giornoEoraInizio[0]),Integer.parseInt(annoEmeseFine[0]),Integer.parseInt(annoEmeseFine[1]),Integer.parseInt(giornoEoraFine[0]));
+                        win.mostraPrezzo(nuova,prezzoFinale);
+                        win.mostraAccessori();
+                    }
+                    else{
+                        System.out.println("BottonBarListener Error PULSANTE_SALVA_PRENOTAZIONE");
+                    }
                 }
             }
 
@@ -179,9 +205,17 @@ public class BottonBarListener implements ActionListener {
             //win.modello.setSelectedIndex(-1);
             win.mostraPannelloNuovaPrenotazione();
         }
+        else if(PULSANTE_PAGA.equals(command)){
+            PrenotazioneBusiness.getInstance().inviaPrenotazione(nuova,0);
+            win.dispose();
+            FinestraCliente win = new FinestraCliente();
+            win.setVisible(true);
+        }
 
 
     }
+
+
 
     private Prenotazione salvaPrenotazione() {
         Cliente clienteLoggato = (Cliente)Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
@@ -215,7 +249,7 @@ public class BottonBarListener implements ActionListener {
         }
 
         p.setMezzo(mezzo);
-        PrenotazioneBusiness.getInstance().inviaPrenotazione(p,0);
+        //todo è stato rimosso: PrenotazioneBusiness.getInstance().inviaPrenotazione(p,0);
         return p;
     }
 
