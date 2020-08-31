@@ -37,4 +37,24 @@ public class ModelloDAO implements IModelloDAO {
             lista.add(findById(Integer.parseInt(riga[0])));
         return lista;
     }
+
+    public ArrayList<Modello> findByTipologia(String tipologia, String grandezza, String motorizzazione){
+        ArrayList<Modello> lista = new ArrayList<Modello>();
+
+        if(tipologia.equals("AUTO")){
+            System.out.println("SELECT * FROM modello INNER JOIN categoriaauto ON modello.idmodello=categoriaauto.modello_idmodello " + "INNER JOIN mezzo ON modello.idmodello=mezzo.modello_idmodello WHERE modello.tipologia='"+ tipologia+"' AND categoriaauto.categoria='"+grandezza+"' AND mezzo.alimentazione='"+motorizzazione+"';");
+            ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT * FROM modello INNER JOIN categoriaauto ON modello.idmodello=categoriaauto.modello_idmodello " +
+                    "INNER JOIN mezzo ON modello.idmodello=mezzo.modello_idmodello WHERE modello.tipologia='"+ tipologia+"' AND categoriaauto.categoria='"+grandezza+"' AND mezzo.alimentazione='"+motorizzazione+"';");
+
+            for(String[] riga : res)
+                lista.add(findById(Integer.parseInt(riga[0])));
+            return lista;
+        }
+
+        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT * FROM modello INNER JOIN mezzo ON modello.idmodello=mezzo.modello_idmodello WHERE tipologia='"+tipologia+"'AND mezzo.alimentazione='"+motorizzazione+"';");
+        for(String[] riga : res)
+            lista.add(findById(Integer.parseInt(riga[0])));
+        return lista;
+
+    }
 }

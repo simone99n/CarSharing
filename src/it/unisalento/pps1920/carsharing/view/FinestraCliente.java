@@ -2,27 +2,18 @@ package it.unisalento.pps1920.carsharing.view;
 
 import it.unisalento.pps1920.carsharing.business.ModificaPrenotazioneBusiness;
 import it.unisalento.pps1920.carsharing.business.PrenotazioneBusiness;
-import it.unisalento.pps1920.carsharing.dao.interfaces.IStazioneDAO;
 import it.unisalento.pps1920.carsharing.dao.mysql.PrenotazioneDAO;
-import it.unisalento.pps1920.carsharing.dao.mysql.StazioneDAO;
 import it.unisalento.pps1920.carsharing.model.*;
-import it.unisalento.pps1920.carsharing.util.Session;
 import it.unisalento.pps1920.carsharing.view.Listener.BottonBarListener;
 import it.unisalento.pps1920.carsharing.view.Listener.ImageChangeListener;
 
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.concurrent.Flow;
 
 public class FinestraCliente extends JFrame {
 
@@ -49,11 +40,9 @@ public class FinestraCliente extends JFrame {
     public JComboBox<Accessorio> accessorio3 = new JComboBox<Accessorio>();
     public JComboBox<Accessorio> accessorio4 = new JComboBox<Accessorio>();
     public JComboBox<Accessorio> accessorio5 = new JComboBox<Accessorio>();
- /*   private Cliente clienteLoggato = (Cliente) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
-    private String nomeCliente = clienteLoggato.getNome();
-    private String cognCliente = clienteLoggato.getCognome();
-
-  */
+    public JComboBox<String> tipologie = new JComboBox<String>();
+    public JComboBox<String> grandezza = new JComboBox<String>();
+    public JComboBox<String> motorizzazioni = new JComboBox<String>();
 
     private JTextField testo;
 
@@ -62,6 +51,8 @@ public class FinestraCliente extends JFrame {
 
         setSize(900,600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        Dimension screenSize = Toolkit.getDefaultToolkit ( ).getScreenSize ( );
+        setLocation ( ( screenSize.width / 2 ) - ( this.getWidth ( ) / 2 ), (screenSize.height / 2 ) - ( this.getHeight ( ) / 2 ) );
 
         listener = new BottonBarListener(this);
         imageListener = new ImageChangeListener(this);
@@ -74,7 +65,7 @@ public class FinestraCliente extends JFrame {
         sud = new JPanel();
         pannelloConTabella = new JPanel(new BorderLayout());
 
-        setupPannelloNuovaPrenotazione();
+      //  setupPannelloNuovaPrenotazione();
 
         c.add(nord, BorderLayout.NORTH);
         c.add(new JScrollPane(pannelloConTabella), BorderLayout.CENTER);
@@ -95,11 +86,8 @@ public class FinestraCliente extends JFrame {
             centro.add(new JCheckBox("Opzione "+(i+1)));
 
         sud.setLayout(new FlowLayout());
-        //JButton ok = new JButton("OK");
-        //JButton annulla = new JButton("Annulla");
+
         sud.add(btn1);
-        //sud.add(btn2);
-        //sud.add(annulla);
 
         JMenuBar bar = new JMenuBar();
         JMenu file = new JMenu("File");
@@ -118,15 +106,210 @@ public class FinestraCliente extends JFrame {
 
         btn1.addActionListener(listener);
         btn1.setActionCommand(BottonBarListener.PULSANTE_NUOVA_PRENOTAZONE);
-        //btn2.addActionListener(listener);
-        //btn2.setActionCommand(BottonBarListener.PULSANTE_MODIFICA);
-        /*
-        ok.addActionListener(listener);
-        ok.setActionCommand(BottonBarListener.PULSANTE_OK);
-        annulla.addActionListener(listener);
-        annulla.setActionCommand(BottonBarListener.PULSANTE_ANNULLA);
 
-         */
+    }
+
+    public void mostraTipologiaVeicolo(){
+        BorderLayout bl = (BorderLayout) this.getContentPane().getLayout();
+        this.getContentPane().remove(bl.getLayoutComponent(BorderLayout.CENTER));
+        this.getContentPane().remove(bl.getLayoutComponent(BorderLayout.NORTH));
+        this.getContentPane().remove(bl.getLayoutComponent(BorderLayout.SOUTH));
+
+        tipologie.addItem("AUTO");
+        tipologie.addItem("FURGONE");
+        tipologie.addItem("CAMION");
+        tipologie.addItem("CAMPER");
+
+        JPanel contenitore = new JPanel();
+        JPanel up = new JPanel();
+        JPanel med = new JPanel();
+        JPanel down = new JPanel();
+
+        up.setLayout(new FlowLayout());
+        up.add(new JLabel("<<<FORM NUOVA PRENOTAZIONE>>>"));
+
+        contenitore.setLayout(new BorderLayout());
+        contenitore.add(up, BorderLayout.NORTH);
+        contenitore.add(med, BorderLayout.CENTER);
+        contenitore.add(down, BorderLayout.SOUTH);
+        this.getContentPane().add(contenitore, BorderLayout.CENTER);
+        up.setLayout(new FlowLayout());
+        down.setLayout(new FlowLayout());
+
+        med.setLayout(new GridLayout(3,4));
+        med.add(new JLabel("    "));
+        med.add(new JLabel("    "));
+        med.add(new JLabel("    "));
+        med.add(new JLabel("    "));
+        med.add(new JLabel("    "));
+        med.add(new JLabel("Seleziona tipologia di automezzo:"));
+        med.add(tipologie);
+        med.add(new JLabel("    "));
+        med.add(new JLabel("    "));
+        med.add(new JLabel("    "));
+        med.add(new JLabel("    "));
+
+        JButton avanti = new JButton("AVANTI ->");
+        avanti.addActionListener(listener);
+        avanti.setActionCommand(BottonBarListener.PULSANTE_AVANTI);
+
+        JButton indietro = new JButton("<- INDIETRO");
+        indietro.addActionListener(listener);
+        indietro.setActionCommand(BottonBarListener.PULSANTE_ANNULLA);
+        down.add(indietro);
+        down.add(avanti);
+        //3. refresh della UI
+        repaint();
+        revalidate();
+    }
+    public void mostraTipologiaVeicoloBackButton(){
+        BorderLayout bl = (BorderLayout) this.getContentPane().getLayout();
+        this.getContentPane().remove(bl.getLayoutComponent(BorderLayout.CENTER));
+
+        JPanel contenitore = new JPanel();
+        JPanel up = new JPanel();
+        JPanel med = new JPanel();
+        JPanel down = new JPanel();
+
+        up.setLayout(new FlowLayout());
+        up.add(new JLabel("<<<FORM NUOVA PRENOTAZIONE>>>"));
+
+        contenitore.setLayout(new BorderLayout());
+        contenitore.add(up, BorderLayout.NORTH);
+        contenitore.add(med, BorderLayout.CENTER);
+        contenitore.add(down, BorderLayout.SOUTH);
+        this.getContentPane().add(contenitore, BorderLayout.CENTER);
+        up.setLayout(new FlowLayout());
+        down.setLayout(new FlowLayout());
+
+        med.setLayout(new GridLayout(3,4));
+        med.add(new JLabel("    "));
+        med.add(new JLabel("    "));
+        med.add(new JLabel("    "));
+        med.add(new JLabel("    "));
+        med.add(new JLabel("    "));
+        med.add(new JLabel("Seleziona tipologia di automezzo:"));
+        med.add(tipologie);
+        med.add(new JLabel("    "));
+        med.add(new JLabel("    "));
+        med.add(new JLabel("    "));
+        med.add(new JLabel("    "));
+
+        JButton avanti = new JButton("AVANTI ->");
+        avanti.addActionListener(listener);
+        avanti.setActionCommand(BottonBarListener.PULSANTE_AVANTI);
+
+        JButton indietro = new JButton("<- INDIETRO");
+        indietro.addActionListener(listener);
+        indietro.setActionCommand(BottonBarListener.PULSANTE_ANNULLA);
+        down.add(indietro);
+        down.add(avanti);
+        //3. refresh della UI
+        repaint();
+        revalidate();
+    }
+
+    public void mostraGrandezzaAuto(){
+        BorderLayout bl = (BorderLayout) this.getContentPane().getLayout();
+        this.getContentPane().remove(bl.getLayoutComponent(BorderLayout.CENTER));
+     //   this.getContentPane().remove(bl.getLayoutComponent(BorderLayout.NORTH));
+      //  this.getContentPane().remove(bl.getLayoutComponent(BorderLayout.SOUTH));
+
+
+        grandezza.addItem("PICCOLA");
+        grandezza.addItem("MEDIA");
+        grandezza.addItem("GRANDE");
+
+        JPanel contenitore = new JPanel();
+        JPanel up = new JPanel();
+        JPanel med = new JPanel();
+        JPanel down = new JPanel();
+
+        up.setLayout(new FlowLayout());
+        up.add(new JLabel("<<<FORM NUOVA PRENOTAZIONE>>>"));
+
+        contenitore.setLayout(new BorderLayout());
+        contenitore.add(up, BorderLayout.NORTH);
+        contenitore.add(med, BorderLayout.CENTER);
+        contenitore.add(down, BorderLayout.SOUTH);
+        this.getContentPane().add(contenitore, BorderLayout.CENTER);
+        up.setLayout(new FlowLayout());
+        down.setLayout(new FlowLayout());
+        med.setLayout(new GridLayout(3,4));
+        med.add(new JLabel("    "));
+        med.add(new JLabel("    "));
+        med.add(new JLabel("    "));
+        med.add(new JLabel("    "));
+        med.add(new JLabel("    "));
+        med.add(new JLabel("Seleziona categoria auto:"));
+        med.add(grandezza);
+        med.add(new JLabel("    "));
+        med.add(new JLabel("    "));
+        med.add(new JLabel("    "));
+        med.add(new JLabel("    "));
+
+        JButton avanti = new JButton("AVANTI ->");
+        avanti.addActionListener(listener);
+        avanti.setActionCommand(BottonBarListener.PULSANTE_AVANTI2);
+
+        JButton indietro = new JButton("<- INDIETRO");
+        indietro.addActionListener(listener);
+        indietro.setActionCommand(BottonBarListener.PULSANTE_ANNULLA2);
+        down.add(indietro);
+        down.add(avanti);
+        //3. refresh della UI
+        repaint();
+        revalidate();
+    }
+
+    public void mostraSelezionaMotorizzazione(){
+        BorderLayout bl = (BorderLayout) this.getContentPane().getLayout();
+        this.getContentPane().remove(bl.getLayoutComponent(BorderLayout.CENTER));
+
+        motorizzazioni.addItem("ELETTRICA");
+        motorizzazioni.addItem("BENZINA");
+        motorizzazioni.addItem("DIESEL");
+
+        JPanel contenitore = new JPanel();
+        JPanel up = new JPanel();
+        JPanel med = new JPanel();
+        JPanel down = new JPanel();
+
+        up.setLayout(new FlowLayout());
+        up.add(new JLabel("<<<FORM NUOVA PRENOTAZIONE>>>"));
+
+        contenitore.setLayout(new BorderLayout());
+        contenitore.add(up, BorderLayout.NORTH);
+        contenitore.add(med, BorderLayout.CENTER);
+        contenitore.add(down, BorderLayout.SOUTH);
+        this.getContentPane().add(contenitore, BorderLayout.CENTER);
+        up.setLayout(new FlowLayout());
+        down.setLayout(new FlowLayout());
+        med.setLayout(new GridLayout(3,4));
+        med.add(new JLabel("    "));
+        med.add(new JLabel("    "));
+        med.add(new JLabel("    "));
+        med.add(new JLabel("    "));
+        med.add(new JLabel("    "));
+        med.add(new JLabel("Seleziona motorizzazione:"));
+        med.add(motorizzazioni);
+        med.add(new JLabel("    "));
+        med.add(new JLabel("    "));
+        med.add(new JLabel("    "));
+        med.add(new JLabel("    "));
+
+        JButton avanti = new JButton("AVANTI ->");
+        avanti.addActionListener(listener);
+        avanti.setActionCommand(BottonBarListener.PULSANTE_AVANTI3);
+
+        JButton indietro = new JButton("<- INDIETRO");
+        indietro.addActionListener(listener);
+        indietro.setActionCommand(BottonBarListener.PULSANTE_ANNULLA3);
+        down.add(indietro);
+        down.add(avanti);
+        //3. refresh della UI
+        repaint();
+        revalidate();
     }
 
     public void mostraModificaPrenotazione(int id){
@@ -214,10 +397,11 @@ public class FinestraCliente extends JFrame {
         //1. eliminare quello che c'è nell'area centrale
         BorderLayout bl = (BorderLayout) this.getContentPane().getLayout();
         this.getContentPane().remove(bl.getLayoutComponent(BorderLayout.CENTER));
-        this.getContentPane().remove(bl.getLayoutComponent(BorderLayout.NORTH));
-        this.getContentPane().remove(bl.getLayoutComponent(BorderLayout.SOUTH));
+     //   this.getContentPane().remove(bl.getLayoutComponent(BorderLayout.NORTH)); //todo
+     //   this.getContentPane().remove(bl.getLayoutComponent(BorderLayout.SOUTH)); //todo
 
         //2. inserire pannello della funzionalita specifica
+        setupPannelloNuovaPrenotazione();
         this.getContentPane().add(funzionalita1, BorderLayout.CENTER);
 
         //3. refresh della UI
@@ -237,14 +421,13 @@ public class FinestraCliente extends JFrame {
         JButton avanti = new JButton("PRENOTA ORA!");
         JButton indietro = new JButton("<- TORNA INDIETRO");
         avanti.addActionListener(listener);
-        avanti.setActionCommand(BottonBarListener.PULSANTE_SALVA_PRENOTAZIONE);
         indietro.addActionListener(listener);
-        indietro.setActionCommand(BottonBarListener.PULSANTE_ANNULLA);
+        indietro.setActionCommand(BottonBarListener.PULSANTE_ANNULLA4);
+        avanti.setActionCommand(BottonBarListener.PULSANTE_SALVA_PRENOTAZIONE);
 
         funzionalita1.add(spazioBottoni, BorderLayout.SOUTH);
-        spazioBottoni.add(avanti);
         spazioBottoni.add(indietro);
-
+        spazioBottoni.add(avanti);
         form = new JPanel();
         form.setLayout(new GridLayout(8,2));
 
@@ -273,7 +456,8 @@ public class FinestraCliente extends JFrame {
 
         ArrayList<Stazione> stazioni = PrenotazioneBusiness.getInstance().getStazioni();
         ArrayList<Localita> localitas = PrenotazioneBusiness.getInstance().getLocalita();
-        ArrayList<Modello> modelli = PrenotazioneBusiness.getInstance().getModelli();
+        System.out.println("DEBUG1:"+tipologie.getSelectedItem());
+        ArrayList<Modello> modelli = PrenotazioneBusiness.getInstance().getModelliFromTipologia((String) tipologie.getSelectedItem(), (String) grandezza.getSelectedItem(), (String) motorizzazioni.getSelectedItem());
 
         for(Stazione s : stazioni) partenza.addItem(s);
         for(Stazione s : stazioni) arrivo.addItem(s);
@@ -281,9 +465,24 @@ public class FinestraCliente extends JFrame {
         for(Modello m : modelli) modello.addItem(m);
 
         form.add(new JLabel("Foto del mezzo: "));
-
-        JLabel foto = new JLabel(new ImageIcon(modelli.get(modello.getSelectedIndex()).getFoto())); //TODO sistemare visualizzazioni immagini
-        form.add(foto);
+        if(modello.getSelectedIndex() != -1){
+            JLabel foto = new JLabel(new ImageIcon(modelli.get(modello.getSelectedIndex()).getFoto())); //TODO sistemare visualizzazioni immagini
+            form.add(foto);
+            foto.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent evt) {
+                    if (evt.getClickCount() == 1) {
+                        FinestraFotoMezzo fin = new FinestraFotoMezzo(modelli,modello.getSelectedIndex());
+                        fin.setVisible(true);
+                    }
+                }
+            });
+        }
+        else{
+            FinestraNoMezzi alert = new FinestraNoMezzi();
+            alert.setVisible(true);
+            //mostraSelezionaMotorizzazione();
+        }
 
         modello.addActionListener(imageListener);
         modello.setActionCommand(ImageChangeListener.MODIFICA_FOTO);
@@ -378,7 +577,7 @@ public class FinestraCliente extends JFrame {
 
         //ArrayList<Prenotazione> prenotazioni = new PrenotazioneDAO().findAll();
         ArrayList<Prenotazione> prenotazioni = new PrenotazioneDAO().findAllForCliente();
-        TableModelPrenotazioni tmp = new TableModelPrenotazioni(prenotazioni);
+        TableModelPrenotazioniCliente tmp = new TableModelPrenotazioniCliente(prenotazioni);
         JTable tabellaPrenotazioni = new JTable(tmp);
 
         tabellaPrenotazioni.addMouseListener(new MouseAdapter() {
@@ -411,10 +610,8 @@ public class FinestraCliente extends JFrame {
     }
 
     class MioAscoltatore implements ActionListener {
-
         @Override
         public void actionPerformed(ActionEvent e) {
-
 
         }
     }

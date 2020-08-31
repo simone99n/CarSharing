@@ -108,17 +108,6 @@ public class PrenotazioneBusiness {
         return true;
     }
 
-/*
-    public ArrayList<String[]> getNomeFromIdPrenotazione(int idPrenotazione){
-       IPrenotazioneDAO temp = new PrenotazioneDAO();
-        return temp.getClienteNome(idPrenotazione);
-    }
-
-    public ArrayList<String[]> getCognomeFromIdPrenotazione(int idPrenotazione){
-        IPrenotazioneDAO temp = new PrenotazioneDAO();
-        return temp.getClienteCognome(idPrenotazione);
-    }
-*/
 
     public ArrayList<String[]> getInfoClienteFromIdPrenotazione(int idPrenotazione, int index) {
         IPrenotazioneDAO temp = new PrenotazioneDAO();
@@ -130,7 +119,10 @@ public class PrenotazioneBusiness {
         return temp.getNumClienti(idPrenotazione);
     }
 
-
+    public ArrayList<Modello> getModelliFromTipologia(String tipologia, String grandezza, String motorizzazione){
+        IModelloDAO temp = new ModelloDAO();
+        return temp.findByTipologia(tipologia,grandezza,motorizzazione);
+    }
 
     public boolean disponibilitaMezzo(Modello mod) {
         IMezzoDAO mezzotemp= new MezzoDAO();
@@ -178,4 +170,15 @@ public class PrenotazioneBusiness {
     }
 
 
+/*
+    public ArrayList<String[]> getNomeFromIdPrenotazione(int idPrenotazione){
+       IPrenotazioneDAO temp = new PrenotazioneDAO();
+        return temp.getClienteNome(idPrenotazione);
+    }
+
+    public ArrayList<String[]> getCognomeFromIdPrenotazione(int idPrenotazione){
+        IPrenotazioneDAO temp = new PrenotazioneDAO();
+        return temp.getClienteCognome(idPrenotazione);
+    }
+*/
 }

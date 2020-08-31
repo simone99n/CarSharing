@@ -7,11 +7,11 @@ import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 
-public class TableModelPrenotazioni extends AbstractTableModel  {
+public class TableModelPrenotazioniCliente extends AbstractTableModel  {
 
     private ArrayList<Prenotazione> prenotazioni;
 
-    public TableModelPrenotazioni(ArrayList<Prenotazione> prenotazioni) {
+    public TableModelPrenotazioniCliente(ArrayList<Prenotazione> prenotazioni) {
         this.prenotazioni = prenotazioni;
     }
 
