@@ -1,9 +1,12 @@
 package it.unisalento.pps1920.carsharing.view.Listener;
 
 import it.unisalento.pps1920.carsharing.view.FinestraCliente;
+import it.unisalento.pps1920.carsharing.view.FinestraFotoMezzo;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ImageChangeListener implements ActionListener{
 
@@ -21,5 +24,6 @@ public class ImageChangeListener implements ActionListener{
         if(MODIFICA_FOTO.equals(command)){
             win.setupImage();
         }
+
     }
 }

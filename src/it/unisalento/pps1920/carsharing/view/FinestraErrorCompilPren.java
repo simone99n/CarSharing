@@ -1,5 +1,7 @@
 package it.unisalento.pps1920.carsharing.view;
 
+import it.unisalento.pps1920.carsharing.view.Listener.BottonBarListener;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -42,5 +44,6 @@ public class FinestraErrorCompilPren extends JFrame {
 
         private void close(){
             this.dispose();
+
         }
 }

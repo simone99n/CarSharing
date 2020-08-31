@@ -23,6 +23,8 @@ public class FinestraCliente extends JFrame {
     BottonBarListener listener;
     ImageChangeListener imageListener;
 
+    public int state=0;
+    public JLabel foto;
     public JPanel form;
     public JTextField dataInizio = new JTextField(20);
     public JTextField dataFine = new JTextField(20);
@@ -456,7 +458,7 @@ public class FinestraCliente extends JFrame {
 
         ArrayList<Stazione> stazioni = PrenotazioneBusiness.getInstance().getStazioni();
         ArrayList<Localita> localitas = PrenotazioneBusiness.getInstance().getLocalita();
-        System.out.println("DEBUG1:"+tipologie.getSelectedItem());
+        //System.out.println("DEBUG1:"+tipologie.getSelectedItem());
         ArrayList<Modello> modelli = PrenotazioneBusiness.getInstance().getModelliFromTipologia((String) tipologie.getSelectedItem(), (String) grandezza.getSelectedItem(), (String) motorizzazioni.getSelectedItem());
 
         for(Stazione s : stazioni) partenza.addItem(s);
@@ -465,8 +467,10 @@ public class FinestraCliente extends JFrame {
         for(Modello m : modelli) modello.addItem(m);
 
         form.add(new JLabel("Foto del mezzo: "));
+        System.out.println("modello.getSelectedIndex(): "+modello.getSelectedIndex());
         if(modello.getSelectedIndex() != -1){
-            JLabel foto = new JLabel(new ImageIcon(modelli.get(modello.getSelectedIndex()).getFoto())); //TODO sistemare visualizzazioni immagini
+            modello.removeActionListener(imageListener);
+            foto = new JLabel(new ImageIcon(modelli.get(modello.getSelectedIndex()).getFoto())); //TODO sistemare visualizzazioni immagini
             form.add(foto);
             foto.addMouseListener(new MouseAdapter() {
                 @Override
@@ -477,15 +481,18 @@ public class FinestraCliente extends JFrame {
                     }
                 }
             });
+            modello.addActionListener(imageListener);
+            modello.setActionCommand(ImageChangeListener.MODIFICA_FOTO);
+
         }
         else{
+            modello.removeActionListener(imageListener);
             FinestraNoMezzi alert = new FinestraNoMezzi();
             alert.setVisible(true);
             //mostraSelezionaMotorizzazione();
         }
 
-        modello.addActionListener(imageListener);
-        modello.setActionCommand(ImageChangeListener.MODIFICA_FOTO);
+
 
     }
 
@@ -558,10 +565,24 @@ public class FinestraCliente extends JFrame {
     }
 
     public void setupImage() {
-        form.remove(15);
-        ArrayList<Modello> modelli = PrenotazioneBusiness.getInstance().getModelli();
-        JLabel foto = new JLabel(new ImageIcon(modelli.get(modello.getSelectedIndex()).getFoto()));
-        form.add(foto);
+
+        //ArrayList<Modello> modelli = PrenotazioneBusiness.getInstance().getModelli();
+        ArrayList<Modello> modelli = PrenotazioneBusiness.getInstance().getModelliFromTipologia((String) tipologie.getSelectedItem(), (String) grandezza.getSelectedItem(), (String) motorizzazioni.getSelectedItem());
+        if(modello.getSelectedIndex() != -1 && state==0){
+            form.remove(15);
+            JLabel foto = new JLabel(new ImageIcon(modelli.get(modello.getSelectedIndex()).getFoto()));
+            form.add(foto);
+            foto.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent evt) {
+                    if (evt.getClickCount() == 1) {
+                        FinestraFotoMezzo fin = new FinestraFotoMezzo(modelli,modello.getSelectedIndex());
+                        fin.setVisible(true);
+                    }
+                }
+            });
+        }
+        state=0;
         repaint();
         revalidate();
     }

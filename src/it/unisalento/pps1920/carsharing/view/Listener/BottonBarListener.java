@@ -54,9 +54,7 @@ public class BottonBarListener implements ActionListener {
             win.mostraTipologiaVeicolo();
         }
         else if(PULSANTE_SALVA_PRENOTAZIONE.equals(command)) {
-            System.out.println("win.dataInizio :" + win.dataInizio.getText());
-            System.out.println("win.dataFine :" + win.dataFine.getText());
-            System.out.println("win.numPostiOccupati :" + win.numPostiOccupati.getText());
+
             if(win.dataInizio.getText().isEmpty() || win.dataFine.getText().isEmpty() || win.numPostiOccupati.getText().isEmpty()){
                 FinestraErrorCompilPren err = new FinestraErrorCompilPren();
                 err.setVisible(true);
@@ -125,10 +123,16 @@ public class BottonBarListener implements ActionListener {
 
         }
         else if(PULSANTE_ANNULLA4.equals(command)){
+
             win.motorizzazioni.removeAllItems();
+            win.modello.removeAllItems();
+            //win.modello.setSelectedIndex(-1);
+            win.foto.removeAll();
+            win.state=1;
             win.mostraSelezionaMotorizzazione();
         }
         else if(PULSANTE_AVANTI3.equals(command)){
+            //win.modello.setSelectedIndex(-1);
             win.mostraPannelloNuovaPrenotazione();
         }
 
