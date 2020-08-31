@@ -487,9 +487,10 @@ public class FinestraCliente extends JFrame {
         }
         else{
             modello.removeActionListener(imageListener);
+            //mostraSelezionaMotorizzazione();
             FinestraNoMezzi alert = new FinestraNoMezzi();
             alert.setVisible(true);
-            //mostraSelezionaMotorizzazione();
+            spazioBottoni.remove(avanti);
         }
 
 

@@ -13,7 +13,7 @@ public class FinestraFotoMezzo extends JFrame{
     public FinestraFotoMezzo(ArrayList<Modello> modelli, int index){
         super("Foto veicolo");
 
-        setSize(1300, 1000);
+        setSize(1200, 900);
 
         Dimension screenSize = Toolkit.getDefaultToolkit ( ).getScreenSize ( );
         setLocation ( ( screenSize.width / 2 ) - ( this.getWidth ( ) / 2 ), (screenSize.height / 2 ) - ( this.getHeight ( ) / 2 ) );

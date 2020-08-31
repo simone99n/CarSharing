@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class BottonBarListener implements ActionListener {
 
@@ -59,9 +60,52 @@ public class BottonBarListener implements ActionListener {
                 FinestraErrorCompilPren err = new FinestraErrorCompilPren();
                 err.setVisible(true);
             }
-            else{
-                win.mostraAccessori();
-                Prenotazione nuova = salvaPrenotazione();
+            else{   //se tutti i campi sono compilati
+
+                String[] annoEmeseInizio = win.dataInizio.getText().split("-");
+                String[] giornoEoraInizio = annoEmeseInizio[2].split(" ");
+                String[] oreEminutiInizio = giornoEoraInizio[1].split(":");
+                String[] annoEmeseFine = win.dataFine.getText().split("-");
+                String[] giornoEoraFine = annoEmeseFine[2].split(" ");
+                String[] oreEminutiFine = giornoEoraFine[1].split(":");
+
+                if(Integer.parseInt(annoEmeseInizio[0]) > Integer.parseInt(annoEmeseFine[0])){ //se anno inizio > anno fine
+                    FinestraErrorCompilPren err = new FinestraErrorCompilPren();
+                    err.setVisible(true);
+                    System.out.println("Questo carsharing non è una macchina del tempo (anno inizio > anno fine)");
+                }
+                else if(Integer.parseInt(annoEmeseInizio[0]) == Integer.parseInt(annoEmeseFine[0])){ //se anni coincidono
+
+                    if(Integer.parseInt(annoEmeseInizio[1]) > Integer.parseInt(annoEmeseFine[1])){  //se mese inizio > mese fine
+                        FinestraErrorCompilPren err = new FinestraErrorCompilPren();
+                        err.setVisible(true);
+                        System.out.println("Questo carsharing non è una macchina del tempo(anni coincidono, mese inizio > mese fine)");
+                    }
+                    else if(Integer.parseInt(annoEmeseInizio[1]) == Integer.parseInt(annoEmeseFine[1])){ //se mesi uguali
+                        if(Integer.parseInt(giornoEoraInizio[0]) > Integer.parseInt(giornoEoraFine[0])){ //se giorno inizio > giorno fine
+                            FinestraErrorCompilPren err = new FinestraErrorCompilPren();
+                            err.setVisible(true);
+                            System.out.println("Questo carsharing non è una macchina del tempo(mesi coincidono, giorno inizio > giorno fine)");
+                        }
+                        else if(Integer.parseInt(giornoEoraInizio[0]) == Integer.parseInt(giornoEoraFine[0])){
+                            FinestraErrorCompilPren err = new FinestraErrorCompilPren();
+                            err.setVisible(true);
+                            System.out.println("Giorno inizio non può coincidere con giorno fine");
+                        }
+                        else{
+                            win.mostraAccessori();
+                            Prenotazione nuova = salvaPrenotazione();
+                        }
+                    }
+                    else{
+                        win.mostraAccessori();
+                        Prenotazione nuova = salvaPrenotazione();
+                    }
+                }
+                else{
+                    win.mostraAccessori();
+                    Prenotazione nuova = salvaPrenotazione();
+                }
             }
 
         }
@@ -127,7 +171,7 @@ public class BottonBarListener implements ActionListener {
             win.motorizzazioni.removeAllItems();
             win.modello.removeAllItems();
             //win.modello.setSelectedIndex(-1);
-            win.foto.removeAll();
+            //win.foto.removeAll();
             win.state=1;
             win.mostraSelezionaMotorizzazione();
         }

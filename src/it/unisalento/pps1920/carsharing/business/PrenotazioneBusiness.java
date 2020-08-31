@@ -23,7 +23,6 @@ public class PrenotazioneBusiness {
 
     private PrenotazioneBusiness(){}
 
-
     public boolean inviaPrenotazione(Prenotazione p,int state) {
         // logica di business
         // 1. chiamare il dao prenotazione per salvare la prenotazione
@@ -108,7 +107,6 @@ public class PrenotazioneBusiness {
         return true;
     }
 
-
     public ArrayList<String[]> getInfoClienteFromIdPrenotazione(int idPrenotazione, int index) {
         IPrenotazioneDAO temp = new PrenotazioneDAO();
         return temp.getClienteInfo(idPrenotazione,index);
@@ -133,6 +131,8 @@ public class PrenotazioneBusiness {
         IMezzoDAO mezzotemp= new MezzoDAO();
         return mezzotemp.findOneByModello(mod);
     }
+
+    //public float
 
     public ArrayList<Prenotazione> cercaMatch(Date inizio,
                                               Date fine,
