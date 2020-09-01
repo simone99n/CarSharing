@@ -1,7 +1,10 @@
 package it.unisalento.pps1920.carsharing.view.Listener;
 
+import it.unisalento.pps1920.carsharing.DbConnection;
 import it.unisalento.pps1920.carsharing.business.ModificaPrenotazioneBusiness;
 import it.unisalento.pps1920.carsharing.business.PrenotazioneBusiness;
+import it.unisalento.pps1920.carsharing.dao.interfaces.IPrenotazioneDAO;
+import it.unisalento.pps1920.carsharing.dao.mysql.PrenotazioneDAO;
 import it.unisalento.pps1920.carsharing.model.*;
 import it.unisalento.pps1920.carsharing.util.DateUtil;
 import it.unisalento.pps1920.carsharing.util.Session;
@@ -186,14 +189,70 @@ public class BottonBarListener implements ActionListener {
             //3. modifica
             Stazione partenza = (Stazione)win.partenzaMod.getSelectedItem();
             Stazione arrivo = (Stazione)win.arrivoMod.getSelectedItem();
+            String datapartenza = win.dataInizioMod.getText();
+            String dataarrivo = win.dataFineMod.getText();
+
             String nomeStazionePartenza = null, nomeStazioneArrivo = null;
 
-            if(partenza!=null && arrivo!=null){
+            if(partenza!=null && arrivo!=null && !datapartenza.isBlank() && !dataarrivo.isBlank()){
                 nomeStazionePartenza = partenza.getNome();
                 nomeStazioneArrivo = arrivo.getNome();
+
+
+
+
+                String[] annoEmeseInizio = win.dataInizioMod.getText().split("-");
+                String[] giornoEoraInizio = annoEmeseInizio[2].split(" ");
+                String[] annoEmeseFine = win.dataFineMod.getText().split("-");
+                String[] giornoEoraFine = annoEmeseFine[2].split(" ");
+
+                if(Integer.parseInt(annoEmeseInizio[0]) > Integer.parseInt(annoEmeseFine[0])){ //se anno inizio > anno fine
+                    FinestraErrorCompilPren err = new FinestraErrorCompilPren();
+                    err.setVisible(true);
+                    System.out.println("Questo carsharing non è una macchina del tempo (anno inizio > anno fine)");
+                }
+                else if(Integer.parseInt(annoEmeseInizio[0]) == Integer.parseInt(annoEmeseFine[0])){ //se anni coincidono
+
+                    if(Integer.parseInt(annoEmeseInizio[1]) > Integer.parseInt(annoEmeseFine[1])){  //se mese inizio > mese fine
+                        FinestraErrorCompilPren err = new FinestraErrorCompilPren();
+                        err.setVisible(true);
+                        System.out.println("Questo carsharing non è una macchina del tempo(anni coincidono, mese inizio > mese fine)");
+                    }
+                    else if(Integer.parseInt(annoEmeseInizio[1]) == Integer.parseInt(annoEmeseFine[1])){ //se mesi uguali
+                        if(Integer.parseInt(giornoEoraInizio[0]) > Integer.parseInt(giornoEoraFine[0])){ //se giorno inizio > giorno fine
+                            FinestraErrorCompilPren err = new FinestraErrorCompilPren();
+                            err.setVisible(true);
+                            System.out.println("Questo carsharing non è una macchina del tempo(mesi coincidono, giorno inizio > giorno fine)");
+                        }
+                        else if(Integer.parseInt(giornoEoraInizio[0]) == Integer.parseInt(giornoEoraFine[0])){
+                            FinestraErrorCompilPren err = new FinestraErrorCompilPren();
+                            err.setVisible(true);
+                            System.out.println("Giorno inizio non può coincidere con giorno fine");
+                        }
+                        else{
+                            salvaModifica();
+                        }
+                    }
+                    else{
+                        salvaModifica();
+                    }
+                }
+                else{
+                    salvaModifica();
+                }
+
+
+
+                /*
                 if(!nomeStazionePartenza.equals(ModificaPrenotazioneBusiness.getInstance().getPartenza(win.pModificaPrenotazione.getId())) || !nomeStazioneArrivo.equals(ModificaPrenotazioneBusiness.getInstance().getArrivo(win.pModificaPrenotazione.getId()))){
                     ModificaPrenotazioneBusiness.getInstance().modificaStazione(partenza.getId(), arrivo.getId(), win.pModificaPrenotazione.getId());
-                }
+                } //modifica stazioni
+                */
+
+
+                win.dispose();
+                FinestraCliente win = new FinestraCliente();
+                win.setVisible(true);
             }
             else{
                 error = new FinestraErrorCompilPren();
@@ -318,4 +377,19 @@ public class BottonBarListener implements ActionListener {
         PrenotazioneBusiness.getInstance().inserisciAccessori(a5);
     }
 
+    private void salvaModifica(){
+        Prenotazione p;
+        IPrenotazioneDAO ip = new PrenotazioneDAO();
+        p=ip.findById(win.pModificaPrenotazione.getId());  //prenotazione old
+        //todo rimuovere sql code
+        Cliente clienteLoggato = (Cliente) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
+        int postiOccupatiCliente = Integer.parseInt(DbConnection.getInstance().eseguiQuery("SELECT posti_occupati FROM effettua WHERE prenotazione_idprenotazione='" +win.pModificaPrenotazione.getId()+"' AND cliente_utente_idutente='"+clienteLoggato.getId()+"';").get(0)[0]);
+
+        p.setDataInizio(DateUtil.dateTimeFromString(win.dataInizioMod.getText()));
+        p.setDataFine(DateUtil.dateTimeFromString(win.dataFineMod.getText()));
+        p.setData(new Date());
+        p.setNumPostiOccupati(postiOccupatiCliente);
+        ip.salvaPrenotazione(p);
+        ModificaPrenotazioneBusiness.getInstance().cancellaPrenotazione(win.pModificaPrenotazione.getId());
+    }
 }

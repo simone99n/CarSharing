@@ -2,11 +2,13 @@ package it.unisalento.pps1920.carsharing.dao.mysql;
 
 import it.unisalento.pps1920.carsharing.DbConnection;
 import it.unisalento.pps1920.carsharing.dao.interfaces.IAddettoDAO;
+import it.unisalento.pps1920.carsharing.dao.interfaces.IClienteDAO;
 import it.unisalento.pps1920.carsharing.dao.interfaces.IPrenotazioneDAO;
 import it.unisalento.pps1920.carsharing.dao.interfaces.IStazioneDAO;
 import it.unisalento.pps1920.carsharing.model.Cliente;
 import it.unisalento.pps1920.carsharing.model.Prenotazione;
 import it.unisalento.pps1920.carsharing.model.Stazione;
+import it.unisalento.pps1920.carsharing.util.MailHelper;
 import it.unisalento.pps1920.carsharing.util.Session;
 
 import java.util.ArrayList;
@@ -102,6 +104,13 @@ public class StazioneDAO implements IStazioneDAO {
 
             ip.salvaPrenotazione(p);
 
+
+            for (String[] strings : tmp) {
+                if (Integer.parseInt(strings[0]) != clienteLoggato.getId()) {
+                    IClienteDAO c = new ClienteDAO();
+                    MailHelper.getInstance().send(c.findById(Integer.parseInt(strings[0])).getEmail(), "Sharing annullato", "La prenotazione n° " + idPrenotazione + "è stata modificata e lo sharing è annullato.");
+                }
+            }
 
             return 1; //prenotazione modificata con Sharing
         }

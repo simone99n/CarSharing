@@ -60,9 +60,6 @@ public class ModificaPrenotazioneBusiness {
             MailHelper.getInstance().send(clienteLoggato.getEmail(), "Prenotazione cancellata", "Hai cancellato la prenotazione n° " + idPrenotazione);
             System.out.println("E-mail invaita al cliente che ha cancellato lo sharing");
 
-
-
-
         }
     }
 
@@ -98,6 +95,13 @@ public class ModificaPrenotazioneBusiness {
 
     public void modificaStazione(int newIdPartenza, int newIdArrivo, int idPrenotazione){
         IStazioneDAO sp = new StazioneDAO();
-        sp.modificaStazione(newIdPartenza,newIdArrivo, idPrenotazione);
+        if(sp.modificaStazione(newIdPartenza,newIdArrivo, idPrenotazione)==0){
+            Cliente clienteLoggato = (Cliente) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
+            MailHelper.getInstance().send(clienteLoggato.getEmail(), "Prenotazione modificata", "Hai modificato la prenotazione n° " + idPrenotazione);
+        }
+        else if(sp.modificaStazione(newIdPartenza,newIdArrivo, idPrenotazione)==1){
+            Cliente clienteLoggato = (Cliente) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
+            MailHelper.getInstance().send(clienteLoggato.getEmail(), "Prenotazione modificata,Sharing annullato", "Hai modificato la prenotazione, annullando lo sharing");
+        }
     }
 }

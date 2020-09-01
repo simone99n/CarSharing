@@ -242,8 +242,12 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         }
         else{
             Cliente clienteLoggato = (Cliente) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
-            String bye3 ="DELETE FROM effettua WHERE prenotazione_idprenotazione='" +idPrenotazione+ "' AND cliente_utente_idutente='"+clienteLoggato.getId()+"';";
-            DbConnection.getInstance().eseguiAggiornamento(bye3);
+
+            int postiOccupatiCliente = Integer.parseInt(DbConnection.getInstance().eseguiQuery("SELECT posti_occupati FROM effettua WHERE prenotazione_idprenotazione='" +idPrenotazione+"' AND cliente_utente_idutente='"+clienteLoggato.getId()+"';").get(0)[0]);
+            int postiOccupatiTotali = Integer.parseInt(DbConnection.getInstance().eseguiQuery("SELECT num_posti_occupati FROM prenotazione WHERE idprenotazione='" +idPrenotazione+"';").get(0)[0]);
+
+            DbConnection.getInstance().eseguiAggiornamento("UPDATE prenotazione SET num_posti_occupati='"+(postiOccupatiTotali-postiOccupatiCliente)+"' WHERE idprenotazione='"+idPrenotazione+"';");
+            DbConnection.getInstance().eseguiAggiornamento("DELETE FROM effettua WHERE prenotazione_idprenotazione='" +idPrenotazione+ "' AND cliente_utente_idutente='"+clienteLoggato.getId()+"';");
             return 1; //prenotazione cancellata solo per un cliente, annullamento sharing
         }
 

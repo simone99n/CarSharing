@@ -19,6 +19,8 @@ public class FinestraSharing extends JFrame{
     public FinestraSharing(float prezzo){
         super("E' stato rilevato uno sharing!");
         setSize(500,400);
+        Dimension screenSize = Toolkit.getDefaultToolkit ( ).getScreenSize ( );
+        setLocation ( ( screenSize.width / 2 ) - ( this.getWidth ( ) / 2 ), (screenSize.height / 2 ) - ( this.getHeight ( ) / 2 ) );
         //setDefaultCloseOperation(EXIT_ON_CLOSE);
         listener = new SharingListener(this);
 
