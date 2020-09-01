@@ -54,7 +54,7 @@ public class AccessorioDAO implements IAccessorioDAO {
             String[] prova = DbConnection.getInstance().eseguiQuery(sql2).get(0);
 
             Accessorio a = new Accessorio();
-            a.setId(id);
+            a.setId(Integer.parseInt(accessoriId.get(i)[0]));
             a.setNome(prova[0]);
             accs.add(a);
 

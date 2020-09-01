@@ -1,5 +1,6 @@
 package it.unisalento.pps1920.carsharing.view.Listener;
 
+import it.unisalento.pps1920.carsharing.business.ModificaPrenotazioneBusiness;
 import it.unisalento.pps1920.carsharing.business.PrenotazioneBusiness;
 import it.unisalento.pps1920.carsharing.model.*;
 import it.unisalento.pps1920.carsharing.util.DateUtil;
@@ -29,6 +30,7 @@ public class BottonBarListener implements ActionListener {
     public static final String PULSANTE_AVANTI = "PULSANTE_AVANTI";
     public static final String PULSANTE_AVANTI2 = "PULSANTE_AVANTI2";
     public static final String PULSANTE_AVANTI3 = "PULSANTE_AVANTI3";
+    public static final String PULSANTE_CANCELLA_PRENOTAZIONE = "PULSANTE_CANCELLA_PRENOTAZIONE";
     Prenotazione nuova;
 
     private FinestraCliente win;
@@ -149,7 +151,35 @@ public class BottonBarListener implements ActionListener {
             win.setVisible(true);
         }
         else if(PULSANTE_MODIFICA.equals(command)) {
-            System.out.println("Mod");
+
+                if(!win.cbAccessorio1.isSelected()) //se la spunta viene tolta
+                    ModificaPrenotazioneBusiness.getInstance().eliminaAccessorio(win.accPrenotazione.get(0).getId(), win.pModificaPrenotazione.getId());
+                if(!win.cbAccessorio2.isSelected())       //se la spunta viene tolta
+                    ModificaPrenotazioneBusiness.getInstance().eliminaAccessorio(win.accPrenotazione.get(1).getId(), win.pModificaPrenotazione.getId());
+                if(!win.cbAccessorio3.isSelected())       //se la spunta viene tolta
+                    ModificaPrenotazioneBusiness.getInstance().eliminaAccessorio(win.accPrenotazione.get(2).getId(), win.pModificaPrenotazione.getId());
+                if(!win.cbAccessorio4.isSelected())       //se la spunta viene tolta
+                    ModificaPrenotazioneBusiness.getInstance().eliminaAccessorio(win.accPrenotazione.get(3).getId(), win.pModificaPrenotazione.getId());
+                if(!win.cbAccessorio5.isSelected())       //se la spunta viene tolta
+                    ModificaPrenotazioneBusiness.getInstance().eliminaAccessorio(win.accPrenotazione.get(4).getId(), win.pModificaPrenotazione.getId());
+                if(win.accessorio1Mod!=null)
+                    ModificaPrenotazioneBusiness.getInstance().inserisciAccessoriMod((Accessorio) win.accessorio1Mod.getSelectedItem(), win.pModificaPrenotazione.getId());
+                if(win.accessorio2Mod!=null)
+                    ModificaPrenotazioneBusiness.getInstance().inserisciAccessoriMod((Accessorio) win.accessorio2Mod.getSelectedItem(), win.pModificaPrenotazione.getId());
+                if(win.accessorio3Mod!=null)
+                    ModificaPrenotazioneBusiness.getInstance().inserisciAccessoriMod((Accessorio) win.accessorio3Mod.getSelectedItem(), win.pModificaPrenotazione.getId());
+                if(win.accessorio4Mod!=null)
+                    ModificaPrenotazioneBusiness.getInstance().inserisciAccessoriMod((Accessorio) win.accessorio4Mod.getSelectedItem(), win.pModificaPrenotazione.getId());
+                if(win.accessorio5Mod!=null)
+                    ModificaPrenotazioneBusiness.getInstance().inserisciAccessoriMod((Accessorio) win.accessorio5Mod.getSelectedItem(), win.pModificaPrenotazione.getId());
+
+                win.accPrenotazione.clear();
+                win.accessorio1Mod=null;
+                win.accessorio2Mod=null;
+                win.accessorio3Mod=null;
+                win.accessorio4Mod=null;
+                win.accessorio5Mod=null;
+
         }
         else if(PULSANTE_CANCELLA_ACCESSORIO.equals(command)){
             System.out.println("Canc acc");
@@ -205,6 +235,12 @@ public class BottonBarListener implements ActionListener {
         else if(PULSANTE_PAGA.equals(command)){
             PrenotazioneBusiness.getInstance().inviaPrenotazione(nuova,0);
             win.mostraAccessori();
+        }
+        else if(PULSANTE_CANCELLA_PRENOTAZIONE.equals(command)){
+            ModificaPrenotazioneBusiness.getInstance().cancellaPrenotazione(win.pModificaPrenotazione.getId());
+            win.dispose();
+            FinestraCliente win = new FinestraCliente();
+            win.setVisible(true);
         }
 
 

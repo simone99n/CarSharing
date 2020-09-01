@@ -88,7 +88,7 @@ public class PrenotazioneBusiness {
                 MailHelper.getInstance().send(dest2, "Prenotazione confermata!", "In data: "+p.getData()); // 3. inviare mail di conferma all'utente
                 // 2. inviare mail all'addetto del parco automezzi
                 String dest1 = p.getArrivo().getAddetto().getEmail();
-                MailHelper.getInstance().send(dest1, "Nuova prenotazione", "In data: "+p.getData());
+                MailHelper.getInstance().send(dest1, "Nuova prenotazione", "In data: "+p.getData()); //email all'addetto
                 return true;
             }
 

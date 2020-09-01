@@ -42,9 +42,21 @@ public class FinestraCliente extends JFrame {
     public JComboBox<Accessorio> accessorio3 = new JComboBox<Accessorio>();
     public JComboBox<Accessorio> accessorio4 = new JComboBox<Accessorio>();
     public JComboBox<Accessorio> accessorio5 = new JComboBox<Accessorio>();
+    public JComboBox<Accessorio> accessorio1Mod = new JComboBox<Accessorio>();
+    public JComboBox<Accessorio> accessorio2Mod = new JComboBox<Accessorio>();
+    public JComboBox<Accessorio> accessorio3Mod = new JComboBox<Accessorio>();
+    public JComboBox<Accessorio> accessorio4Mod = new JComboBox<Accessorio>();
+    public JComboBox<Accessorio> accessorio5Mod = new JComboBox<Accessorio>();
+    public JCheckBox cbAccessorio1 = new JCheckBox();
+    public JCheckBox cbAccessorio2 = new JCheckBox();
+    public JCheckBox cbAccessorio3 = new JCheckBox();
+    public JCheckBox cbAccessorio4 = new JCheckBox();
+    public JCheckBox cbAccessorio5 = new JCheckBox();
     public JComboBox<String> tipologie = new JComboBox<String>();
     public JComboBox<String> grandezza = new JComboBox<String>();
     public JComboBox<String> motorizzazioni = new JComboBox<String>();
+    public ArrayList<Accessorio> accPrenotazione;
+    public Prenotazione pModificaPrenotazione;
 
     private JTextField testo;
 
@@ -87,9 +99,14 @@ public class FinestraCliente extends JFrame {
         for(int i=0;i<50;i++)
             centro.add(new JCheckBox("Opzione "+(i+1)));
 
-        sud.setLayout(new FlowLayout());
+        JPanel subSud = new JPanel(new FlowLayout());
+        //sud.setLayout(new FlowLayout());
+        sud.setLayout(new BorderLayout());
+        sud.add(btn1, BorderLayout.SOUTH);
+        sud.add(subSud, BorderLayout.NORTH);
+        subSud.add(new JLabel("Per modificare una prenotazione fare doppio click su di essa"));
+       // sud.add(subSud);
 
-        sud.add(btn1);
 
         JMenuBar bar = new JMenuBar();
         JMenu file = new JMenu("File");
@@ -315,8 +332,10 @@ public class FinestraCliente extends JFrame {
         this.getContentPane().remove(bl.getLayoutComponent(BorderLayout.SOUTH));
 
         //2. setup
-        Prenotazione p = ModificaPrenotazioneBusiness.getInstance().getPrenotazione(id);
-        ArrayList<Accessorio> acc = ModificaPrenotazioneBusiness.getInstance().getAccessori(id); //accessori della prenotazione selezionata
+        pModificaPrenotazione=null;
+        pModificaPrenotazione = ModificaPrenotazioneBusiness.getInstance().getPrenotazione(id);
+        accPrenotazione = ModificaPrenotazioneBusiness.getInstance().getAccessori(id); //accessori della prenotazione selezionata
+        ArrayList<Accessorio> accTotali = PrenotazioneBusiness.getInstance().getAccessori(); //tutti gli accessori
 
         JPanel cestino = new JPanel();
         JPanel sopra = new JPanel();
@@ -330,12 +349,12 @@ public class FinestraCliente extends JFrame {
 
         sopra.setLayout(new FlowLayout());
         sotto.setLayout(new FlowLayout());
-        meta.setLayout(new GridLayout(6+acc.size(),3));
+        meta.setLayout(new GridLayout(11,3));
         meta.add(new JLabel("ID prenotazione: "));
         meta.add(new JLabel(String.valueOf(id)));
         meta.add(new JLabel("       "));
         meta.add(new JLabel("Numero posti: "));
-        meta.add(new JLabel(String.valueOf(p.getNumPostiOccupati())));
+        meta.add(new JLabel(String.valueOf(pModificaPrenotazione.getNumPostiOccupati())));
         meta.add(new JLabel("       "));
         meta.add(new JLabel("Stazione partenza: "));
         meta.add(partenzaMod);
@@ -350,19 +369,203 @@ public class FinestraCliente extends JFrame {
         meta.add(dataFineMod);
         meta.add(new JLabel("       "));
 
-        for(int i=0; i<acc.size();i++){
-            meta.add(new JLabel("Accessorio "+(i+1)));
-            meta.add(new JLabel(acc.get(i).getNome()));
-            JPanel tmp = new JPanel();
-            tmp.setLayout(new FlowLayout());
-
-            meta.add(tmp);
-            JButton butt = new JButton("X");
-            tmp.add(butt, FlowLayout.LEFT);
-            butt.addActionListener(listener);
-            butt.setActionCommand(BottonBarListener.PULSANTE_CANCELLA_ACCESSORIO);
-
+/*
+        for(Accessorio a : accTotali) {
+            accessorio1Mod.addItem(a);
+            accessorio2Mod.addItem(a);
+            accessorio3Mod.addItem(a);
+            accessorio4Mod.addItem(a);
+            accessorio5Mod.addItem(a);
         }
+*/
+        accessorio1Mod.addItem(null); accessorio1Mod.setSelectedItem(null);
+        accessorio2Mod.addItem(null); accessorio2Mod.setSelectedItem(null);
+        accessorio3Mod.addItem(null); accessorio3Mod.setSelectedItem(null);
+        accessorio4Mod.addItem(null); accessorio4Mod.setSelectedItem(null);
+        accessorio5Mod.addItem(null); accessorio5Mod.setSelectedItem(null);
+
+        cbAccessorio1.setSelected(true);
+        cbAccessorio2.setSelected(true);
+        cbAccessorio3.setSelected(true);
+        cbAccessorio4.setSelected(true);
+        cbAccessorio5.setSelected(true);
+
+        System.out.println("Prima della serie di if");
+        if(accPrenotazione.size()==0){
+            System.out.println("accPrenotazione.size()==0");
+            for(Accessorio a : accTotali) {
+                accessorio1Mod.addItem(a);
+                accessorio2Mod.addItem(a);
+                accessorio3Mod.addItem(a);
+                accessorio4Mod.addItem(a);
+                accessorio5Mod.addItem(a);
+            }
+
+            meta.add(new JLabel("Accessorio 1: "));
+            meta.add(accessorio1Mod);
+            meta.add(new JLabel("       "));
+
+            meta.add(new JLabel("Accessorio 2: "));
+            meta.add(accessorio2Mod);
+            meta.add(new JLabel("       "));
+
+            meta.add(new JLabel("Accessorio 3: "));
+            meta.add(accessorio3Mod);
+            meta.add(new JLabel("       "));
+
+            meta.add(new JLabel("Accessorio 4: "));
+            meta.add(accessorio4Mod);
+            meta.add(new JLabel("       "));
+
+            meta.add(new JLabel("Accessorio 5: "));
+            meta.add(accessorio5Mod);
+            meta.add(new JLabel("       "));
+        }
+        else if (accPrenotazione.size()==1){
+
+            for(Accessorio a : accTotali) {
+                if(!a.getNome().equals(accPrenotazione.get(0).getNome())){
+                    accessorio2Mod.addItem(a);
+                    accessorio3Mod.addItem(a);
+                    accessorio4Mod.addItem(a);
+                    accessorio5Mod.addItem(a);
+                }
+            }
+
+            meta.add(new JLabel("Accessorio 1: "));
+            meta.add(new JLabel(accPrenotazione.get(0).getNome()));
+            meta.add(cbAccessorio1);
+
+            meta.add(new JLabel("Accessorio 2: "));
+            meta.add(accessorio2Mod);
+            meta.add(new JLabel("       "));
+
+            meta.add(new JLabel("Accessorio 3: "));
+            meta.add(accessorio3Mod);
+            meta.add(new JLabel("       "));
+
+            meta.add(new JLabel("Accessorio 4: "));
+            meta.add(accessorio4Mod);
+            meta.add(new JLabel("       "));
+
+            meta.add(new JLabel("Accessorio 5: "));
+            meta.add(accessorio5Mod);
+            meta.add(new JLabel("       "));
+        }
+        else if (accPrenotazione.size()==2){
+
+            for(Accessorio a : accTotali){
+                if(!a.getNome().equals(accPrenotazione.get(0).getNome()) && !a.getNome().equals(accPrenotazione.get(1).getNome())){
+                    accessorio3Mod.addItem(a);
+                    accessorio4Mod.addItem(a);
+                    accessorio5Mod.addItem(a);
+                }
+            }
+
+            meta.add(new JLabel("Accessorio 1: "));
+            meta.add(new JLabel(accPrenotazione.get(0).getNome()));
+            meta.add(cbAccessorio1);
+
+            meta.add(new JLabel("Accessorio 2: "));
+            meta.add(new JLabel(accPrenotazione.get(1).getNome()));
+            meta.add(cbAccessorio2);
+
+            meta.add(new JLabel("Accessorio 3: "));
+            meta.add(accessorio3Mod);
+            meta.add(new JLabel("       "));
+
+            meta.add(new JLabel("Accessorio 4: "));
+            meta.add(accessorio4Mod);
+            meta.add(new JLabel("       "));
+
+            meta.add(new JLabel("Accessorio 5: "));
+            meta.add(accessorio5Mod);
+            meta.add(new JLabel("       "));
+        }
+        else if (accPrenotazione.size()==3){
+
+            for(Accessorio a : accTotali){
+                if(!a.getNome().equals(accPrenotazione.get(0).getNome()) && !a.getNome().equals(accPrenotazione.get(1).getNome()) && !a.getNome().equals(accPrenotazione.get(2).getNome())){
+                    accessorio4Mod.addItem(a);
+                    accessorio5Mod.addItem(a);
+                }
+            }
+
+            meta.add(new JLabel("Accessorio 1: "));
+            meta.add(new JLabel(accPrenotazione.get(0).getNome()));
+            meta.add(cbAccessorio1);
+
+            meta.add(new JLabel("Accessorio 2: "));
+            meta.add(new JLabel(accPrenotazione.get(1).getNome()));
+            meta.add(cbAccessorio2);
+
+            meta.add(new JLabel("Accessorio 3: "));
+            meta.add(new JLabel(accPrenotazione.get(2).getNome()));
+            meta.add(cbAccessorio3);
+
+            meta.add(new JLabel("Accessorio 4: "));
+            meta.add(accessorio4Mod);
+            meta.add(new JLabel("       "));
+
+            meta.add(new JLabel("Accessorio 5: "));
+            meta.add(accessorio5Mod);
+            meta.add(new JLabel("       "));
+        }
+        else if (accPrenotazione.size()==4){
+
+            for(Accessorio a : accTotali){
+                if(!a.getNome().equals(accPrenotazione.get(0).getNome()) && !a.getNome().equals(accPrenotazione.get(1).getNome()) && !a.getNome().equals(accPrenotazione.get(2).getNome()) && !a.getNome().equals(accPrenotazione.get(3).getNome())){
+                    accessorio5Mod.addItem(a);
+                }
+            }
+
+            meta.add(new JLabel("Accessorio 1: "));
+            meta.add(new JLabel(accPrenotazione.get(0).getNome()));
+            meta.add(cbAccessorio1);
+
+            meta.add(new JLabel("Accessorio 2: "));
+            meta.add(new JLabel(accPrenotazione.get(1).getNome()));
+            meta.add(cbAccessorio2);
+
+            meta.add(new JLabel("Accessorio 3: "));
+            meta.add(new JLabel(accPrenotazione.get(2).getNome()));
+            meta.add(cbAccessorio3);
+
+            meta.add(new JLabel("Accessorio 4: "));
+            meta.add(new JLabel(accPrenotazione.get(3).getNome()));
+            meta.add(cbAccessorio4);
+
+            meta.add(new JLabel("Accessorio 5: "));
+            meta.add(accessorio5Mod);
+            meta.add(new JLabel("       "));
+        }
+        else if (accPrenotazione.size()==5){
+
+            meta.add(new JLabel("Accessorio 1: "));
+            meta.add(new JLabel(accPrenotazione.get(0).getNome()));
+            meta.add(cbAccessorio1);
+
+
+            meta.add(new JLabel("Accessorio 2: "));
+            meta.add(new JLabel(accPrenotazione.get(1).getNome()));
+            meta.add(cbAccessorio2);
+
+
+            meta.add(new JLabel("Accessorio 3: "));
+            meta.add(new JLabel(accPrenotazione.get(2).getNome()));
+            meta.add(cbAccessorio3);
+
+
+            meta.add(new JLabel("Accessorio 4: "));
+            meta.add(new JLabel(accPrenotazione.get(3).getNome()));
+            meta.add(cbAccessorio4);
+
+
+            meta.add(new JLabel("Accessorio 5: "));
+            meta.add(new JLabel(accPrenotazione.get(4).getNome()));
+            meta.add(cbAccessorio5);
+        }
+
 
         ArrayList<Stazione> stazioni = PrenotazioneBusiness.getInstance().getStazioni();
         for(Stazione s : stazioni) partenzaMod.addItem(s);
@@ -370,6 +573,8 @@ public class FinestraCliente extends JFrame {
 
         JButton avanti = new JButton("SALVA MODIFICA");
         JButton indietro = new JButton("<- TORNA INDIETRO");
+        JButton destruction = new JButton("CANCELLA PRENOTAZIONE");
+        sotto.add(destruction);
         sotto.add(indietro);
         sotto.add(avanti);
         sopra.add(new JLabel("<<<MODIFICA PRENOTAZIONE>>>"));
@@ -377,6 +582,8 @@ public class FinestraCliente extends JFrame {
         avanti.setActionCommand(BottonBarListener.PULSANTE_MODIFICA);
         indietro.addActionListener(listener);
         indietro.setActionCommand(BottonBarListener.PULSANTE_ANNULLA);
+        destruction.addActionListener(listener);
+        destruction.setActionCommand(BottonBarListener.PULSANTE_CANCELLA_PRENOTAZIONE);
 
         this.getContentPane().add(sopra, BorderLayout.NORTH);
         this.getContentPane().add(sotto, BorderLayout.SOUTH);
@@ -453,6 +660,11 @@ public class FinestraCliente extends JFrame {
         ArrayList<Localita> localitas = PrenotazioneBusiness.getInstance().getLocalita();
         //System.out.println("DEBUG1:"+tipologie.getSelectedItem());
         ArrayList<Modello> modelli = PrenotazioneBusiness.getInstance().getModelliFromTipologia((String) tipologie.getSelectedItem(), (String) grandezza.getSelectedItem(), (String) motorizzazioni.getSelectedItem());
+
+        partenza.removeAllItems();
+        arrivo.removeAllItems();
+        localita.removeAllItems();
+        modello.removeAllItems();
 
         for(Stazione s : stazioni) partenza.addItem(s);
         for(Stazione s : stazioni) arrivo.addItem(s);

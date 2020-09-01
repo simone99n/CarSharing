@@ -45,10 +45,11 @@ public class TableModelPrenotazioniCliente extends AbstractTableModel  {
         return "-";
     }
 
-    @Override
-    public boolean isCellEditable(int rowIndex, int columnIndex) {
+  /*  @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {    //rendere editabili alcune celle
         return (columnIndex > 4 && columnIndex < 7);
     }
+  */
 
     @Override
     public void setValueAt(Object value, int rowIndex, int columnIndex) {

@@ -16,5 +16,8 @@ public interface IPrenotazioneDAO extends IBaseDAO<Prenotazione> {
     public ArrayList<String[]> getClienteInfo(int idPrenotazione, int index);
     public int getNumClienti(int idPrenotazione);
     public boolean inserisciAccessori(Accessorio acc);
+    public void inserisciAccessoriMod(Accessorio a, int idPrenotazione);
     public ArrayList<Prenotazione> findAllForCliente();
+    public void eliminaAccessorio(int idAccessorio, int idPrenotazione);
+    public int eliminaPrenotazione(int idPrenotazione);
 }

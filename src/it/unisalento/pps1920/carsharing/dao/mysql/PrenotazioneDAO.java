@@ -145,9 +145,8 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         ArrayList<String[]> emails = new ArrayList<>();
         for (String[] strings : clienti) {
             String emailsql = "SELECT email FROM utente WHERE idutente=" + strings[0] + ";";
-            emails = DbConnection.getInstance().eseguiQuery(emailsql);
+            emails.add(DbConnection.getInstance().eseguiQuery(emailsql).get(0)); //todo ma funziona?!
         }
-
 
         FinestraSharing.idPrenotazione= Integer.parseInt(array.get(2));
         return emails;
@@ -204,6 +203,51 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
             }
         }
         return false;
+    }
+
+    public void inserisciAccessoriMod(Accessorio a, int idPrenotazione){
+        if(a!=null){
+            String sql = "INSERT INTO accessorio_prenotazione VALUES ('" +a.getId()+ "','" +idPrenotazione+"')";
+            System.out.println(sql);
+            if (DbConnection.getInstance().eseguiAggiornamento(sql)){
+                System.out.println(">> Accessorio aggiunto (MOD) nel DB (tabella accessorio_prenotazione)");
+
+            }
+            else{
+                System.out.println(">> [ERROR]Accessorio NON aggiunto (MOD) nel DB (tabella accessorio_prenotazione)");
+
+            }
+        }
+    }
+
+    public void eliminaAccessorio(int idAccessorio, int idPrenotazione){
+        System.out.println("PrenotazioneDAO.eliminaAccessorio. idAccessorio="+idAccessorio+"  idPrenotazione="+idPrenotazione);
+        String sql1 = "DELETE FROM accessorio_prenotazione WHERE accessorio_idaccessorio='"+idAccessorio+"' AND prenotazione_idprenotazione='"+idPrenotazione+"';";
+        DbConnection.getInstance().eseguiAggiornamento(sql1);
+    }
+
+    public int eliminaPrenotazione(int idPrenotazione){
+
+        String sql1="SELECT * FROM effettua WHERE prenotazione_idprenotazione='"+idPrenotazione+"';";
+        ArrayList<String[]> tmp = DbConnection.getInstance().eseguiQuery(sql1);
+        if(tmp.size()==1){
+            String bye =  "DELETE FROM effettua WHERE prenotazione_idprenotazione='" +idPrenotazione+ "';";
+            String bye2 = "DELETE FROM accessorio_prenotazione WHERE prenotazione_idprenotazione='" +idPrenotazione+ "';";
+            String bye3 = "DELETE FROM prenotazione WHERE idprenotazione='" +idPrenotazione+ "';";
+
+            DbConnection.getInstance().eseguiAggiornamento(bye);
+            DbConnection.getInstance().eseguiAggiornamento(bye2);
+            DbConnection.getInstance().eseguiAggiornamento(bye3);
+            return 0; //prenotazione completamente cancellata
+        }
+        else{
+            Cliente clienteLoggato = (Cliente) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
+            String bye3 ="DELETE FROM effettua WHERE prenotazione_idprenotazione='" +idPrenotazione+ "' AND cliente_utente_idutente='"+clienteLoggato.getId()+"';";
+            DbConnection.getInstance().eseguiAggiornamento(bye3);
+            return 1; //prenotazione cancellata solo per un cliente, annullamento sharing
+        }
+
+
     }
 
     public int getLastPrenotazione(Cliente cliente){
