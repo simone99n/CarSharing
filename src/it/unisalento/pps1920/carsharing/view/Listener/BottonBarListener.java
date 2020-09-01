@@ -99,7 +99,6 @@ public class BottonBarListener implements ActionListener {
                             if(nuova!=null){
                                 prezzoFinale=PrenotazioneBusiness.getInstance().calcolaPrezzo(nuova, Integer.parseInt(annoEmeseInizio[0]),Integer.parseInt(annoEmeseInizio[1]), Integer.parseInt(giornoEoraInizio[0]),Integer.parseInt(annoEmeseFine[0]),Integer.parseInt(annoEmeseFine[1]),Integer.parseInt(giornoEoraFine[0]));
                                 win.mostraPrezzo(nuova,prezzoFinale);
-                                win.mostraAccessori();
                             }
                             else{
                                 System.out.println("BottonBarListener Error PULSANTE_SALVA_PRENOTAZIONE");
@@ -113,7 +112,6 @@ public class BottonBarListener implements ActionListener {
                         if(nuova!=null){
                             prezzoFinale=PrenotazioneBusiness.getInstance().calcolaPrezzo(nuova, Integer.parseInt(annoEmeseInizio[0]),Integer.parseInt(annoEmeseInizio[1]), Integer.parseInt(giornoEoraInizio[0]),Integer.parseInt(annoEmeseFine[0]),Integer.parseInt(annoEmeseFine[1]),Integer.parseInt(giornoEoraFine[0]));
                             win.mostraPrezzo(nuova,prezzoFinale);
-                            win.mostraAccessori();
                         }
                         else{
                             System.out.println("BottonBarListener Error PULSANTE_SALVA_PRENOTAZIONE");
@@ -126,7 +124,6 @@ public class BottonBarListener implements ActionListener {
                     if(nuova!=null){
                         prezzoFinale=PrenotazioneBusiness.getInstance().calcolaPrezzo(nuova, Integer.parseInt(annoEmeseInizio[0]),Integer.parseInt(annoEmeseInizio[1]), Integer.parseInt(giornoEoraInizio[0]),Integer.parseInt(annoEmeseFine[0]),Integer.parseInt(annoEmeseFine[1]),Integer.parseInt(giornoEoraFine[0]));
                         win.mostraPrezzo(nuova,prezzoFinale);
-                        win.mostraAccessori();
                     }
                     else{
                         System.out.println("BottonBarListener Error PULSANTE_SALVA_PRENOTAZIONE");
@@ -207,15 +204,11 @@ public class BottonBarListener implements ActionListener {
         }
         else if(PULSANTE_PAGA.equals(command)){
             PrenotazioneBusiness.getInstance().inviaPrenotazione(nuova,0);
-            win.dispose();
-            FinestraCliente win = new FinestraCliente();
-            win.setVisible(true);
+            win.mostraAccessori();
         }
 
 
     }
-
-
 
     private Prenotazione salvaPrenotazione() {
         Cliente clienteLoggato = (Cliente)Session.getInstance().ottieni(Session.UTENTE_LOGGATO);

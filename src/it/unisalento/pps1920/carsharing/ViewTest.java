@@ -27,7 +27,6 @@ public class ViewTest {
 */
 
 
-
 /*
         IClienteDAO cliente = new ClienteDAO();
         System.out.println(cliente.findById(2).getNome());
