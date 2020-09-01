@@ -32,6 +32,7 @@ public class BottonBarListener implements ActionListener {
     public static final String PULSANTE_AVANTI3 = "PULSANTE_AVANTI3";
     public static final String PULSANTE_CANCELLA_PRENOTAZIONE = "PULSANTE_CANCELLA_PRENOTAZIONE";
     Prenotazione nuova;
+    FinestraErrorCompilPren error;
 
     private FinestraCliente win;
 
@@ -67,10 +68,10 @@ public class BottonBarListener implements ActionListener {
 
                 String[] annoEmeseInizio = win.dataInizio.getText().split("-");
                 String[] giornoEoraInizio = annoEmeseInizio[2].split(" ");
-                String[] oreEminutiInizio = giornoEoraInizio[1].split(":");
+                //String[] oreEminutiInizio = giornoEoraInizio[1].split(":");
                 String[] annoEmeseFine = win.dataFine.getText().split("-");
                 String[] giornoEoraFine = annoEmeseFine[2].split(" ");
-                String[] oreEminutiFine = giornoEoraFine[1].split(":");
+                //String[] oreEminutiFine = giornoEoraFine[1].split(":");
 
                 if(Integer.parseInt(annoEmeseInizio[0]) > Integer.parseInt(annoEmeseFine[0])){ //se anno inizio > anno fine
                     FinestraErrorCompilPren err = new FinestraErrorCompilPren();
@@ -151,34 +152,55 @@ public class BottonBarListener implements ActionListener {
             win.setVisible(true);
         }
         else if(PULSANTE_MODIFICA.equals(command)) {
+            //1. eliminazione accessori
+            if(!win.cbAccessorio1.isSelected()) //se la spunta viene tolta
+                ModificaPrenotazioneBusiness.getInstance().eliminaAccessorio(win.accPrenotazione.get(0).getId(), win.pModificaPrenotazione.getId());
+            if(!win.cbAccessorio2.isSelected())       //se la spunta viene tolta
+                ModificaPrenotazioneBusiness.getInstance().eliminaAccessorio(win.accPrenotazione.get(1).getId(), win.pModificaPrenotazione.getId());
+            if(!win.cbAccessorio3.isSelected())       //se la spunta viene tolta
+                ModificaPrenotazioneBusiness.getInstance().eliminaAccessorio(win.accPrenotazione.get(2).getId(), win.pModificaPrenotazione.getId());
+            if(!win.cbAccessorio4.isSelected())       //se la spunta viene tolta
+                ModificaPrenotazioneBusiness.getInstance().eliminaAccessorio(win.accPrenotazione.get(3).getId(), win.pModificaPrenotazione.getId());
+            if(!win.cbAccessorio5.isSelected())       //se la spunta viene tolta
+                ModificaPrenotazioneBusiness.getInstance().eliminaAccessorio(win.accPrenotazione.get(4).getId(), win.pModificaPrenotazione.getId());
 
-                if(!win.cbAccessorio1.isSelected()) //se la spunta viene tolta
-                    ModificaPrenotazioneBusiness.getInstance().eliminaAccessorio(win.accPrenotazione.get(0).getId(), win.pModificaPrenotazione.getId());
-                if(!win.cbAccessorio2.isSelected())       //se la spunta viene tolta
-                    ModificaPrenotazioneBusiness.getInstance().eliminaAccessorio(win.accPrenotazione.get(1).getId(), win.pModificaPrenotazione.getId());
-                if(!win.cbAccessorio3.isSelected())       //se la spunta viene tolta
-                    ModificaPrenotazioneBusiness.getInstance().eliminaAccessorio(win.accPrenotazione.get(2).getId(), win.pModificaPrenotazione.getId());
-                if(!win.cbAccessorio4.isSelected())       //se la spunta viene tolta
-                    ModificaPrenotazioneBusiness.getInstance().eliminaAccessorio(win.accPrenotazione.get(3).getId(), win.pModificaPrenotazione.getId());
-                if(!win.cbAccessorio5.isSelected())       //se la spunta viene tolta
-                    ModificaPrenotazioneBusiness.getInstance().eliminaAccessorio(win.accPrenotazione.get(4).getId(), win.pModificaPrenotazione.getId());
-                if(win.accessorio1Mod!=null)
-                    ModificaPrenotazioneBusiness.getInstance().inserisciAccessoriMod((Accessorio) win.accessorio1Mod.getSelectedItem(), win.pModificaPrenotazione.getId());
-                if(win.accessorio2Mod!=null)
-                    ModificaPrenotazioneBusiness.getInstance().inserisciAccessoriMod((Accessorio) win.accessorio2Mod.getSelectedItem(), win.pModificaPrenotazione.getId());
-                if(win.accessorio3Mod!=null)
-                    ModificaPrenotazioneBusiness.getInstance().inserisciAccessoriMod((Accessorio) win.accessorio3Mod.getSelectedItem(), win.pModificaPrenotazione.getId());
-                if(win.accessorio4Mod!=null)
-                    ModificaPrenotazioneBusiness.getInstance().inserisciAccessoriMod((Accessorio) win.accessorio4Mod.getSelectedItem(), win.pModificaPrenotazione.getId());
-                if(win.accessorio5Mod!=null)
-                    ModificaPrenotazioneBusiness.getInstance().inserisciAccessoriMod((Accessorio) win.accessorio5Mod.getSelectedItem(), win.pModificaPrenotazione.getId());
+            //2.aggiunta accessori
+            if(win.accessorio1Mod!=null)
+                ModificaPrenotazioneBusiness.getInstance().inserisciAccessoriMod((Accessorio) win.accessorio1Mod.getSelectedItem(), win.pModificaPrenotazione.getId());
+            if(win.accessorio2Mod!=null)
+                ModificaPrenotazioneBusiness.getInstance().inserisciAccessoriMod((Accessorio) win.accessorio2Mod.getSelectedItem(), win.pModificaPrenotazione.getId());
+            if(win.accessorio3Mod!=null)
+                ModificaPrenotazioneBusiness.getInstance().inserisciAccessoriMod((Accessorio) win.accessorio3Mod.getSelectedItem(), win.pModificaPrenotazione.getId());
+            if(win.accessorio4Mod!=null)
+                ModificaPrenotazioneBusiness.getInstance().inserisciAccessoriMod((Accessorio) win.accessorio4Mod.getSelectedItem(), win.pModificaPrenotazione.getId());
+            if(win.accessorio5Mod!=null)
+                ModificaPrenotazioneBusiness.getInstance().inserisciAccessoriMod((Accessorio) win.accessorio5Mod.getSelectedItem(), win.pModificaPrenotazione.getId());
 
-                win.accPrenotazione.clear();
-                win.accessorio1Mod=null;
-                win.accessorio2Mod=null;
-                win.accessorio3Mod=null;
-                win.accessorio4Mod=null;
-                win.accessorio5Mod=null;
+            win.accPrenotazione.clear();
+            win.accessorio1Mod=null;
+            win.accessorio2Mod=null;
+            win.accessorio3Mod=null;
+            win.accessorio4Mod=null;
+            win.accessorio5Mod=null;
+
+            //3. modifica
+            Stazione partenza = (Stazione)win.partenzaMod.getSelectedItem();
+            Stazione arrivo = (Stazione)win.arrivoMod.getSelectedItem();
+            String nomeStazionePartenza = null, nomeStazioneArrivo = null;
+
+            if(partenza!=null && arrivo!=null){
+                nomeStazionePartenza = partenza.getNome();
+                nomeStazioneArrivo = arrivo.getNome();
+                if(!nomeStazionePartenza.equals(ModificaPrenotazioneBusiness.getInstance().getPartenza(win.pModificaPrenotazione.getId())) || !nomeStazioneArrivo.equals(ModificaPrenotazioneBusiness.getInstance().getArrivo(win.pModificaPrenotazione.getId()))){
+                    ModificaPrenotazioneBusiness.getInstance().modificaStazione(partenza.getId(), arrivo.getId(), win.pModificaPrenotazione.getId());
+                }
+            }
+            else{
+                error = new FinestraErrorCompilPren();
+                error.setVisible(true);
+            }
+
+
 
         }
         else if(PULSANTE_CANCELLA_ACCESSORIO.equals(command)){
@@ -233,7 +255,7 @@ public class BottonBarListener implements ActionListener {
             win.mostraPannelloNuovaPrenotazione();
         }
         else if(PULSANTE_PAGA.equals(command)){
-            PrenotazioneBusiness.getInstance().inviaPrenotazione(nuova,0);
+            PrenotazioneBusiness.getInstance().inviaPrenotazione(nuova,0, win.prezzoWin);
             win.mostraAccessori();
         }
         else if(PULSANTE_CANCELLA_PRENOTAZIONE.equals(command)){

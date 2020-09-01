@@ -30,12 +30,12 @@ public class SharingListener implements ActionListener {
         if(ACCETTA.equals(command)){
             System.out.println("Il cliente ha accettato lo sharing");
             win.dispose();
-            PrenotazioneBusiness.getInstance().inviaPrenotazione(p,1);
+            PrenotazioneBusiness.getInstance().inviaPrenotazione(p,1,0);
         }
         else if(RIFIUTA.equals(command)){
             System.out.println("Il cliente ha rifiutato lo sharing");
             win.dispose();
-            PrenotazioneBusiness.getInstance().inviaPrenotazione(p,2);
+            PrenotazioneBusiness.getInstance().inviaPrenotazione(p,2,0);
 
         }
 

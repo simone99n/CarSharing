@@ -3,11 +3,14 @@ package it.unisalento.pps1920.carsharing.business;
 import it.unisalento.pps1920.carsharing.DbConnection;
 import it.unisalento.pps1920.carsharing.dao.interfaces.IAccessorioDAO;
 import it.unisalento.pps1920.carsharing.dao.interfaces.IPrenotazioneDAO;
+import it.unisalento.pps1920.carsharing.dao.interfaces.IStazioneDAO;
 import it.unisalento.pps1920.carsharing.dao.mysql.AccessorioDAO;
 import it.unisalento.pps1920.carsharing.dao.mysql.PrenotazioneDAO;
+import it.unisalento.pps1920.carsharing.dao.mysql.StazioneDAO;
 import it.unisalento.pps1920.carsharing.model.Accessorio;
 import it.unisalento.pps1920.carsharing.model.Cliente;
 import it.unisalento.pps1920.carsharing.model.Prenotazione;
+import it.unisalento.pps1920.carsharing.model.Stazione;
 import it.unisalento.pps1920.carsharing.util.MailHelper;
 import it.unisalento.pps1920.carsharing.util.Session;
 import it.unisalento.pps1920.carsharing.view.FinestraSharing;
@@ -81,5 +84,20 @@ public class ModificaPrenotazioneBusiness {
     public void eliminaAccessorio(int idAccessorio, int idPrenotazione) {
         IPrenotazioneDAO p = new PrenotazioneDAO();
         p.eliminaAccessorio(idAccessorio, idPrenotazione);
+    }
+
+    public String getPartenza(int idPrenotazione){
+        IStazioneDAO s = new StazioneDAO();
+        return s.getPartenza(idPrenotazione);
+    }
+
+    public String getArrivo(int idPrenotazione){
+        IStazioneDAO s = new StazioneDAO();
+        return s.getArrivo(idPrenotazione);
+    }
+
+    public void modificaStazione(int newIdPartenza, int newIdArrivo, int idPrenotazione){
+        IStazioneDAO sp = new StazioneDAO();
+        sp.modificaStazione(newIdPartenza,newIdArrivo, idPrenotazione);
     }
 }

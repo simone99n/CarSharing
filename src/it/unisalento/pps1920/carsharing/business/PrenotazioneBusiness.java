@@ -23,7 +23,7 @@ public class PrenotazioneBusiness {
 
     private PrenotazioneBusiness(){}
 
-    public boolean inviaPrenotazione(Prenotazione p,int state) {
+    public boolean inviaPrenotazione(Prenotazione p,int state, float prezzo) {
         // logica di business
         // 1. chiamare il dao prenotazione per salvare la prenotazione
         ArrayList<String> arrayInfo = new PrenotazioneDAO().sharingCheck(p);//controlla se è possibile fare uno sharing
@@ -36,7 +36,7 @@ public class PrenotazioneBusiness {
 
             System.out.println("ConfirmSharing.idPrenotazione="+ FinestraSharing.idPrenotazione);
 
-            FinestraSharing confermare = new FinestraSharing();
+            FinestraSharing confermare = new FinestraSharing(prezzo);
             confermare.setVisible(true);
 
             System.out.println("inviaPrenmoptaziopnme: "+arrayInfo.get(2));

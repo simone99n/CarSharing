@@ -26,6 +26,7 @@ public class FinestraCliente extends JFrame {
     public int state=0;
     public JLabel foto;
     public JPanel form;
+    public float prezzoWin;
     public JTextField dataInizio = new JTextField(20);
     public JTextField dataFine = new JTextField(20);
     public JTextField dataInizioMod = new JTextField(20);
@@ -815,6 +816,8 @@ public class FinestraCliente extends JFrame {
         med.add(new JLabel("Prezzo: "));
         med.add(new JLabel(String.valueOf(prezzo)+"€"));
         med.add(new JLabel("    "));
+
+        prezzoWin=prezzo;
 
         JButton pagaOra = new JButton("PAGA ORA");
         pagaOra.addActionListener(listener);

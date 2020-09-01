@@ -16,8 +16,8 @@ public class FinestraSharing extends JFrame{
     public static int idPrenotazione;
     JLabel nome,cognome,residenza,foto;
 
-    public FinestraSharing(){
-        super("Conferma sharing");
+    public FinestraSharing(float prezzo){
+        super("E' stato rilevato uno sharing!");
         setSize(500,400);
         //setDefaultCloseOperation(EXIT_ON_CLOSE);
         listener = new SharingListener(this);
@@ -31,11 +31,10 @@ public class FinestraSharing extends JFrame{
         c.add(new JScrollPane(nord), BorderLayout.CENTER);
 
         sud.setLayout(new FlowLayout());
-        JButton accetta = new JButton("ACCETTA");
-        sud.add(accetta);
-        JButton rifiuta = new JButton("RIFIUTA");
+        JButton accetta = new JButton("ACCETTA E PAGA "+(prezzo/2)+"€");
+        JButton rifiuta = new JButton("RIFIUTA E PAGA "+prezzo+"€");
         sud.add(rifiuta);
-
+        sud.add(accetta);
         setupShowCliente(); //-----------------------------------
 
         accetta.addActionListener(listener);
