@@ -116,4 +116,25 @@ public class StazioneDAO implements IStazioneDAO {
         }
     }
 
+    @Override
+    public Stazione findStationByOperatorId(int id) {
+        ArrayList<String []>res=DbConnection.getInstance().eseguiQuery("SELECT * FROM stazione WHERE operatore_utente_idutente="+id+";");
+        String [] riga = res.get(0);
+        Stazione s = new Stazione();
+        s.setNome(riga[1]);
+        s.setId(Integer.parseInt(riga[0]));
+        s.setLatitudine(Double.parseDouble(riga[2]));
+        s.setLongitudine(Double.parseDouble(riga[3]));
+        return s;
+    }
+    public Stazione findStationByAddettoId(int id) {
+        ArrayList<String []>res=DbConnection.getInstance().eseguiQuery("SELECT * FROM stazione WHERE addetto_utente_idutente="+id+";");
+        String [] riga = res.get(0);
+        Stazione s = new Stazione();
+        s.setNome(riga[1]);
+        s.setId(Integer.parseInt(riga[0]));
+        s.setLatitudine(Double.parseDouble(riga[2]));
+        s.setLongitudine(Double.parseDouble(riga[3]));
+        return s;
+    }
 }

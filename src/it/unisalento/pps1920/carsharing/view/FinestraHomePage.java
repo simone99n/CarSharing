@@ -26,7 +26,7 @@ public class FinestraHomePage extends JFrame {
 
         super("CarSharing");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(1200,800);
+        setSize(920,700);
         Dimension screenSize = Toolkit.getDefaultToolkit ( ).getScreenSize ( );
         setLocation ( ( screenSize.width / 2 ) - ( this.getWidth ( ) / 2 ), (screenSize.height / 2 ) - ( this.getHeight ( ) / 2 ) );
         setResizable(false);
@@ -69,30 +69,30 @@ public class FinestraHomePage extends JFrame {
         modelloComboBox.addActionListener(listener);
         modelloComboBox.setActionCommand(HomePageListener.PULSANTE_CAMBIA_INFO);
 
-        centro.setLayout(new GridLayout(6,4));
+        centro.setLayout(new GridLayout(5,3));
 
-        centro.add(new JLabel(" "));
-        centro.add(new JLabel("Veicolo: "));
+        //centro.add(new JLabel(" "));
+        centro.add(new JLabel("                                  Veicolo: "));
         centro.add(modelloComboBox);
         centro.add(new JLabel(" "));
 
-        centro.add(new JLabel(" "));
-        centro.add(new JLabel("Prezzo: "));
+        //centro.add(new JLabel(" "));
+        centro.add(new JLabel("                                  Prezzo: "));
         centro.add(new JLabel(String.valueOf(((Modello) Objects.requireNonNull(modelloComboBox.getSelectedItem())).getPrezzo())+" €/giorno"));
         centro.add(new JLabel(" "));
 
-        centro.add(new JLabel(" "));
-        centro.add(new JLabel("Numero posti: "));
+        //centro.add(new JLabel(" "));
+        centro.add(new JLabel("                                  Numero posti: "));
         centro.add(new JLabel(String.valueOf(((Modello) Objects.requireNonNull(modelloComboBox.getSelectedItem())).getNumPosti())));
         centro.add(new JLabel(" "));
 
-        centro.add(new JLabel(" "));
-        centro.add(new JLabel("Tipologia: "));
+        //centro.add(new JLabel(" "));
+        centro.add(new JLabel("                                  Tipologia: "));
         centro.add(new JLabel(String.valueOf(((Modello) Objects.requireNonNull(modelloComboBox.getSelectedItem())).getTipologia())));
         centro.add(new JLabel(" "));
 
-        centro.add(new JLabel(" "));
-        centro.add(new JLabel("Foto: "));
+        //centro.add(new JLabel(" "));
+        centro.add(new JLabel("                                  Foto: "));
         JLabel foto = new JLabel(new ImageIcon(modelli.get(modelloComboBox.getSelectedIndex()).getFoto())); //TODO sistemare visualizzazioni immagini
         centro.add(foto);
         foto.addMouseListener(new MouseAdapter() {
@@ -106,8 +106,14 @@ public class FinestraHomePage extends JFrame {
         });
         centro.add(new JLabel("     Clicca sull'immagine per ingrandirla!"));
 
-        centro.add(new JLabel(" ")); centro.add(new JLabel(" ")); centro.add(new JLabel(" ")); centro.add(new JLabel(" "));
 
+        JPanel contBott = new JPanel(new FlowLayout());
+        JButton prenota =new JButton("PRENOTA ORA!");
+        //centro.add(new JLabel(" ")); centro.add(new JLabel(" ")); centro.add(new JLabel(" "));
+       // centro.add(new JLabel(" ")); centro.add(contBott); centro.add(new JLabel(" "));
+        contBott.add(prenota);
+        prenota.addActionListener(listener);
+        prenota.setActionCommand(HomePageListener.PULSANTE_REGISTRATI);
 
         modelliMenoCostosi = HomePageBusiness.getInstance().getModelliMenoCostosi();
 
@@ -163,28 +169,28 @@ public class FinestraHomePage extends JFrame {
     public void setupInfo() {
         centro.removeAll();
 
-        centro.add(new JLabel(" "));
-        centro.add(new JLabel("Veicolo: "));
+        //centro.add(new JLabel(" "));
+        centro.add(new JLabel("                                  Veicolo: "));
         centro.add(modelloComboBox);
         centro.add(new JLabel(" "));
 
-        centro.add(new JLabel(" "));
-        centro.add(new JLabel("Prezzo: "));
+        //centro.add(new JLabel(" "));
+        centro.add(new JLabel("                                  Prezzo: "));
         centro.add(new JLabel(String.valueOf(((Modello) Objects.requireNonNull(modelloComboBox.getSelectedItem())).getPrezzo())+" €/giorno"));
         centro.add(new JLabel(" "));
 
-        centro.add(new JLabel(" "));
-        centro.add(new JLabel("Numero posti: "));
+        //centro.add(new JLabel(" "));
+        centro.add(new JLabel("                                  Numero posti: "));
         centro.add(new JLabel(String.valueOf(((Modello) Objects.requireNonNull(modelloComboBox.getSelectedItem())).getNumPosti())));
         centro.add(new JLabel(" "));
 
-        centro.add(new JLabel(" "));
-        centro.add(new JLabel("Tipologia: "));
+        //centro.add(new JLabel(" "));
+        centro.add(new JLabel("                                  Tipologia: "));
         centro.add(new JLabel(String.valueOf(((Modello) Objects.requireNonNull(modelloComboBox.getSelectedItem())).getTipologia())));
         centro.add(new JLabel(" "));
 
-        centro.add(new JLabel(" "));
-        centro.add(new JLabel("Foto: "));
+        //centro.add(new JLabel(" "));
+        centro.add(new JLabel("                                  Foto: "));
         JLabel foto = new JLabel(new ImageIcon(modelli.get(modelloComboBox.getSelectedIndex()).getFoto())); //TODO sistemare visualizzazioni immagini
         centro.add(foto);
         foto.addMouseListener(new MouseAdapter() {

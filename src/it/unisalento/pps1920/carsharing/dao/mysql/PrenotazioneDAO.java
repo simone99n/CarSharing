@@ -295,4 +295,92 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         return prenotazioni;
     }
 
+
+
+    @Override
+    public ArrayList<Prenotazione> findForData(String data) {
+        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT * FROM prenotazione WHERE dataInizio LIKE '"+data+"%';");
+        ArrayList<Prenotazione> pre = new ArrayList<Prenotazione>();
+        if(!res.isEmpty()) {
+
+            for(String[] riga : res) {
+                Prenotazione p= new Prenotazione();
+                p.setId(Integer.parseInt(riga[0]));
+                p.setData(DateUtil.dateTimeFromString(riga[1]));
+                p.setDataInizio(DateUtil.dateTimeFromString(riga[7]));
+                p.setDataFine(DateUtil.dateTimeFromString(riga[8]));
+                pre.add(p);
+            }
+            return pre;
+
+        }
+
+        pre=null;
+        return pre;
+
+    }
+
+    @Override
+    public ArrayList<Prenotazione> findForStation(String nome) {
+        ArrayList<Prenotazione> pre=new ArrayList<>();
+        ArrayList<String[] >res= DbConnection.getInstance().eseguiQuery("SELECT * FROM prenotazione INNER JOIN stazione WHERE prenotazione.idstazione_partenza=stazione.idstazione AND stazione.nome='"+nome+"';");
+        if(!res.isEmpty()) {
+
+            for(String[] riga : res) {
+                Prenotazione p= new Prenotazione();
+                p.setId(Integer.parseInt(riga[0]));
+                p.setData(DateUtil.dateTimeFromString(riga[1]));
+                p.setDataInizio(DateUtil.dateTimeFromString(riga[7]));
+                p.setDataFine(DateUtil.dateTimeFromString(riga[8]));
+                pre.add(p);
+            }
+            return pre;
+
+        }
+        pre=null;
+        return pre;
+    }
+
+    @Override
+    public ArrayList<Prenotazione> findForModel(String mod) {
+        ArrayList<Prenotazione>pre= new ArrayList<>();
+        ArrayList<String[] >res= DbConnection.getInstance().eseguiQuery("SELECT * FROM prenotazione INNER JOIN mezzo ON prenotazione.mezzo_idmezzo=mezzo.idmezzo INNER JOIN modello ON mezzo.modello_idmodello=modello.idmodello WHERE modello.tipologia='"+mod+"';");
+
+        if(!res.isEmpty()) {
+
+            for(String[] riga : res) {
+                Prenotazione p= new Prenotazione();
+                p.setId(Integer.parseInt(riga[0]));
+                p.setData(DateUtil.dateTimeFromString(riga[1]));
+                p.setDataInizio(DateUtil.dateTimeFromString(riga[7]));
+                p.setDataFine(DateUtil.dateTimeFromString(riga[8]));
+                pre.add(p);
+            }
+
+            return pre;
+
+        }
+        pre=null;
+        return pre;
+    }
+    @Override
+    public ArrayList<Prenotazione> findForBrand(String nome) {
+        ArrayList<Prenotazione>pre = new ArrayList<>();
+        ArrayList<String[] >res= DbConnection.getInstance().eseguiQuery("SELECT * FROM prenotazione INNER JOIN mezzo ON prenotazione.mezzo_idmezzo=mezzo.idmezzo INNER JOIN modello ON mezzo.modello_idmodello=modello.idmodello WHERE modello.nome='"+nome+"';");
+        if(!res.isEmpty()) {
+
+            for(String[] riga : res) {
+                Prenotazione p= new Prenotazione();
+                p.setId(Integer.parseInt(riga[0]));
+                p.setData(DateUtil.dateTimeFromString(riga[1]));
+                p.setDataInizio(DateUtil.dateTimeFromString(riga[7]));
+                p.setDataFine(DateUtil.dateTimeFromString(riga[8]));
+                pre.add(p);
+            }
+            return pre;
+
+        }
+        pre=null;
+        return pre;
+    }
 }

@@ -2,6 +2,8 @@ package it.unisalento.pps1920.carsharing.view.Listener;
 
 import it.unisalento.pps1920.carsharing.view.FinestraCliente;
 import it.unisalento.pps1920.carsharing.view.FinestraHomePage;
+import it.unisalento.pps1920.carsharing.view.FinestraLogin;
+import it.unisalento.pps1920.carsharing.view.FinestraRegistrazione;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,10 +31,14 @@ public class HomePageListener implements ActionListener {
             home.setupInfo();
         }
         else if(PULSANTE_LOGIN.equals(command)){
-            System.out.println("Pulsane login");
+            home.dispose();
+            FinestraLogin login = new FinestraLogin();
+            login.setVisible(true);
         }
         else if(PULSANTE_REGISTRATI.equals(command)){
-            System.out.println("Pulsane registarti");
+            home.dispose();
+            FinestraRegistrazione registrazione = new FinestraRegistrazione();
+            registrazione.setVisible(true);
         }
     }
 }

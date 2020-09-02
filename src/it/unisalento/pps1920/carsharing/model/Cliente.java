@@ -11,6 +11,15 @@ public class Cliente extends Utente {
     private String email;
     private String username;
     private String password;
+    private byte[] foto;
+
+    public byte[] getFoto() {
+        return foto;
+    }
+
+    public void setFoto(byte[] foto) {
+        this.foto = foto;
+    }
 
     public String getNome() {
         return nome;

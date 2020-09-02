@@ -9,18 +9,22 @@ import it.unisalento.pps1920.carsharing.view.*;
 public class ViewTest {
 
     public static void main(String args[]) {
-
+/*
         IClienteDAO iDAO = new ClienteDAO();
         Cliente clienteLoggato = iDAO.findById(1);
         Session.getInstance().inserisci(Session.UTENTE_LOGGATO, clienteLoggato);
+
+ */
+
+
 /*
+         FinestraCliente win = new FinestraCliente();  
+         win.setVisible(true);
+*/
+
+
         FinestraHomePage home = new FinestraHomePage();
         home.setVisible(true);
-*/
-        FinestraCliente win = new FinestraCliente();  //creazione finestra
-        win.setVisible(true);                                   //rendere visibile finestra
-
-
 
     }
 }

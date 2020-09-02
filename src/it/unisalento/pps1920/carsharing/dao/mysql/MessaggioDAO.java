@@ -17,7 +17,7 @@ public class MessaggioDAO implements IMessaggioDAO {
         if(res.size()==1) {
 
             IMessaggioDAO mDao = new MessaggioDAO();
-
+            IUtenteDAO uDAO = new UtenteDAO();
             Utente utente1;
             Utente utente2;
 
@@ -28,7 +28,10 @@ public class MessaggioDAO implements IMessaggioDAO {
             m.setIdSegnalazione(Integer.parseInt(riga[0]));
             m.setTestoMessaggio(riga[1]);
             m.setLetto(Integer.parseInt(riga[2]));
-
+            utente1 = uDAO.findById(Integer.parseInt(riga[3]));
+            utente2 = uDAO.findById(Integer.parseInt(riga[4]));
+            m.setSorgente(utente1);
+            m.setDestinatario(utente2);
 /*
             Mezzo mezzo = mDao.findById(Integer.parseInt(riga[2]));
             p.setMezzo(mezzo);
@@ -46,7 +49,9 @@ public class MessaggioDAO implements IMessaggioDAO {
 
     public void inserisciMessaggio(Utente sorgente, Utente destinatario, String testo){
 
-    //    String sql1 = "INSERT INTO messaggio (NULL, messaggio, sorgente, destinatario) VALUES ('"+testo+"', '"+idSorgente+"', '"+idDestinatario+"');";
+        int idSorgente = sorgente.getId();
+        int idDestinatario = destinatario.getId();
+        String sql1 = "INSERT INTO messaggio (NULL, messaggio, sorgente, destinatario) VALUES ('"+testo+"', '"+idSorgente+"', '"+idDestinatario+"');";
 
     }
 }
