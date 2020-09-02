@@ -10,26 +10,17 @@ public class ViewTest {
 
     public static void main(String args[]) {
 
-        //PrimaFinestra win = new PrimaFinestra();
-        //PrimaFinestraGridLayout win = new PrimaFinestraGridLayout();
-        //PrimaFinestraBorderLayout win = new PrimaFinestraBorderLayout();
-
-
         IClienteDAO iDAO = new ClienteDAO();
         Cliente clienteLoggato = iDAO.findById(1);
         Session.getInstance().inserisci(Session.UTENTE_LOGGATO, clienteLoggato);
-
+/*
+        FinestraHomePage home = new FinestraHomePage();
+        home.setVisible(true);
+*/
         FinestraCliente win = new FinestraCliente();  //creazione finestra
         win.setVisible(true);                                   //rendere visibile finestra
-/*
-        ConfirmSharing win2 = new ConfirmSharing();
-        win2.setVisible(true);
-*/
 
 
-/*
-        IClienteDAO cliente = new ClienteDAO();
-        System.out.println(cliente.findById(2).getNome());
-     */
+
     }
 }

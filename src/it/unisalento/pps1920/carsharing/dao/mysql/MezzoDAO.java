@@ -31,6 +31,8 @@ public class MezzoDAO implements IMezzoDAO {
         return m;
     }
 
+
+
     public Mezzo findOneByModello(Modello mod) {
         //si vuole selezionare un mezzo targato dato un selezionato modello
         ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT * FROM mezzo WHERE modello_idmodello = (SELECT idmodello FROM modello WHERE nome = '"+mod.getNome()+"');");

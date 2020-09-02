@@ -47,8 +47,7 @@ public class BottonBarListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         JButton button = (JButton)e.getSource();
-
-        System.out.println("Pulsante premuto "+button.getText());
+        //System.out.println("Pulsante premuto "+button.getText());
 
         /* SBAGLIATO !!!
         if("OK".equals(button.getText()))
@@ -207,8 +206,6 @@ public class BottonBarListener implements ActionListener {
                // nomeStazioneArrivo = arrivo.getNome();
 
 
-
-
                 String[] annoEmeseInizio = win.dataInizioMod.getText().split("-");
                 String[] giornoEoraInizio = annoEmeseInizio[2].split(" ");
                 String[] annoEmeseFine = win.dataFineMod.getText().split("-");
@@ -258,26 +255,17 @@ public class BottonBarListener implements ActionListener {
                     win.mostraPrezzoMod(nuova,prezzoFinale);
                 }
 
-
                 /*
                 if(!nomeStazionePartenza.equals(ModificaPrenotazioneBusiness.getInstance().getPartenza(win.pModificaPrenotazione.getId())) || !nomeStazioneArrivo.equals(ModificaPrenotazioneBusiness.getInstance().getArrivo(win.pModificaPrenotazione.getId()))){
                     ModificaPrenotazioneBusiness.getInstance().modificaStazione(partenza.getId(), arrivo.getId(), win.pModificaPrenotazione.getId());
                 } //modifica stazioni
                 */
 
-/*
-                win.dispose();
-                FinestraCliente win = new FinestraCliente();
-                win.setVisible(true);
-*/
-
             }
             else{
                 error = new FinestraErrorCompilPren();
                 error.setVisible(true);
             }
-
-
 
         }
         else if(PULSANTE_CANCELLA_ACCESSORIO.equals(command)){
@@ -341,7 +329,6 @@ public class BottonBarListener implements ActionListener {
             FinestraCliente win = new FinestraCliente();
             win.setVisible(true);
         }
-
 
     }
 
@@ -408,11 +395,9 @@ public class BottonBarListener implements ActionListener {
         p.setData(new Date()); //data avvenuta modifica
         p.setNumPostiOccupati(postiOccupatiCliente); //set posti occupati
 
-
         ModificaPrenotazioneBusiness.getInstance().salvaPrenotazione(p);                                    //salva nuova prenotazione
         p.setId(ModificaPrenotazioneBusiness.getInstance().getIdUltimaPrenotazione(clienteLoggato.getId()));
-        System.out.println("p.setId(ModificaPrenotazioneBusiness.getInstance().getIdUltimaPrenotazione(clienteLoggato.getId())):"+ModificaPrenotazioneBusiness.getInstance().getIdUltimaPrenotazione(clienteLoggato.getId()));
-        System.out.println("win.pModificaPrenotazione.getId():"+win.pModificaPrenotazione.getId());
+
         ModificaPrenotazioneBusiness.getInstance().cancellaPrenotazione(win.pModificaPrenotazione.getId()); //cancellazione vecchia prenotazione
         return p;
     }

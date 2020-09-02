@@ -28,18 +28,11 @@ public class PrenotazioneBusiness {
         // 1. chiamare il dao prenotazione per salvare la prenotazione
         ArrayList<String> arrayInfo = new PrenotazioneDAO().sharingCheck(p);//controlla se è possibile fare uno sharing
 
-        if(arrayInfo.get(0).equals("true") && state==0) {
-            //SE è possibile fare lo sharing
+        if(arrayInfo.get(0).equals("true") && state==0) {//SE è possibile fare lo sharing
 
             FinestraSharing.idPrenotazione = Integer.parseInt(arrayInfo.get(2));
-
-            System.out.println("ConfirmSharing.idPrenotazione="+ FinestraSharing.idPrenotazione);
-
             FinestraSharing confermare = new FinestraSharing(prezzo);
             confermare.setVisible(true);
-
-            System.out.println("inviaPrenoptazione: "+arrayInfo.get(2));
-
             SharingListener.p=p;
 
         }
@@ -53,11 +46,12 @@ public class PrenotazioneBusiness {
 
             for (String[] email : emails) {
                 MailHelper.getInstance().send(email[0], "Prenotazione con Sharing confermata!", "In data: " + p.getData()); // 3. inviare mail di conferma all'utente
-                System.out.println("message sent successfully: "+email[0]);
+                System.out.println("E-mail inviata a cliente coinvolto nello sharing: "+email[0]);
             }
             // 2. inviare mail all'addetto del parco automezzi
             String dest1 = p.getArrivo().getAddetto().getEmail();
             MailHelper.getInstance().send(dest1, "Nuova prenotazione", "In data: "+p.getData());
+            System.out.println("E-mail all'addetto parco automezzi");
 
             ArrayList<String> testo = new ArrayList<String>();
             testo.add("Codice prenotazione con Sharing: "+arrayInfo.get(2));
@@ -91,7 +85,6 @@ public class PrenotazioneBusiness {
                 return true;
             }
 
-
         }
         return false;
     }
@@ -99,11 +92,6 @@ public class PrenotazioneBusiness {
     public void inserisciAccessori(Accessorio access){
         IPrenotazioneDAO ins = new PrenotazioneDAO();
         ins.inserisciAccessori(access);
-    }
-
-    public boolean modificaPrenotazione(Prenotazione p) {
-        // logica di business
-        return true;
     }
 
     public ArrayList<String[]> getInfoClienteFromIdPrenotazione(int idPrenotazione, int index) {
@@ -134,14 +122,6 @@ public class PrenotazioneBusiness {
     public float calcolaPrezzo(Prenotazione nuova, int annoInizio, int meseInizio, int giornoInizio, int annoFine, int meseFine, int giornoFine) {
         float prezzo = nuova.getMezzo().getPrezzo();
 
-
-        System.out.println("Anno inizio= "+annoInizio);
-        System.out.println("Anno fine= "+annoFine);
-        System.out.println("mese inizio= "+meseInizio);
-        System.out.println("mese fine= "+meseFine);
-        System.out.println("giorno inizio= "+giornoInizio);
-        System.out.println("giorno fine= "+giornoFine);
-        System.out.println("Prezzo in inizio Bussiness calcolaPrezzo= "+prezzo);
         int numAnni=annoFine-annoInizio; //numero di anni
 
         if(annoFine==annoInizio){                                       //se avviene tutto nello stesso anno
@@ -180,11 +160,6 @@ public class PrenotazioneBusiness {
 
     }
 
-    public ArrayList<Prenotazione> cercaMatch(Date inizio, Date fine, Stazione partenza, Stazione arrivo, Localita localita, int numPosti) {
-
-        return null;
-    }
-
     public ArrayList<Stazione> getStazioni(){
         IStazioneDAO sDao = new StazioneDAO();
         return sDao.findAll();
@@ -209,9 +184,11 @@ public class PrenotazioneBusiness {
         IMezzoDAO mDAo = new MezzoDAO();
         return mDAo.findAll();
     }
+    public ArrayList<Prenotazione> cercaMatch(Date inizio, Date fine, Stazione partenza, Stazione arrivo, Localita localita, int numPosti) {
 
-
-/*
+        return null;
+    }
+   /*
     public ArrayList<String[]> getNomeFromIdPrenotazione(int idPrenotazione){
        IPrenotazioneDAO temp = new PrenotazioneDAO();
         return temp.getClienteNome(idPrenotazione);
@@ -221,5 +198,6 @@ public class PrenotazioneBusiness {
         IPrenotazioneDAO temp = new PrenotazioneDAO();
         return temp.getClienteCognome(idPrenotazione);
     }
-*/
+
+    */
 }

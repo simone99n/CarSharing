@@ -21,8 +21,11 @@ public class ModelloDAO implements IModelloDAO {
             m.setNome(riga[1]);
             m.setNumPosti(Integer.parseInt(riga[2]));
 
+
             byte[] foto = DbConnection.getInstance().getFoto("SELECT foto FROM modello WHERE idmodello="+id+";");
             m.setFoto(foto);
+            m.setTipologia(riga[4]);
+            m.setPrezzo(Float.parseFloat(riga[5]));
         }
 
         return m;
@@ -57,4 +60,15 @@ public class ModelloDAO implements IModelloDAO {
         return lista;
 
     }
+
+    public ArrayList<Modello> getModelliMenoCostosi(){
+
+        ArrayList<String[]> arrayList = DbConnection.getInstance().eseguiQuery("SELECT idmodello FROM modello ORDER BY prezzo ASC;");
+        ArrayList<Modello> res = new ArrayList<Modello>();
+        for(int i=0;i<5;i++){
+            res.add(findById(Integer.parseInt(arrayList.get(i)[0])));
+        }
+        return res;
+    }
+
 }

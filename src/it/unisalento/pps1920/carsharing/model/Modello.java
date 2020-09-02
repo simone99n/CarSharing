@@ -4,9 +4,19 @@ public class Modello {
 
     private int id;
     private String nome;
+    private String tipologia;
     private int numPosti;
-
     private byte[] foto;
+
+    public float getPrezzo() {
+        return prezzo;
+    }
+
+    public void setPrezzo(float prezzo) {
+        this.prezzo = prezzo;
+    }
+
+    private float prezzo;
 
     public int getId() {
         return id;
@@ -43,4 +53,13 @@ public class Modello {
     public String toString(){
         return nome;
     }
+
+    public String getTipologia(){
+        return tipologia;
+    }
+
+    public void setTipologia(String tipologia){
+        this.tipologia=tipologia;
+    }
+
 }

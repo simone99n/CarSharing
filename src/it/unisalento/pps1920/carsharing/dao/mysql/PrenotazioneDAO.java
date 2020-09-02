@@ -112,7 +112,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
             }
         }
 
-        System.out.println("[!!!]----------ERROR----------------");
+        System.out.println("[!!!]");
         ArrayList<String> finale = new ArrayList<>();
         finale.add("false");
         return finale;
@@ -123,7 +123,6 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         //Cliente clienteLoggato = (Cliente) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
         String sql1 = "INSERT INTO effettua VALUES (" + array.get(1) + "," + array.get(2) +"," + array.get(3) + ", 99999999, '12-21', 222)";
         //todo sistemare inserimento dati carta
-        System.out.println(sql1);
         if (DbConnection.getInstance().eseguiAggiornamento(sql1))
             System.out.println("1. SHARING correttamente salvato nel DB (tabella EFFETTUA)");
         else{
@@ -168,7 +167,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         String strDataFine = DateUtil.stringFromDate(p.getDataFine());
 
         String sql = "INSERT INTO prenotazione VALUES (NULL, '"+strDataPrenotazione+"',"+p.getMezzo().getId()+","+p.getNumPostiOccupati()+","+
-                p.getPartenza().getId()+","+p.getArrivo().getId()+","+p.getLocalita().getId()+",'"+strDataInizio+"','"+strDataFine+"');";
+                p.getPartenza().getId()+","+p.getArrivo().getId()+","+p.getLocalita().getId()+",'"+strDataInizio+"','"+strDataFine+"','0');";
         //System.out.println(sql);
         if(DbConnection.getInstance().eseguiAggiornamento(sql))
             System.out.println("Prenotazione correttamente salvata nel DB");
@@ -212,7 +211,6 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
             String sql = "INSERT INTO accessorio_prenotazione VALUES ('" +a.getId()+ "','" +idPrenotazione+"')";
             if (DbConnection.getInstance().eseguiAggiornamento(sql)){
                 System.out.println(">> Accessorio aggiunto (MOD) nel DB (tabella accessorio_prenotazione)");
-
             }
             else{
                 System.out.println(">> [ERROR]Accessorio NON aggiunto (MOD) nel DB (tabella accessorio_prenotazione)");
@@ -222,7 +220,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
     }
 
     public void eliminaAccessorio(int idAccessorio, int idPrenotazione){
-        System.out.println("PrenotazioneDAO.eliminaAccessorio. idAccessorio="+idAccessorio+"  idPrenotazione="+idPrenotazione);
+        System.out.println("Eliminazione accessorio!");
         String sql1 = "DELETE FROM accessorio_prenotazione WHERE accessorio_idaccessorio='"+idAccessorio+"' AND prenotazione_idprenotazione='"+idPrenotazione+"';";
         DbConnection.getInstance().eseguiAggiornamento(sql1);
     }
@@ -238,6 +236,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
             DbConnection.getInstance().eseguiAggiornamento(bye);
             DbConnection.getInstance().eseguiAggiornamento(bye2);
             DbConnection.getInstance().eseguiAggiornamento(bye3);
+            System.out.println("Prenotazione Cancellata");
             return 0; //prenotazione completamente cancellata
         }
         else{
@@ -248,6 +247,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
 
             DbConnection.getInstance().eseguiAggiornamento("UPDATE prenotazione SET num_posti_occupati='"+(postiOccupatiTotali-postiOccupatiCliente)+"' WHERE idprenotazione='"+idPrenotazione+"';");
             DbConnection.getInstance().eseguiAggiornamento("DELETE FROM effettua WHERE prenotazione_idprenotazione='" +idPrenotazione+ "' AND cliente_utente_idutente='"+clienteLoggato.getId()+"';");
+            System.out.println("Prenotazione Cancellata e sharing annullato");
             return 1; //prenotazione cancellata solo per un cliente, annullamento sharing
         }
 

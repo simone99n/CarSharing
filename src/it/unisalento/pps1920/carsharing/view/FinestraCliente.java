@@ -378,13 +378,6 @@ public class FinestraCliente extends JFrame {
         accessorio4Mod.addItem(null); accessorio4Mod.setSelectedItem(null);
         accessorio5Mod.addItem(null); accessorio5Mod.setSelectedItem(null);
 
-/*
-        cbAccessorio1.setSelected(true);
-        cbAccessorio2.setSelected(true);
-        cbAccessorio3.setSelected(true);
-        cbAccessorio4.setSelected(true);
-        cbAccessorio5.setSelected(true);
-*/
         if(accPrenotazione.size()==0){
             System.out.println("accPrenotazione.size()==0");
             for(Accessorio a : accTotali) {
@@ -703,8 +696,6 @@ public class FinestraCliente extends JFrame {
             alert.setVisible(true);
             spazioBottoni.remove(avanti);
         }
-
-
 
     }
 

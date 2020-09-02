@@ -6,4 +6,5 @@ import java.util.ArrayList;
 
 public interface IModelloDAO extends IBaseDAO<Modello> {
     public ArrayList<Modello> findByTipologia(String tipologia, String grandezza, String motorizzazione);
+    public ArrayList<Modello> getModelliMenoCostosi();
 }

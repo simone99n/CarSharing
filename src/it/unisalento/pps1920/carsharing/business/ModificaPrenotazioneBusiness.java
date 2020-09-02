@@ -28,19 +28,17 @@ public class ModificaPrenotazioneBusiness {
     }
 
     public void cancellaPrenotazione(int idPrenotazione){
-        System.out.println("Entro in cancella prenotazione");
+
         IPrenotazioneDAO p = new PrenotazioneDAO();
 
         int statoCancellazione=p.eliminaPrenotazione(idPrenotazione);
         if(statoCancellazione==0){ //no sharing, cancellazione normale
-            System.out.println("!!!CANCELLAZIONE NORMALE!!!");
             Cliente clienteLoggato = (Cliente) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
             MailHelper.getInstance().send(clienteLoggato.getEmail(), "Prenotazione cancellata", "Hai cancellato la prenotazione n° " + idPrenotazione);
-            System.out.println("E-mail cancellazione prenotazione inviata");
+            System.out.println("E-mail cancellazione prenotazione inviata all'utente");
         }
         else if(statoCancellazione==1){ //sharing coinvolto, semi annullamento prenotazione
             Cliente clienteLoggato = (Cliente) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
-            System.out.println("!!!CANCELLAZIONE SHARING!!!");
             String query1 = "SELECT cliente_utente_idutente FROM effettua WHERE prenotazione_idprenotazione="+idPrenotazione+";";
             ArrayList<String[]> clienti = DbConnection.getInstance().eseguiQuery(query1);
             ArrayList<String[]> emails = new ArrayList<>();
@@ -56,10 +54,10 @@ public class ModificaPrenotazioneBusiness {
                 }
             }
             MailHelper.getInstance().send(clienteLoggato.getEmail(), "Prenotazione cancellata", "Hai cancellato la prenotazione n° " + idPrenotazione);
-            System.out.println("E-mail invaita al cliente che ha cancellato lo sharing");
+            System.out.println("E-mail inviata al cliente che ha cancellato lo sharing");
 
         }
-        System.out.println("Finiti if di cancella prenotazione");
+
     }
 
     public ArrayList<Accessorio> getAccessori(int idPrenotazione){
@@ -129,10 +127,6 @@ public class ModificaPrenotazioneBusiness {
 
         IMezzoDAO mezzoInterface = new MezzoDAO();
         float prezzo = mezzoInterface.findById(idMezzo).getPrezzo();
-
-        System.out.println("idMezzo in inizio ModificaBussiness calcolaPrezzo= "+idMezzo);
-
-        System.out.println("Prezzo in inizio ModificaBussiness calcolaPrezzo= "+prezzo);
 
         int numAnni=annoFine-annoInizio; //numero di anni
 
