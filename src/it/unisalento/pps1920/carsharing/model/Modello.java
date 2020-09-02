@@ -5,6 +5,7 @@ public class Modello {
     private int id;
     private String nome;
     private int numPosti;
+    private String tipologia;
     private byte[] foto;
 
     public int getId() {
@@ -41,5 +42,13 @@ public class Modello {
 
     public String toString(){
         return nome;
+    }
+
+    public String getTipologia() {
+        return tipologia;
+    }
+
+    public void setTipologia(String tipologia) {
+        this.tipologia = tipologia;
     }
 }

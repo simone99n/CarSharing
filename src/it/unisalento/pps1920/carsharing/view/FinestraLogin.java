@@ -39,9 +39,12 @@ public class FinestraLogin extends JFrame
         centro.add(password);
         sud.add(b1);
         sud.add(b2);
+        Dimension screenSize = Toolkit.getDefaultToolkit ( ).getScreenSize ( );
+        setLocation ( ( screenSize.width / 2 ) - ( this.getWidth ( ) / 2 ), (screenSize.height / 2 ) - ( this.getHeight ( ) / 2 ) );
         this.setSize(300,150);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
+        this.setResizable(false);
     }
 
 }

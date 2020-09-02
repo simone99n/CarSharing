@@ -15,12 +15,6 @@ public class LoginBusiness
         UtenteDAO uDao = new UtenteDAO();
         Recogniser state_id= new Recogniser();
        state_id=uDao.checkIdpassw(user);
-        if(state_id.getId()!=0)
-        {
-            return state_id;
-        }
-
-        else
-            return null;
+      return state_id;
     }
 }

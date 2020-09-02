@@ -5,7 +5,6 @@ import it.unisalento.pps1920.carsharing.model.Cliente;
 import it.unisalento.pps1920.carsharing.model.Utente;
 import it.unisalento.pps1920.carsharing.model.model_support.Recogniser;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -40,7 +39,7 @@ public class UtenteDAO implements IUtenteDAO
         return user;
     }
     @Override
-    public boolean salvaRegistrazione(Cliente c, Utente user)
+    public int salvaRegistrazione(Cliente c, Utente user)
     {
 
         Utente verify_exist_user= new Utente();
@@ -54,21 +53,23 @@ public class UtenteDAO implements IUtenteDAO
         {
             String sql="INSERT INTO utente VALUES (NULL,'"+user.getUsername()+"','"+user.getPassword()+"','"+ user.getEmail()+"')";
             DbConnection.getInstance().eseguiAggiornamento(sql);
-            String sql1="INSERT INTO cliente VALUES (NULL,'"+c.getNome()+"','"+c.getCognome()+"',"+c.getNum_tel()+",'"+c.getResidenza()+"',"+c.getEta()+","+ Arrays.toString(c.getFoto()) +")";
+            ArrayList<String[]>res=DbConnection.getInstance().eseguiQuery("SELECT LAST_INSERT_ID() FROM utente;");
+            String[] riga=res.get(0);
+            System.out.println(Integer.parseInt(riga[0]));
+            String sql1="INSERT INTO cliente VALUES ("+Integer.parseInt(riga[0])+",'"+c.getNome()+"','"+c.getCognome()+"',"+c.getTelefono()+",'"+c.getResidenza()+"',"+c.getEta()+","+ Arrays.toString(c.getFoto()) +")";
             DbConnection.getInstance().eseguiAggiornamento(sql1);
-            return true;
+
+            return 1;
         }
         if(verify_exist_email!=null)
         {
-            System.out.println("Email gia' in uso, scegliere un'altra email");
-            return false;
+            return -1;
         }
         if(verify_exist_user!=null)
         {
-            System.out.println("Username gia' in uso, scegliere un altro username");
-            return false;
+            return -2;
         }
-           return false;
+           return 1;
     }
 
 
@@ -113,7 +114,7 @@ public class UtenteDAO implements IUtenteDAO
         Recogniser rec = new Recogniser();
 
         ArrayList<String[]>check_username_passw1= DbConnection.getInstance().eseguiQuery("SELECT idutente FROM utente INNER JOIN cliente WHERE utente.idutente=cliente.utente_idutente AND  username='"+user.getUsername()+"' AND password='"+user.getPassword()+"';");
-        ArrayList<String[]>take_name1=DbConnection.getInstance().eseguiQuery("SELECT nome FROM cliente INNER JOIN utente WHERE utente.idutente=cliente.utente_idutente AND username='"+user.getUsername()+"';");
+        ArrayList<String[]>take_name1=DbConnection.getInstance().eseguiQuery("SELECT nome FROM cliente INNER JOIN utente ON utente.idutente=cliente.utente_idutente AND username='"+user.getUsername()+"';");
         if(!check_username_passw1.isEmpty())
         {
             String[] riga= check_username_passw1.get(0);
@@ -125,7 +126,7 @@ public class UtenteDAO implements IUtenteDAO
         }
 
         ArrayList<String[]>check_username_passw2= DbConnection.getInstance().eseguiQuery("SELECT idutente FROM utente INNER JOIN addetto WHERE utente.idutente=addetto.utente_idutente AND  username='"+user.getUsername()+"' AND password='"+user.getPassword()+"';");
-        ArrayList<String[]>take_name2=DbConnection.getInstance().eseguiQuery("SELECT nome FROM addetto INNER JOIN utente WHERE utente.idutente=addetto.utente_idutente AND username='"+user.getUsername()+"';");
+        ArrayList<String[]>take_name2=DbConnection.getInstance().eseguiQuery("SELECT nome FROM addetto INNER JOIN utente ON utente.idutente=addetto.utente_idutente AND username='"+user.getUsername()+"';");
         if(!check_username_passw2.isEmpty())
         {
             String[] riga= check_username_passw2.get(0);
@@ -137,7 +138,7 @@ public class UtenteDAO implements IUtenteDAO
         }
 
         ArrayList<String[]>check_username_passw3= DbConnection.getInstance().eseguiQuery("SELECT idutente FROM utente INNER JOIN operatore WHERE utente.idutente=operatore.utente_idutente AND  username='"+user.getUsername()+"' AND password='"+user.getPassword()+"';");
-        ArrayList<String[]>take_name3=DbConnection.getInstance().eseguiQuery("SELECT nome FROM operatore INNER JOIN utente WHERE utente.idutente=operatore.utente_idutente AND username='"+user.getUsername()+"';");
+        ArrayList<String[]>take_name3=DbConnection.getInstance().eseguiQuery("SELECT nome FROM operatore INNER JOIN utente ON utente.idutente=operatore.utente_idutente AND username='"+user.getUsername()+"';");
         if(!check_username_passw3.isEmpty())
         {
             String[] riga= check_username_passw3.get(0);
@@ -149,7 +150,7 @@ public class UtenteDAO implements IUtenteDAO
         }
 
         ArrayList<String[]>check_username_passw4= DbConnection.getInstance().eseguiQuery("SELECT idutente FROM utente INNER JOIN amministratore WHERE utente.idutente=amministratore.utente_idutente AND  username='"+user.getUsername()+"' AND password='"+user.getPassword()+"';");
-        ArrayList<String[]>take_name4=DbConnection.getInstance().eseguiQuery("SELECT nome FROM amministratore INNER JOIN utente WHERE utente.idutente=amministratore.utente_idutente AND username='"+user.getUsername()+"';");
+        ArrayList<String[]>take_name4=DbConnection.getInstance().eseguiQuery("SELECT nome FROM amministratore INNER JOIN utente ON utente.idutente=amministratore.utente_idutente AND username='"+user.getUsername()+"';");
         if(!check_username_passw4.isEmpty())
         {
             String[] riga= check_username_passw4.get(0);

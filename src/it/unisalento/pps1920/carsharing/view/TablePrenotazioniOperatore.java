@@ -32,7 +32,8 @@ public class TablePrenotazioniOperatore extends AbstractTableModel
         Prenotazione p = prenotazioni.get(rowIndex);
 
         //BINDING
-        switch(columnIndex) {
+        switch(columnIndex)
+        {
             case 0: return p.getId();
             case 1: return p.getData();
             case 2: return p.getDataInizio();

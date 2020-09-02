@@ -3,20 +3,20 @@ package it.unisalento.pps1920.carsharing.model;
 public class Cliente extends Utente
 {
 
-    private int id_cliente;
+    private int id;
     private String nome;
     private String cognome;
     private int eta;
-    private String num_tel;
+    private String telefono;
     private String residenza;
     private byte[] foto;
 
-    public int getId_cliente() {
-        return id_cliente;
+    public int getId() {
+        return id;
     }
 
-    public void setId_cliente(int id_cliente) {
-        this.id_cliente = id_cliente;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -43,12 +43,12 @@ public class Cliente extends Utente
         this.eta = eta;
     }
 
-    public String getNum_tel() {
-        return num_tel;
+    public String getTelefono() {
+        return telefono;
     }
 
-    public void setNum_tel(String num_tel) {
-        this.num_tel = num_tel;
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
     public String getResidenza() {

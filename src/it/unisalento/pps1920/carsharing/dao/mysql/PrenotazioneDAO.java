@@ -18,31 +18,28 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT * FROM prenotazione WHERE idprenotazione = "+id+";");
 
         if(res.size()==1) {
-            String[] riga = res.get(0);
-            p = new Prenotazione();
-            p.setId(Integer.parseInt(riga[0]));
-            p.setNumPostiOccupati(Integer.parseInt(riga[4]));
-            p.setData(DateUtil.dateTimeFromString(riga[1]));
-            ILocalitaDAO lDao = new LocalitaDAO();
-            Localita l = lDao.findById(Integer.parseInt(riga[7]));
-            p.setLocalita(l);
-
             IStazioneDAO sDao = new StazioneDAO();
             IClienteDAO cDao = new ClienteDAO();
             IMezzoDAO mDao = new MezzoDAO();
+            ILocalitaDAO lDao = new LocalitaDAO();
 
-            Stazione partenza = sDao.findById(Integer.parseInt(riga[5]));
-            Stazione arrivo = sDao.findById(Integer.parseInt(riga[6]));
-            Cliente cliente = cDao.findById(Integer.parseInt(riga[2]));
-            Mezzo mezzo = mDao.findById(Integer.parseInt(riga[3]));
+            String[] riga = res.get(0);
 
-            p.setArrivo(arrivo);
+            p = new Prenotazione();
+            p.setId(Integer.parseInt(riga[0]));
+            p.setData(DateUtil.dateTimeFromString(riga[1]));
+            Mezzo mezzo = mDao.findById(Integer.parseInt(riga[2]));
+            p.setNumPostiOccupati(Integer.parseInt(riga[3]));
+            Stazione partenza = sDao.findById(Integer.parseInt(riga[4]));
+            Stazione arrivo = sDao.findById(Integer.parseInt(riga[5]));
+            Localita l = lDao.findById(Integer.parseInt(riga[6]));
             p.setPartenza(partenza);
+            p.setArrivo(arrivo);
             p.setMezzo(mezzo);
-            p.setCliente(cliente);
+            p.setLocalita(l);
+            p.setDataInizio(DateUtil.dateTimeFromString(riga[7]));
+            p.setDataFine(DateUtil.dateTimeFromString(riga[8]));
 
-            p.setDataInizio(DateUtil.dateTimeFromString(riga[8]));
-            p.setDataFine(DateUtil.dateTimeFromString(riga[9]));
         }
 
         return p;
@@ -54,6 +51,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         ArrayList<Prenotazione> prenotazioni = new ArrayList<Prenotazione>();
 
         ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT idprenotazione FROM prenotazione");
+
 
         for(String[] riga : res) {
             Prenotazione p = findById(Integer.parseInt(riga[0]));
@@ -80,4 +78,100 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery(sql);
         p.setId(Integer.parseInt(res.get(0)[0]));
     }
+
+    @Override
+    public ArrayList<Prenotazione> findForData(String data)
+    {
+        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT * FROM prenotazione WHERE data LIKE '"+data+"%';");
+        ArrayList<Prenotazione> pre = new ArrayList<Prenotazione>();
+        if(!res.isEmpty())
+        {
+            Prenotazione p= new Prenotazione();
+            for(String[] riga : res)
+            {
+                p.setId(Integer.parseInt(riga[0]));
+                p.setData(DateUtil.dateTimeFromString(riga[1]));
+                p.setDataInizio(DateUtil.dateTimeFromString(riga[7]));
+                p.setDataFine(DateUtil.dateTimeFromString(riga[8]));
+                pre.add(p);
+            }
+            return pre;
+
+        }
+        pre=null;
+        return pre;
+
+    }
+
+    @Override
+    public ArrayList<Prenotazione> findForStation(String nome)
+    {
+        ArrayList<Prenotazione> pre=new ArrayList<>();
+        ArrayList<String[] >res= DbConnection.getInstance().eseguiQuery("SELECT * FROM prenotazione INNER JOIN stazione WHERE prenotazione.idstazione_partenza=stazione.idstazione AND stazione.nome='"+nome+"';");
+        if(!res.isEmpty())
+        {
+            Prenotazione p= new Prenotazione();
+            for(String[] riga : res)
+            {
+                p.setId(Integer.parseInt(riga[0]));
+                p.setData(DateUtil.dateTimeFromString(riga[1]));
+                p.setDataInizio(DateUtil.dateTimeFromString(riga[7]));
+                p.setDataFine(DateUtil.dateTimeFromString(riga[8]));
+                pre.add(p);
+            }
+            return pre;
+
+        }
+        pre=null;
+        return pre;
+    }
+
+    @Override
+    public ArrayList<Prenotazione> findForModel(String mod)
+    {
+        ArrayList<Prenotazione>pre= new ArrayList<>();
+        ArrayList<String[] >res= DbConnection.getInstance().eseguiQuery("SELECT * FROM prenotazione INNER JOIN mezzo ON prenotazione.mezzo_idmezzo=mezzo.idmezzo INNER JOIN modello ON mezzo.modello_idmodello=modello.idmodello WHERE modello.tipologia='"+mod+"';");
+
+        if(!res.isEmpty())
+        {
+
+           for(String[] riga : res)
+           {
+               Prenotazione p= new Prenotazione();
+               p.setId(Integer.parseInt(riga[0]));
+               p.setData(DateUtil.dateTimeFromString(riga[1]));
+               p.setDataInizio(DateUtil.dateTimeFromString(riga[7]));
+               p.setDataFine(DateUtil.dateTimeFromString(riga[8]));
+               pre.add(p);
+           }
+
+           return pre;
+
+        }
+        pre=null;
+        return pre;
+    }
+    @Override
+    public ArrayList<Prenotazione> findForBrand(String nome)
+    {
+        ArrayList<Prenotazione>pre = new ArrayList<>();
+        ArrayList<String[] >res= DbConnection.getInstance().eseguiQuery("SELECT * FROM prenotazione INNER JOIN mezzo ON prenotazione.mezzo_idmezzo=mezzo.idmezzo INNER JOIN modello ON mezzo.modello_idmodello=modello.idmodello WHERE modello.nome='"+nome+"';");
+        if(!res.isEmpty())
+        {
+            Prenotazione p= new Prenotazione();
+            for(String[] riga : res)
+            {
+                p.setId(Integer.parseInt(riga[0]));
+                p.setData(DateUtil.dateTimeFromString(riga[1]));
+                p.setDataInizio(DateUtil.dateTimeFromString(riga[7]));
+                p.setDataFine(DateUtil.dateTimeFromString(riga[8]));
+                pre.add(p);
+            }
+            return pre;
+
+        }
+        pre=null;
+        return pre;
+    }
+
 }

@@ -1,13 +1,11 @@
 package it.unisalento.pps1920.carsharing.view.Listener;
 
-import it.unisalento.pps1920.carsharing.business.LoginBusiness;
 import it.unisalento.pps1920.carsharing.business.RegistrazioneBusiness;
 import it.unisalento.pps1920.carsharing.model.Cliente;
-import it.unisalento.pps1920.carsharing.model.Prenotazione;
 import it.unisalento.pps1920.carsharing.model.Utente;
-import it.unisalento.pps1920.carsharing.model.model_support.Recogniser;
 import it.unisalento.pps1920.carsharing.view.FinestraCliente;
 import it.unisalento.pps1920.carsharing.view.FinestraRegistrazione;
+import it.unisalento.pps1920.carsharing.view.Listener.BottonErrorListener.AllErrorMessages;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -30,30 +28,41 @@ public class BottonRegListener implements ActionListener {
         String command = e.getActionCommand();
         if(PULSANTE_REGISTRATI.equals(command))
         {
-            boolean state;
+            int state;
             state=salvaRegistrazione();
-            if(state)
+            if(state==3)
             {
                 win.dispose();
                 FinestraCliente fcl=new FinestraCliente(user.getId(),cli.getNome());
             }
+            else if(state==-1)
+            {
+                int tipo=4;
+                AllErrorMessages u= new AllErrorMessages(tipo);
+            }
+            else if(state==-2)
+            {
+                int tipo=5;
+                AllErrorMessages u= new AllErrorMessages(tipo);
+            }
         }
 
-        else if(PULSANTE_ANNULLA.equals(command)) {
-            win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+         if(PULSANTE_ANNULLA.equals(command))
+         {
+            win.dispose();
         }
 
     }
 
-    private boolean salvaRegistrazione() //
+    private int salvaRegistrazione()
     {
 
-       boolean state;
+       int state;
         RegistrazioneBusiness reg = new RegistrazioneBusiness();
         cli.setNome(win.nome.getText());
         cli.setCognome(win.cognome.getText());
         cli.setEta(Integer.parseInt(win.eta.getText()));
-        cli.setNum_tel(win.telefono.getText());
+        cli.setTelefono(win.telefono.getText());
         cli.setResidenza(win.residenza.getText());
         user.setUsername(win.username.getText());
         user.setPassword(win.password.getText());

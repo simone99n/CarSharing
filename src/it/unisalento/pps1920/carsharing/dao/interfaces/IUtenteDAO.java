@@ -7,6 +7,6 @@ import it.unisalento.pps1920.carsharing.model.model_support.Recogniser;
 public interface IUtenteDAO extends IBaseDAO<Utente> {
     public Utente findByUsername(String username);
     public Utente findByEmail(String email);
-    public boolean salvaRegistrazione(Cliente c, Utente user);
+    public int salvaRegistrazione(Cliente c, Utente user);
     public Recogniser checkIdpassw(Utente user);
 }

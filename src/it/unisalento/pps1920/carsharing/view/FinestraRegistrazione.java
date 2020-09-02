@@ -69,7 +69,7 @@ public class FinestraRegistrazione extends JFrame
         this.setSize(400,400);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
-
+        this.setResizable(false);
 
     }
 

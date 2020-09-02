@@ -16,8 +16,10 @@ public class FinestraOperatore extends  JFrame
 
     JPanel jp1 = new JPanel();
     JPanel jp2 = new JPanel();
+    JPanel jp3 = new JPanel();
     JButton b1= new JButton("Esci");
     JButton b2= new JButton("Pannello Segnalazioni");
+
     BottonOperatorListener listener;
     public FinestraOperatore(int id, String nome)
     {
@@ -28,21 +30,30 @@ public class FinestraOperatore extends  JFrame
         c.setLayout(new BorderLayout());
         c.add(new JScrollPane(jp1), BorderLayout.CENTER);
         jp1.setLayout(new BorderLayout());
-        setupPannelloPrenotazione(id);
+        setupPannelloPrenotazioni(id);
         c.add(jp2,BorderLayout.SOUTH);
+        c.add(jp3,BorderLayout.NORTH);
         jp2.setLayout(new FlowLayout());
         jp2.add(b1);
         jp2.add(b2);
+        jp3.setLayout(new FlowLayout());
+        JLabel tx= new JLabel("<<<TABELLA PRENOTAZIONI>>>");
+        jp3.add(tx);
+        JLabel bb= new JLabel("  ");
+        jp3.add(bb);
+        jp3.setBackground(Color.RED);
         listener = new BottonOperatorListener(this);
         b1.addActionListener(listener);
         b1.setActionCommand(BottonOperatorListener.PULSANTE_ESCI);
         b2.addActionListener(listener);
         b2.setActionCommand(BottonOperatorListener.PULSANTE_SEGNALAZIONI);
+        Dimension screenSize = Toolkit.getDefaultToolkit ( ).getScreenSize ( );
+        setLocation ( ( screenSize.width / 2 ) - ( this.getWidth ( ) / 2 ), (screenSize.height / 2 ) - ( this.getHeight ( ) / 2 ) );
         this.setVisible(true);
     }
 
 
-    public void setupPannelloPrenotazione(int id)
+    public void setupPannelloPrenotazioni(int id)
     {
         ArrayList<Prenotazione>prenotazioni= new ArrayList<Prenotazione>();
         ControlloStatoPrenotazioniBusiness cont= new ControlloStatoPrenotazioniBusiness();

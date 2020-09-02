@@ -1,6 +1,9 @@
 package it.unisalento.pps1920.carsharing.dao.interfaces;
 
+import it.unisalento.pps1920.carsharing.model.Modello;
 import it.unisalento.pps1920.carsharing.model.Prenotazione;
+
+import java.util.ArrayList;
 
 public interface IPrenotazioneDAO extends IBaseDAO<Prenotazione> {
 
@@ -9,4 +12,8 @@ public interface IPrenotazioneDAO extends IBaseDAO<Prenotazione> {
     //dammi tutte le prenotazioni di un cliente
 
     public void salvaPrenotazione(Prenotazione p);
+    public ArrayList<Prenotazione> findForData(String data);
+    public ArrayList<Prenotazione> findForModel(String mod);
+    public ArrayList<Prenotazione> findForStation(String nome);
+    public ArrayList<Prenotazione> findForBrand(String nome);
 }

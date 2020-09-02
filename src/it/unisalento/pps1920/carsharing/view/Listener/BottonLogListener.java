@@ -1,13 +1,12 @@
 package it.unisalento.pps1920.carsharing.view.Listener;
 
 import it.unisalento.pps1920.carsharing.business.LoginBusiness;
-import it.unisalento.pps1920.carsharing.model.Cliente;
 import it.unisalento.pps1920.carsharing.model.Utente;
 import it.unisalento.pps1920.carsharing.model.model_support.Recogniser;
 import it.unisalento.pps1920.carsharing.view.*;
+import it.unisalento.pps1920.carsharing.view.Listener.BottonErrorListener.AllErrorMessages;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -33,12 +32,12 @@ public class BottonLogListener implements ActionListener
             rec=accedi();
             if(rec.getId()==0)
             {
-                System.out.println("Username o password inseriti sono errati! \n Riprova oppure crea un nuovo account.");
+                int tipo=1;
+                AllErrorMessages u= new AllErrorMessages(tipo);
             }
             else
             {
                 win.dispose();
-                FinestraSuccessLogin slog= new FinestraSuccessLogin();
                 switch (rec.getType()) {
                     case "Operatore":
                         FinestraOperatore fop = new FinestraOperatore(rec.getId(), rec.getNome());

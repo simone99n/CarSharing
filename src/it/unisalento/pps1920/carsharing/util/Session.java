@@ -30,7 +30,7 @@ private HashMap<String, Object> mappa=new HashMap<String, Object>();
         return clienteLoggato;
     }
 
-    public void setClienteLoccato(Cliente clienteLoggato) {
+    public void setClienteLoggato(Cliente clienteLoggato) {
         this.clienteLoggato = clienteLoggato;
     }
 
