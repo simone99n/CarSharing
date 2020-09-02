@@ -25,7 +25,7 @@ public class MezzoDAO implements IMezzoDAO {
             IModelloDAO mDao = new ModelloDAO();
             Modello modello = mDao.findById(Integer.parseInt(riga[2]));
             m.setModello(modello);
-
+            m.setPrezzo(Float.parseFloat(riga[4]));
         }
 
         return m;

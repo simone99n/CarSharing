@@ -30,7 +30,6 @@ public class PrenotazioneBusiness {
 
         if(arrayInfo.get(0).equals("true") && state==0) {
             //SE è possibile fare lo sharing
-            System.out.println("Entro if");
 
             FinestraSharing.idPrenotazione = Integer.parseInt(arrayInfo.get(2));
 
@@ -39,7 +38,7 @@ public class PrenotazioneBusiness {
             FinestraSharing confermare = new FinestraSharing(prezzo);
             confermare.setVisible(true);
 
-            System.out.println("inviaPrenmoptaziopnme: "+arrayInfo.get(2));
+            System.out.println("inviaPrenoptazione: "+arrayInfo.get(2));
 
             SharingListener.p=p;
 
@@ -134,6 +133,15 @@ public class PrenotazioneBusiness {
 
     public float calcolaPrezzo(Prenotazione nuova, int annoInizio, int meseInizio, int giornoInizio, int annoFine, int meseFine, int giornoFine) {
         float prezzo = nuova.getMezzo().getPrezzo();
+
+
+        System.out.println("Anno inizio= "+annoInizio);
+        System.out.println("Anno fine= "+annoFine);
+        System.out.println("mese inizio= "+meseInizio);
+        System.out.println("mese fine= "+meseFine);
+        System.out.println("giorno inizio= "+giornoInizio);
+        System.out.println("giorno fine= "+giornoFine);
+        System.out.println("Prezzo in inizio Bussiness calcolaPrezzo= "+prezzo);
         int numAnni=annoFine-annoInizio; //numero di anni
 
         if(annoFine==annoInizio){                                       //se avviene tutto nello stesso anno

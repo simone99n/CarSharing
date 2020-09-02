@@ -20,4 +20,8 @@ public interface IPrenotazioneDAO extends IBaseDAO<Prenotazione> {
     public ArrayList<Prenotazione> findAllForCliente();
     public void eliminaAccessorio(int idAccessorio, int idPrenotazione);
     public int eliminaPrenotazione(int idPrenotazione);
+
+    public int getPostiTableEffettua(int idPrenotazione);
+    public int getIdUltimaPrenotazione(int idCliente);
+
 }

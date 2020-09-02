@@ -370,28 +370,19 @@ public class FinestraCliente extends JFrame {
         meta.add(dataFineMod);
         meta.add(new JLabel("       "));
 
-/*
-        for(Accessorio a : accTotali) {
-            accessorio1Mod.addItem(a);
-            accessorio2Mod.addItem(a);
-            accessorio3Mod.addItem(a);
-            accessorio4Mod.addItem(a);
-            accessorio5Mod.addItem(a);
-        }
-*/
         accessorio1Mod.addItem(null); accessorio1Mod.setSelectedItem(null);
         accessorio2Mod.addItem(null); accessorio2Mod.setSelectedItem(null);
         accessorio3Mod.addItem(null); accessorio3Mod.setSelectedItem(null);
         accessorio4Mod.addItem(null); accessorio4Mod.setSelectedItem(null);
         accessorio5Mod.addItem(null); accessorio5Mod.setSelectedItem(null);
 
+/*
         cbAccessorio1.setSelected(true);
         cbAccessorio2.setSelected(true);
         cbAccessorio3.setSelected(true);
         cbAccessorio4.setSelected(true);
         cbAccessorio5.setSelected(true);
-
-        System.out.println("Prima della serie di if");
+*/
         if(accPrenotazione.size()==0){
             System.out.println("accPrenotazione.size()==0");
             for(Accessorio a : accTotali) {
@@ -433,6 +424,7 @@ public class FinestraCliente extends JFrame {
                 }
             }
 
+            cbAccessorio1.setSelected(true);
             meta.add(new JLabel("Accessorio 1: "));
             meta.add(new JLabel(accPrenotazione.get(0).getNome()));
             meta.add(cbAccessorio1);
@@ -462,7 +454,8 @@ public class FinestraCliente extends JFrame {
                     accessorio5Mod.addItem(a);
                 }
             }
-
+            cbAccessorio1.setSelected(true);
+            cbAccessorio2.setSelected(true);
             meta.add(new JLabel("Accessorio 1: "));
             meta.add(new JLabel(accPrenotazione.get(0).getNome()));
             meta.add(cbAccessorio1);
@@ -491,7 +484,9 @@ public class FinestraCliente extends JFrame {
                     accessorio5Mod.addItem(a);
                 }
             }
-
+            cbAccessorio1.setSelected(true);
+            cbAccessorio2.setSelected(true);
+            cbAccessorio3.setSelected(true);
             meta.add(new JLabel("Accessorio 1: "));
             meta.add(new JLabel(accPrenotazione.get(0).getNome()));
             meta.add(cbAccessorio1);
@@ -519,7 +514,10 @@ public class FinestraCliente extends JFrame {
                     accessorio5Mod.addItem(a);
                 }
             }
-
+            cbAccessorio1.setSelected(true);
+            cbAccessorio2.setSelected(true);
+            cbAccessorio3.setSelected(true);
+            cbAccessorio4.setSelected(true);
             meta.add(new JLabel("Accessorio 1: "));
             meta.add(new JLabel(accPrenotazione.get(0).getNome()));
             meta.add(cbAccessorio1);
@@ -541,6 +539,12 @@ public class FinestraCliente extends JFrame {
             meta.add(new JLabel("       "));
         }
         else if (accPrenotazione.size()==5){
+
+            cbAccessorio1.setSelected(true);
+            cbAccessorio2.setSelected(true);
+            cbAccessorio3.setSelected(true);
+            cbAccessorio4.setSelected(true);
+            cbAccessorio5.setSelected(true);
 
             meta.add(new JLabel("Accessorio 1: "));
             meta.add(new JLabel(accPrenotazione.get(0).getNome()));
@@ -571,7 +575,6 @@ public class FinestraCliente extends JFrame {
         ArrayList<Stazione> stazioni = PrenotazioneBusiness.getInstance().getStazioni();
         for(Stazione s : stazioni) partenzaMod.addItem(s);
         for(Stazione s : stazioni) arrivoMod.addItem(s);
-
         JButton avanti = new JButton("SALVA MODIFICA");
         JButton indietro = new JButton("<- TORNA INDIETRO");
         JButton destruction = new JButton("CANCELLA PRENOTAZIONE");
@@ -830,6 +833,55 @@ public class FinestraCliente extends JFrame {
 
         down.add(home);
         down.add(pagaOra);
+
+        //3. refresh della UI
+        repaint();
+        revalidate();
+    }
+    public void mostraPrezzoMod(Prenotazione p,float prezzo){
+        BorderLayout bl = (BorderLayout) this.getContentPane().getLayout();
+        this.getContentPane().remove(bl.getLayoutComponent(BorderLayout.CENTER));
+        this.getContentPane().remove(bl.getLayoutComponent(BorderLayout.NORTH));
+        this.getContentPane().remove(bl.getLayoutComponent(BorderLayout.SOUTH));
+        setSize(400,300);
+        Dimension screenSize = Toolkit.getDefaultToolkit ( ).getScreenSize ( );
+        setLocation ( ( screenSize.width / 2 ) - ( this.getWidth ( ) / 2 ), (screenSize.height / 2 ) - ( this.getHeight ( ) / 2 ) );
+
+        JPanel contenitore = new JPanel();
+        JPanel up = new JPanel();
+        JPanel med = new JPanel();
+        JPanel down = new JPanel();
+
+        up.setLayout(new FlowLayout());
+        up.add(new JLabel("<<<MODIFICA PRENOTAZIONE>>>"));
+
+        contenitore.setLayout(new BorderLayout());
+        contenitore.add(up, BorderLayout.NORTH);
+        contenitore.add(med, BorderLayout.CENTER);
+        contenitore.add(down, BorderLayout.SOUTH);
+        this.getContentPane().add(contenitore, BorderLayout.CENTER);
+        up.setLayout(new FlowLayout());
+        down.setLayout(new FlowLayout());
+        med.setLayout(new GridLayout(1,2));
+
+
+        med.add(new JLabel("Nuovo prezzo: "));
+        med.add(new JLabel(String.valueOf(prezzo)+"€"));
+
+
+        //prezzoWin=prezzo;
+/*
+        JButton pagaOra = new JButton("PAGA ORA");
+        pagaOra.addActionListener(listener);
+        pagaOra.setActionCommand(BottonBarListener.PULSANTE_PAGA);
+*/
+
+        JButton  home= new JButton("OK");
+        home.addActionListener(listener);
+        home.setActionCommand(BottonBarListener.PULSANTE_ANNULLA);
+
+        down.add(home);
+//      down.add(pagaOra);
 
         //3. refresh della UI
         repaint();
