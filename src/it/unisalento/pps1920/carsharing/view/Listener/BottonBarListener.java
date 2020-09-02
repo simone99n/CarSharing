@@ -34,7 +34,7 @@ public class BottonBarListener implements ActionListener {
     public static final String PULSANTE_AVANTI2 = "PULSANTE_AVANTI2";
     public static final String PULSANTE_AVANTI3 = "PULSANTE_AVANTI3";
     public static final String PULSANTE_CANCELLA_PRENOTAZIONE = "PULSANTE_CANCELLA_PRENOTAZIONE";
-    Prenotazione nuova,p;
+    Prenotazione nuova, p;
     FinestraErrorCompilPren error;
 
     private FinestraCliente win;
@@ -165,7 +165,6 @@ public class BottonBarListener implements ActionListener {
 
             if(datapartenza.isBlank() && dataarrivo.isBlank()){
                 //1. eliminazione accessori
-
 
                 if(!win.cbAccessorio1.isSelected() && win.accPrenotazione.size()>0) //se la spunta viene tolta
                     ModificaPrenotazioneBusiness.getInstance().eliminaAccessorio(win.accPrenotazione.get(0).getId(), win.pModificaPrenotazione.getId());
@@ -429,10 +428,6 @@ public class BottonBarListener implements ActionListener {
             ModificaPrenotazioneBusiness.getInstance().inserisciAccessoriMod(win.accPrenotazione.get(3), p.getId());
         if(win.cbAccessorio5.isSelected())
             ModificaPrenotazioneBusiness.getInstance().inserisciAccessoriMod(win.accPrenotazione.get(4), p.getId());
-
-
-
-
 
         if(win.accessorio1Mod!=null)
             ModificaPrenotazioneBusiness.getInstance().inserisciAccessoriMod((Accessorio) win.accessorio1Mod.getSelectedItem(), p.getId());

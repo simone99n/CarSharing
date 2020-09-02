@@ -358,17 +358,19 @@ public class FinestraCliente extends JFrame {
         meta.add(new JLabel(String.valueOf(pModificaPrenotazione.getNumPostiOccupati())));
         meta.add(new JLabel("       "));
         meta.add(new JLabel("Stazione partenza: "));
-        meta.add(partenzaMod);
+        meta.add(new JLabel(String.valueOf(pModificaPrenotazione.getPartenza())));
+        //meta.add(partenzaMod);
         meta.add(new JLabel("       "));
         meta.add(new JLabel("Stazione arrivo: "));
-        meta.add(arrivoMod);
+        meta.add(new JLabel(String.valueOf(pModificaPrenotazione.getArrivo())));
+        //meta.add(arrivoMod);
         meta.add(new JLabel("       "));
         meta.add(new JLabel("Data inizio: [aaaa-MM-gg hh:mm]"));
         meta.add(dataInizioMod);
-        meta.add(new JLabel("       "));
+        meta.add(new JLabel("   Lasciare vuoto per non modificare"));
         meta.add(new JLabel("Data fine: [aaaa-MM-gg hh:mm]"));
         meta.add(dataFineMod);
-        meta.add(new JLabel("       "));
+        meta.add(new JLabel("   Lasciare vuoto per non modificare"));
 
         accessorio1Mod.addItem(null); accessorio1Mod.setSelectedItem(null);
         accessorio2Mod.addItem(null); accessorio2Mod.setSelectedItem(null);

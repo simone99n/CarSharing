@@ -210,7 +210,6 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
     public void inserisciAccessoriMod(Accessorio a, int idPrenotazione){
         if(a!=null){
             String sql = "INSERT INTO accessorio_prenotazione VALUES ('" +a.getId()+ "','" +idPrenotazione+"')";
-            System.out.println(sql);
             if (DbConnection.getInstance().eseguiAggiornamento(sql)){
                 System.out.println(">> Accessorio aggiunto (MOD) nel DB (tabella accessorio_prenotazione)");
 
@@ -229,11 +228,9 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
     }
 
     public int eliminaPrenotazione(int idPrenotazione){
-        System.out.println("Entro nel DAO eliminaPrenotazione");
         String sql1="SELECT * FROM effettua WHERE prenotazione_idprenotazione='"+idPrenotazione+"';";
         ArrayList<String[]> tmp = DbConnection.getInstance().eseguiQuery(sql1);
         if(tmp.size()==1){
-            System.out.println("Entro nel DAO eliminaPrenotazione-entro if");
             String bye =  "DELETE FROM effettua WHERE prenotazione_idprenotazione='" +idPrenotazione+ "';";
             String bye2 = "DELETE FROM accessorio_prenotazione WHERE prenotazione_idprenotazione='" +idPrenotazione+ "';";
             String bye3 = "DELETE FROM prenotazione WHERE idprenotazione='" +idPrenotazione+ "';";
@@ -244,7 +241,6 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
             return 0; //prenotazione completamente cancellata
         }
         else{
-            System.out.println("Entro nel DAO eliminaPrenotazione-entro else");
             Cliente clienteLoggato = (Cliente) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
 
             int postiOccupatiCliente = Integer.parseInt(DbConnection.getInstance().eseguiQuery("SELECT posti_occupati FROM effettua WHERE prenotazione_idprenotazione='" +idPrenotazione+"' AND cliente_utente_idutente='"+clienteLoggato.getId()+"';").get(0)[0]);
@@ -277,11 +273,9 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
     }
 
     public int getPostiTableEffettua(int idPrenotazione){
-        System.out.println("getPostiTableEffettua-PrenotazioneDAO ");
         Cliente clienteLoggato = (Cliente) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
         int posti = Integer.parseInt(DbConnection.getInstance().eseguiQuery("SELECT posti_occupati FROM effettua WHERE prenotazione_idprenotazione='" +idPrenotazione+"' AND cliente_utente_idutente='"+clienteLoggato.getId()+"';").get(0)[0]);
 
-        System.out.println("POSTIdebug: "+posti);
         return posti;
     }
 
