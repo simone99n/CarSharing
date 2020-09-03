@@ -20,7 +20,7 @@ public class StazioneDAO implements IStazioneDAO {
         ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT S.idstazione, S.nome, S.latitudine, S.longitudine, S.addetto_utente_idutente, S.operatore_utente_idutente FROM stazione AS S INNER JOIN addetto AS A ON S.addetto_utente_idutente = A.utente_idutente WHERE S.idstazione = "+id+";");
 
         if(res.size() == 1 ) {
-            String riga[] = res.get(0);
+            String[] riga = res.get(0);
             s=new Stazione();
             s.setId(Integer.parseInt(riga[0]));
             s.setNome(riga[1]);

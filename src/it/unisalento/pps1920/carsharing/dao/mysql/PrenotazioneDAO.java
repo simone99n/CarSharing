@@ -464,4 +464,39 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         String sql1 = "UPDATE prenotazione SET pagato=1 WHERE idPrenotazione='"+idPrenotazione+"';";
         DbConnection.getInstance().eseguiAggiornamento(sql1);
     }
+
+
+
+
+    //samuele
+    @Override
+    public void setStatoAutomezzo(int idprenotazione){
+        boolean res= DbConnection.getInstance().eseguiAggiornamento("UPDATE prenotazione SET mezzoPreparato=1 WHERE idprenotazione="+idprenotazione+";");
+    }
+
+    @Override
+    public ArrayList<String[]> findForIdAddettoAndIdStation(int idStazione,int idPrenotazione)
+    {
+        ArrayList<String []>res= DbConnection.getInstance().eseguiQuery("SELECT idstazione_partenza FROM prenotazione WHERE idprenotazione="+idPrenotazione+" ;");
+        ArrayList<String[]> ret1= new ArrayList<>();
+        String[] r1= new String[1];
+        if(res.isEmpty())
+        {
+            r1[0]="-1";
+            ret1.add(r1);
+            return ret1;
+        }
+
+        String[] rigaa= res.get(0);
+        if(Integer.parseInt(rigaa[0])!=idStazione)
+        {
+
+            r1[0]="-2";
+            ret1.add(r1);
+            return ret1;
+        }
+        r1=res.get(0);
+        ret1.add(r1);
+        return ret1;
+    }
 }

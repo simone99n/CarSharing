@@ -30,4 +30,6 @@ public interface IPrenotazioneDAO extends IBaseDAO<Prenotazione> {
     public ArrayList<Prenotazione> findForModel(String mod);
     public ArrayList<Prenotazione> findForStation(String nome);
     public ArrayList<Prenotazione> findForBrand(String nome);
+    public void setStatoAutomezzo(int idprenotazione);
+    public ArrayList<String[]> findForIdAddettoAndIdStation(int idStazione,int idAddetto);
 }

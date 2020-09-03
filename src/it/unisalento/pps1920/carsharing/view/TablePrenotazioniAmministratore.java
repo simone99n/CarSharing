@@ -43,7 +43,12 @@ public class TablePrenotazioniAmministratore extends AbstractTableModel {
             case 6: return DateUtil.stringFromDate(p.getData());
             case 7: return DateUtil.stringFromDate(p.getDataInizio());
             case 8: return DateUtil.stringFromDate(p.getDataFine());
-            case 9: return "CONFERMATA";
+            case 9:
+                if(p.getPagato()==0)
+                    return "NON PAGATO";
+                else
+                    return "PAGATO";
+            //case 9: return "CONFERMATA";
         }
 
         return "-";

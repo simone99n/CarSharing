@@ -2,7 +2,6 @@ package it.unisalento.pps1920.carsharing.dao.mysql;
 
 import it.unisalento.pps1920.carsharing.DbConnection;
 import it.unisalento.pps1920.carsharing.dao.interfaces.IAddettoDAO;
-import it.unisalento.pps1920.carsharing.dao.interfaces.IClienteDAO;
 import it.unisalento.pps1920.carsharing.model.*;
 import it.unisalento.pps1920.carsharing.util.DateUtil;
 
@@ -62,4 +61,38 @@ public class AddettoDAO implements IAddettoDAO {
         }
         return pre;
     }
+
+
+
+
+
+ public ArrayList<String[]> findByStation2(Stazione staz) // restitiusce i record situati nella tabella appena effettuato il login dell'addetto.
+    {
+        ArrayList<String []>res= DbConnection.getInstance().eseguiQuery("SELECT idprenotazione,dataInizio FROM prenotazione WHERE idstazione_partenza="+staz.getId()+" AND mezzoPreparato='0' ;");
+        if(res.isEmpty())
+        {
+            return null;
+        }
+        ArrayList<String[]>str= new ArrayList<>();
+        Prenotazione p;
+        Modello a;
+        for(String[] riga : res)
+        {
+            String[] record= new String[4];
+            p=new Prenotazione();
+            a=new Modello();
+            a=findModelByIdPrenotazione(Integer.parseInt(riga[0]));
+            record[0]=riga[0];
+            record[1]=riga[1];
+            record[2]=a.getNome();
+            record[3]=a.getTipologia();
+            str.add(record);
+
+        }
+        return str;
+    }
+
+
+
+
 }

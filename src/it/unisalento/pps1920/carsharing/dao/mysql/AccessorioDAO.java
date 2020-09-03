@@ -5,7 +5,6 @@ import it.unisalento.pps1920.carsharing.dao.interfaces.IAccessorioDAO;
 import it.unisalento.pps1920.carsharing.model.Accessorio;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class AccessorioDAO implements IAccessorioDAO {
 

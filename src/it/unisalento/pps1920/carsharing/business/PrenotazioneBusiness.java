@@ -180,6 +180,12 @@ public class PrenotazioneBusiness {
         return mDao.findAll();
     }
 
+    public void automezzoPronto(int idprenotazione)
+    {
+        IPrenotazioneDAO pdao= new PrenotazioneDAO();
+        pdao.setStatoAutomezzo(idprenotazione);
+    }
+
     public ArrayList<Mezzo> getMezzi(){
         IMezzoDAO mDAo = new MezzoDAO();
         return mDAo.findAll();

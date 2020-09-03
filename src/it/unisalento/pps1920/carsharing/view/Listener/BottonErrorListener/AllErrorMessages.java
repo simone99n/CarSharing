@@ -22,49 +22,81 @@ public class AllErrorMessages extends JFrame
         JPanel panel2 = new JPanel();
         JPanel panel3 = new JPanel();
         JButton button = new JButton("OK");
-        if(tipo==1) {
+
+        if(tipo==1)
+        {
+
             JLabel info1 = new JLabel("Username o password errati!");
             JLabel info2 = new JLabel("");
             panel1.add(info1);
             panel2.add(info2);
         }
-        else if(tipo==2) {
+        else if(tipo==2)
+        {
             JLabel info1 = new JLabel("Non sono presenti prenotazioni per questo modello!");
             JLabel info2 = new JLabel("");
             panel1.add(info1);
             panel2.add(info2);
         }
-        else if(tipo==3) {
+        else if(tipo==3)
+        {
             JLabel info1 = new JLabel("Non ci sono prenotazioni per questa stazione!");
             JLabel info2 = new JLabel("");
             panel1.add(info1);
             panel2.add(info2);
         }
-        else if(tipo==4) {
+        else if(tipo==4)
+        {
             JLabel info1 = new JLabel("L'email inserita e' gia' in uso!");
             JLabel info2 = new JLabel("");
             panel1.add(info1);
             panel2.add(info2);
         }
-        else if(tipo==5) {
+        else if(tipo==5)
+        {
             JLabel info1 = new JLabel("L'username inserito e' gia' in uso!");
             JLabel info2 = new JLabel("");
             panel1.add(info1);
             panel2.add(info2);
         }
 
-        else if(tipo==6) {
+        else if(tipo==6)
+        {
             JLabel info1 = new JLabel("Non ci sono prenotazioni per questa marca!");
             JLabel info2 = new JLabel("");
             panel1.add(info1);
             panel2.add(info2);
         }
-        else if(tipo==7) {
+        else if(tipo==7)
+        {
             JLabel info1 = new JLabel("Non ci sono prenotazioni per questa data!");
             JLabel info2 = new JLabel("");
             panel1.add(info1);
             panel2.add(info2);
         }
+        else if(tipo==8)
+        {
+            JLabel info1 = new JLabel("Non sono presenti accessori per questo veicolo!");
+            JLabel info2 = new JLabel("");
+            panel1.add(info1);
+            panel2.add(info2);
+        }
+        else if(tipo==9)
+        {
+            JLabel info1 = new JLabel("La prenotazione avente il seguente ID non esiste!");
+            JLabel info2 = new JLabel("");
+            panel1.add(info1);
+            panel2.add(info2);
+        }
+        else if(tipo==10)
+        {
+            JLabel info1 = new JLabel("La prenotazione avente il seguente ID non appartiene alla tua stazione!");
+            JLabel info2 = new JLabel("");
+            panel1.add(info1);
+            panel2.add(info2);
+            setSize(450,100);
+        }
+
 
         c.add(panel1,BorderLayout.NORTH);
         c.add(panel2,BorderLayout.CENTER);
