@@ -5,9 +5,7 @@ import it.unisalento.pps1920.carsharing.dao.interfaces.*;
 import it.unisalento.pps1920.carsharing.model.*;
 import it.unisalento.pps1920.carsharing.util.DateUtil;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class PrenotazioneDAO implements IPrenotazioneDAO {
     @Override
@@ -82,7 +80,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
     @Override
     public ArrayList<Prenotazione> findForData(String data)
     {
-        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT * FROM prenotazione WHERE data LIKE '"+data+"%';");
+        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT * FROM prenotazione WHERE dataInizio LIKE '"+data+"%';");
         ArrayList<Prenotazione> pre = new ArrayList<Prenotazione>();
         if(!res.isEmpty())
         {
@@ -110,9 +108,10 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         ArrayList<String[] >res= DbConnection.getInstance().eseguiQuery("SELECT * FROM prenotazione INNER JOIN stazione WHERE prenotazione.idstazione_partenza=stazione.idstazione AND stazione.nome='"+nome+"';");
         if(!res.isEmpty())
         {
-            Prenotazione p= new Prenotazione();
+
             for(String[] riga : res)
             {
+                Prenotazione p= new Prenotazione();
                 p.setId(Integer.parseInt(riga[0]));
                 p.setData(DateUtil.dateTimeFromString(riga[1]));
                 p.setDataInizio(DateUtil.dateTimeFromString(riga[7]));
@@ -172,6 +171,40 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         }
         pre=null;
         return pre;
+    }
+
+    @Override
+    public void setStatoAutomezzo(int idprenotazione){
+        boolean res= DbConnection.getInstance().eseguiAggiornamento("UPDATE prenotazione SET mezzoPreparato=1 WHERE idprenotazione="+idprenotazione+";");
+    }
+
+
+
+
+    @Override
+    public ArrayList<String[]> findForIdAddettoAndIdStation(int idStazione,int idPrenotazione)
+    {
+        ArrayList<String []>res= DbConnection.getInstance().eseguiQuery("SELECT idstazione_partenza FROM prenotazione WHERE idprenotazione="+idPrenotazione+" ;");
+        ArrayList<String[]> ret1= new ArrayList<>();
+        String[] r1= new String[1];
+        if(res.isEmpty())
+        {
+            r1[0]="-1";
+            ret1.add(r1);
+            return ret1;
+        }
+
+        String[] rigaa= res.get(0);
+        if(Integer.parseInt(rigaa[0])!=idStazione)
+        {
+
+            r1[0]="-2";
+            ret1.add(r1);
+            return ret1;
+        }
+        r1=res.get(0);
+        ret1.add(r1);
+        return ret1;
     }
 
 }

@@ -14,14 +14,14 @@ public class Prenotazione {
     private Localita localita;
     private Date dataInizio;
     private Date dataFine;
-    private boolean state;
+    private boolean mezzoPreparato;
 
-    public boolean isState() {
-        return state;
+    public boolean isMezzoPreparato() {
+        return mezzoPreparato;
     }
 
-    public void setState(boolean state) {
-        this.state = state;
+    public void setMezzoPreparato(boolean mezzoPreparato) {
+        this.mezzoPreparato = mezzoPreparato;
     }
 
     public Date getDataInizio() {

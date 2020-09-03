@@ -1,7 +1,6 @@
 package it.unisalento.pps1920.carsharing.view;
 
 import it.unisalento.pps1920.carsharing.business.ControlloPrenotazioniAdminBusiness;
-import it.unisalento.pps1920.carsharing.business.ControlloStatoPrenotazioniBusiness;
 import it.unisalento.pps1920.carsharing.business.PrenotazioneBusiness;
 import it.unisalento.pps1920.carsharing.dao.mysql.PrenotazioneDAO;
 import it.unisalento.pps1920.carsharing.model.Modello;
@@ -9,8 +8,7 @@ import it.unisalento.pps1920.carsharing.model.Prenotazione;
 import it.unisalento.pps1920.carsharing.model.Stazione;
 import it.unisalento.pps1920.carsharing.util.PdfHelper;
 import it.unisalento.pps1920.carsharing.view.Listener.BottonAdminListener;
-import it.unisalento.pps1920.carsharing.view.Listener.BottonErrorListener.AllErrorMessages;
-import it.unisalento.pps1920.carsharing.view.Listener.BottonOperatorListener;
+import it.unisalento.pps1920.carsharing.view.Listener.ErrorMessages.AllErrorMessages;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,7 +36,6 @@ public class FinestraAmministratore extends JFrame
     public JButton b9 = new JButton("Stampa PDF");
     public JButton b10 = new JButton("Stampa PDF");
     public JButton b11 = new JButton("Stampa PDF");
-   public JButton j= new JButton("Cerca");
    public JLabel lab= new JLabel("Inserisci data nel formato: Anno-Mese-Giorno");
     Container c = new Container();
     ArrayList<Prenotazione> prenotazioni;
@@ -131,6 +128,7 @@ public class FinestraAmministratore extends JFrame
 
     public void mostraPannelloPrenotazioniPerData()
     {
+         JButton j= new JButton("Cerca");
         //1. eliminare quello che c'è nell'area centrale
         BorderLayout al = (BorderLayout) this.getContentPane().getLayout();
         this.getContentPane().remove(al.getLayoutComponent(BorderLayout.CENTER));
@@ -158,21 +156,32 @@ public class FinestraAmministratore extends JFrame
     public void showPrenotazioniPerData(String data)
     {
 
-        BorderLayout bl = (BorderLayout) this.getContentPane().getLayout();
-        this.getContentPane().remove(bl.getLayoutComponent(BorderLayout.CENTER));
-        this.getContentPane().remove(bl.getLayoutComponent(BorderLayout.NORTH));
-         JPanel fp1 = new JPanel(new BorderLayout());
-         JPanel fp2 = new JPanel(new BorderLayout());
-        this.getContentPane().add(fp1, BorderLayout.CENTER);
-        this.getContentPane().add(fp2, BorderLayout.NORTH);
+        prenotazioni = new ArrayList<Prenotazione>();
+        ControlloPrenotazioniAdminBusiness ad= new ControlloPrenotazioniAdminBusiness();
+        prenotazioni=ad.checkPrenotazioniFromDate(data);
+        if(prenotazioni==null)
+        {
+            int tipo=7;
+            AllErrorMessages u= new AllErrorMessages(tipo);
+            menu();
 
-        JPanel jp2_1= new JPanel();
-        jp2_1.setLayout(new BorderLayout());
-        fp2.add(jp2_1,BorderLayout.NORTH);
-        jp2_1.add(b8,BorderLayout.NORTH);
-            prenotazioni = new ArrayList<Prenotazione>();
-            ControlloPrenotazioniAdminBusiness ad= new ControlloPrenotazioniAdminBusiness();
-            prenotazioni=ad.checkPrenotazioniFromDate(data);
+        }
+        else
+        {
+            BorderLayout bl = (BorderLayout) this.getContentPane().getLayout();
+            this.getContentPane().remove(bl.getLayoutComponent(BorderLayout.CENTER));
+            this.getContentPane().remove(bl.getLayoutComponent(BorderLayout.NORTH));
+            JPanel fp1 = new JPanel(new BorderLayout());
+            JPanel fp2 = new JPanel(new BorderLayout());
+            this.getContentPane().add(fp1, BorderLayout.CENTER);
+            this.getContentPane().add(fp2, BorderLayout.NORTH);
+
+
+            JPanel jp2_1= new JPanel();
+            jp2_1.setLayout(new BorderLayout());
+            fp2.add(jp2_1,BorderLayout.NORTH);
+            jp2_1.add(b8,BorderLayout.NORTH);
+
 
             TablePrenotazioniOperatore   tmp = new TablePrenotazioniOperatore(prenotazioni);
 
@@ -186,8 +195,10 @@ public class FinestraAmministratore extends JFrame
             jp2_1.add(intestazione, BorderLayout.SOUTH);
             fp1.add(tabellaPrenotazioni,BorderLayout.CENTER);
 
-        repaint();
-        revalidate();
+            repaint();
+            revalidate();
+        }
+
     }
 
     public void menu()

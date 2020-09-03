@@ -5,7 +5,7 @@ import it.unisalento.pps1920.carsharing.model.Cliente;
 import it.unisalento.pps1920.carsharing.model.Utente;
 import it.unisalento.pps1920.carsharing.view.FinestraCliente;
 import it.unisalento.pps1920.carsharing.view.FinestraRegistrazione;
-import it.unisalento.pps1920.carsharing.view.Listener.BottonErrorListener.AllErrorMessages;
+import it.unisalento.pps1920.carsharing.view.Listener.ErrorMessages.AllErrorMessages;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -61,7 +61,7 @@ public class BottonRegListener implements ActionListener {
         RegistrazioneBusiness reg = new RegistrazioneBusiness();
         cli.setNome(win.nome.getText());
         cli.setCognome(win.cognome.getText());
-        cli.setEta(Integer.parseInt(win.eta.getText()));
+        cli.setAnnoNascita(Integer.parseInt(win.eta.getText()));
         cli.setTelefono(win.telefono.getText());
         cli.setResidenza(win.residenza.getText());
         user.setUsername(win.username.getText());

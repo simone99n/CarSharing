@@ -32,7 +32,7 @@ public class AddettoDAO implements IAddettoDAO {
         return null;
     }
 
-
+        @Override
     public Modello findModelByIdPrenotazione(int id)
 
     {
@@ -48,26 +48,31 @@ public class AddettoDAO implements IAddettoDAO {
         mod.setId(0);
        return mod;
     }
-
-    public ArrayList<Prenotazione> findByStation(Stazione staz)
+        @Override
+    public ArrayList<String[]> findByStation(Stazione staz) // restitiusce i record situati nella tabella appena effettuato il login dell'addetto.
     {
-        ArrayList<String []>res= DbConnection.getInstance().eseguiQuery("SELECT * FROM prenotazione WHERE idstazione_partenza="+staz.getId()+";");
+        ArrayList<String []>res= DbConnection.getInstance().eseguiQuery("SELECT idprenotazione,dataInizio FROM prenotazione WHERE idstazione_partenza="+staz.getId()+" AND mezzoPreparato='0' ;");
         if(res.isEmpty())
         {
             return null;
         }
-        ArrayList<Prenotazione>pre= new ArrayList<Prenotazione>();
+        ArrayList<String[]>str= new ArrayList<>();
         Prenotazione p;
+        Modello a;
         for(String[] riga : res)
         {
+            String[] record= new String[4];
             p=new Prenotazione();
-            p.setId(Integer.parseInt(riga[0]));
-            p.setData(DateUtil.dateTimeFromString(riga[1]));
-            p.setDataInizio(DateUtil.dateTimeFromString(riga[7]));
-            p.setDataFine(DateUtil.dateTimeFromString(riga[8]));
-            pre.add(p);
+            a=new Modello();
+            a=findModelByIdPrenotazione(Integer.parseInt(riga[0]));
+            record[0]=riga[0];
+            record[1]=riga[1];
+            record[2]=a.getNome();
+            record[3]=a.getTipologia();
+            str.add(record);
+
         }
-        return pre;
+        return str;
     }
 
 }

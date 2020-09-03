@@ -1,29 +1,34 @@
 package it.unisalento.pps1920.carsharing.business;
 
-import it.unisalento.pps1920.carsharing.dao.mysql.AccessorioDAO;
-import it.unisalento.pps1920.carsharing.dao.mysql.AddettoDAO;
-import it.unisalento.pps1920.carsharing.dao.mysql.OperatoreDAO;
-import it.unisalento.pps1920.carsharing.dao.mysql.StazioneDAO;
+import it.unisalento.pps1920.carsharing.dao.interfaces.IPrenotazioneDAO;
+import it.unisalento.pps1920.carsharing.dao.mysql.*;
 import it.unisalento.pps1920.carsharing.model.*;
+import it.unisalento.pps1920.carsharing.view.Listener.ErrorMessages.AllErrorMessages;
 
 import java.util.ArrayList;
 
 public class ControlloAutomezziAddettoBusiness
 {
-    public ArrayList<Prenotazione> checkPrenotazioni(int id)
+    public ArrayList<String[]> checkPrenotazioni(int id)
     {
+        ArrayList<String[]>pre = new ArrayList<String[]>();
         AddettoDAO adao = new AddettoDAO();
         StazioneDAO sdao = new StazioneDAO();
         Stazione s = new Stazione();
-        ArrayList<Prenotazione>pre = new ArrayList<Prenotazione>();
         s=sdao.findStationByAddettoId(id);
         pre= adao.findByStation(s);
-        if(pre==null)
-        {
-            System.out.println("Mi spiace ma al momento non sono presenti delle prenotazioni.");
-            return null;
-        }
         return pre;
+    }
+    public ArrayList<String[]> checkPrenotazioniFilteredByIdStation(int idAddetto,int idPrenotazione)
+    {
+
+        StazioneDAO sdao = new StazioneDAO();
+        Stazione s = new Stazione();
+        s=sdao.findStationByAddettoId(idAddetto);
+        IPrenotazioneDAO pre = new PrenotazioneDAO();
+        ArrayList<String[]>prenotazioni = new ArrayList<String[]>();
+        prenotazioni=pre.findForIdAddettoAndIdStation(s.getId(),idPrenotazione);
+        return prenotazioni;
     }
 
     public Modello getModelFromIdPrenotazione(int id)

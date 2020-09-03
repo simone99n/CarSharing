@@ -6,7 +6,7 @@ public class Cliente extends Utente
     private int id;
     private String nome;
     private String cognome;
-    private int eta;
+    private int annoNascita;
     private String telefono;
     private String residenza;
     private byte[] foto;
@@ -35,12 +35,12 @@ public class Cliente extends Utente
         this.cognome = cognome;
     }
 
-    public int getEta() {
-        return eta;
+    public int getAnnoNascita() {
+        return annoNascita;
     }
 
-    public void setEta(int eta) {
-        this.eta = eta;
+    public void setAnnoNascita(int annoNascita) {
+        this.annoNascita = annoNascita;
     }
 
     public String getTelefono() {

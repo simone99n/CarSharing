@@ -3,7 +3,7 @@ package it.unisalento.pps1920.carsharing.model;
 public class Amministratore extends Utente
 {
     String nome;
-    String congome;
+    String cognome;
 
     public String getNome() {
         return nome;
@@ -13,11 +13,11 @@ public class Amministratore extends Utente
         this.nome = nome;
     }
 
-    public String getCongome() {
-        return congome;
+    public String getCognome() {
+        return cognome;
     }
 
-    public void setCongome(String congome) {
-        this.congome = congome;
+    public void setCognome(String cognome) {
+        this.cognome = cognome;
     }
 }

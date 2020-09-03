@@ -4,7 +4,7 @@ import it.unisalento.pps1920.carsharing.business.LoginBusiness;
 import it.unisalento.pps1920.carsharing.model.Utente;
 import it.unisalento.pps1920.carsharing.model.model_support.Recogniser;
 import it.unisalento.pps1920.carsharing.view.*;
-import it.unisalento.pps1920.carsharing.view.Listener.BottonErrorListener.AllErrorMessages;
+import it.unisalento.pps1920.carsharing.view.Listener.ErrorMessages.AllErrorMessages;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;

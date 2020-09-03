@@ -49,7 +49,8 @@ public class AccessorioDAO implements IAccessorioDAO {
         ArrayList<String[]> accessoriId = DbConnection.getInstance().eseguiQuery(sql1);
         ArrayList<Accessorio> accs = new ArrayList<Accessorio>();
 
-        for(int i=0; i<accessoriId.size();i++){
+        for(int i=0; i<accessoriId.size();i++)
+        {
             String sql2="SELECT nomeaccessorio FROM accessorio WHERE idaccessorio='" +accessoriId.get(i)[0]+"';";
             String[] prova = DbConnection.getInstance().eseguiQuery(sql2).get(0);
 

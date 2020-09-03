@@ -56,7 +56,7 @@ public class UtenteDAO implements IUtenteDAO
             ArrayList<String[]>res=DbConnection.getInstance().eseguiQuery("SELECT LAST_INSERT_ID() FROM utente;");
             String[] riga=res.get(0);
             System.out.println(Integer.parseInt(riga[0]));
-            String sql1="INSERT INTO cliente VALUES ("+Integer.parseInt(riga[0])+",'"+c.getNome()+"','"+c.getCognome()+"',"+c.getTelefono()+",'"+c.getResidenza()+"',"+c.getEta()+","+ Arrays.toString(c.getFoto()) +")";
+            String sql1="INSERT INTO cliente VALUES ("+Integer.parseInt(riga[0])+",'"+c.getNome()+"','"+c.getCognome()+"',"+c.getTelefono()+",'"+c.getResidenza()+"',"+c.getAnnoNascita()+","+ Arrays.toString(c.getFoto()) +")";
             DbConnection.getInstance().eseguiAggiornamento(sql1);
 
             return 1;
