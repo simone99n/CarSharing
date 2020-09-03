@@ -152,11 +152,9 @@ public class FinestraOperatore extends  JFrame
                 JLabel testo = new JLabel(strings[1]);
                 centro.add(nome);
                 centro.add(testo);
-               // centro.add(new JLabel(" "));
 
                 centro.add(new JLabel("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"));
-               // centro.add(new JLabel(" "));
-               // centro.add(new JLabel(" "));
+
             }
         }
         else{

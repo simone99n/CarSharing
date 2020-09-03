@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 public class BottonAdminListener implements ActionListener
 {
 
+
     private FinestraAmministratore win;
     public static final String PULSANTE_DATA = "PULSANTE_DATA";
     public static final String PULSANTE_SEGNALAZIONI = "PULSANTE_SEGNALAZIONI";
@@ -30,6 +31,7 @@ public class BottonAdminListener implements ActionListener
     public static final String PULSANTE_SEGNALAZIONE_ADDETTO = "PULSANTE_SEGNALAZIONE_ADDETTO";
     public static final String PULSANTE_SEGNALAZIONE_OPERATORE = "PULSANTE_SEGNALAZIONE_OPERATORE";
     public static final String PULSANTE_INVIA_SEGNALAZIONE = "PULSANTE_INVIA_SEGNALAZIONE";
+    public static final String PULSANTE_RISCONTRO = "PULSANTE_RISCONTRO";
 
     public BottonAdminListener(FinestraAmministratore win) {
         this.win=win;
@@ -132,6 +134,9 @@ public class BottonAdminListener implements ActionListener
                 win.menu();
             }
 
+        }
+        if(PULSANTE_RISCONTRO.equals(command)){
+            win.mostraPannelloRiscontroSegnalazioni();
         }
 
     }

@@ -8,6 +8,7 @@ import it.unisalento.pps1920.carsharing.model.Stazione;
 import it.unisalento.pps1920.carsharing.util.MailHelper;
 import it.unisalento.pps1920.carsharing.util.Session;
 
+import java.awt.image.DataBufferByte;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -135,5 +136,10 @@ public class StazioneDAO implements IStazioneDAO {
         s.setLatitudine(Double.parseDouble(riga[2]));
         s.setLongitudine(Double.parseDouble(riga[3]));
         return s;
+    }
+
+    public String nomeStazioneFromOperatore(int idOperatore){
+        String sql1="SELECT nome FROM stazione WHERE operatore_utente_idutente='"+idOperatore+"'";
+        return DbConnection.getInstance().eseguiQuery(sql1).get(0)[0];
     }
 }

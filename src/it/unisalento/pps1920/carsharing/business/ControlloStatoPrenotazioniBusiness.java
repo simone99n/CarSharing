@@ -3,6 +3,7 @@ package it.unisalento.pps1920.carsharing.business;
 
 import it.unisalento.pps1920.carsharing.dao.interfaces.IMessaggioDAO;
 import it.unisalento.pps1920.carsharing.dao.interfaces.IPrenotazioneDAO;
+import it.unisalento.pps1920.carsharing.dao.interfaces.IStazioneDAO;
 import it.unisalento.pps1920.carsharing.dao.mysql.MessaggioDAO;
 import it.unisalento.pps1920.carsharing.dao.mysql.OperatoreDAO;
 import it.unisalento.pps1920.carsharing.dao.mysql.PrenotazioneDAO;
@@ -45,6 +46,11 @@ public class ControlloStatoPrenotazioniBusiness {           //Eseguita dall'oper
         return mDAO.getMessaggiOperatore();
     }
 
+    public ArrayList<String[]> getMessaggiAmministratore() {
+        IMessaggioDAO mDAO = new MessaggioDAO();
+        return mDAO.getMessaggiAmministratore();
+    }
+
     public String getNomeFromId(int idSorgente){
          IMessaggioDAO mDAO = new MessaggioDAO();
         return mDAO.getNomeFromId(idSorgente);
@@ -62,4 +68,11 @@ public class ControlloStatoPrenotazioniBusiness {           //Eseguita dall'oper
         IPrenotazioneDAO iDao = new PrenotazioneDAO();
         iDao.setPagato(idPrenotazione);
     }
+
+    public String nomeStazioneFromOperatore(int idOperatore){
+        IStazioneDAO iDao = new StazioneDAO();
+        return  iDao.nomeStazioneFromOperatore(idOperatore);
+    }
+
+
 }

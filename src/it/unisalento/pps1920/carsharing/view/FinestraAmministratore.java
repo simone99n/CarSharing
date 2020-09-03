@@ -1,12 +1,14 @@
 package it.unisalento.pps1920.carsharing.view;
 
 import it.unisalento.pps1920.carsharing.business.ControlloPrenotazioniAdminBusiness;
+import it.unisalento.pps1920.carsharing.business.ControlloStatoPrenotazioniBusiness;
 import it.unisalento.pps1920.carsharing.business.PrenotazioneBusiness;
 import it.unisalento.pps1920.carsharing.dao.mysql.PrenotazioneDAO;
 import it.unisalento.pps1920.carsharing.model.*;
 import it.unisalento.pps1920.carsharing.util.PdfHelper;
 import it.unisalento.pps1920.carsharing.view.Listener.BottonAdminListener;
 import it.unisalento.pps1920.carsharing.view.Listener.BottonErrorListener.AllErrorMessages;
+import it.unisalento.pps1920.carsharing.view.Listener.BottonOperatorListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,13 +34,14 @@ public class FinestraAmministratore extends JFrame
     public JButton b2 = new JButton("Stazione");
     public JButton b3 = new JButton("Modello");
     public JButton b4 = new JButton("Marca");
-    public  JButton b5 = new JButton("Centro Segnalazioni");
-    public JButton b6 = new JButton("Menu'");
+    public  JButton b5 = new JButton("INVIA SEGNALAZIONE");
+    public JButton b6 = new JButton("MENU'");
     public  JButton b7 = new JButton("Stampa PDF");
     public JButton b8 = new JButton("Stampa PDF");
     public JButton b9 = new JButton("Stampa PDF");
     public JButton b10 = new JButton("Stampa PDF");
     public JButton b11 = new JButton("Stampa PDF");
+    public JButton b12 = new JButton("RISCONTRO SEGNALAZIONI");
     Container c = new Container();
     ArrayList<Prenotazione> prenotazioni;
     ArrayList<Stazione> stazioni;
@@ -74,7 +77,8 @@ public class FinestraAmministratore extends JFrame
         b10.setActionCommand(BottonAdminListener.PULSANTE_STAMPA_PDF_MODELLO);
         b11.addActionListener(listener);
         b11.setActionCommand(BottonAdminListener.PULSANTE_STAMPA_PDF_MARCA);
-
+        b12.addActionListener(listener);
+        b12.setActionCommand(BottonAdminListener.PULSANTE_RISCONTRO);
 
         c=this.getContentPane();
         c.setLayout(new BorderLayout());
@@ -98,9 +102,8 @@ public class FinestraAmministratore extends JFrame
         jp2_2.add(b4);
         jp2.add(b7);
         jp3.add(b5);
-        JLabel bb= new JLabel("  ");
-        jp3.add(bb);
         jp3.add(b6);
+        jp3.add(b12);
         jp3.setBackground(Color.RED);
         JLabel tx= new JLabel("<<<TABELLA PRENOTAZIONI>>>");
         jp2_1.add(tx);
@@ -584,7 +587,7 @@ public class FinestraAmministratore extends JFrame
 
         this.getContentPane().add(new JScrollPane(jp1), BorderLayout.CENTER);
         this.getContentPane().add(jp2, BorderLayout.NORTH);
-        this.setSize(1200,800);
+        this.setSize(1300,800);
         repaint();
         revalidate();
         Dimension screenSize = Toolkit.getDefaultToolkit ( ).getScreenSize ( );
@@ -678,5 +681,46 @@ public class FinestraAmministratore extends JFrame
         pp2.add(messJTA);
         pp2.add(invia);
 
+    }
+
+
+
+    public void mostraPannelloRiscontroSegnalazioni() {
+
+        BorderLayout al = (BorderLayout) this.getContentPane().getLayout();
+        this.getContentPane().remove(al.getLayoutComponent(BorderLayout.CENTER));
+        this.getContentPane().remove(al.getLayoutComponent(BorderLayout.NORTH));
+
+        this.setSize(850,400);
+        this.setResizable(false);
+        JPanel nord = new JPanel(new BorderLayout());
+        JPanel centro = new JPanel(new BorderLayout());
+        JPanel sud = new JPanel(new FlowLayout());
+        sud.setBackground(Color.red);
+        this.getContentPane().add(new JScrollPane(centro), BorderLayout.CENTER);
+        this.getContentPane().add(nord, BorderLayout.NORTH);
+
+        nord.setLayout(new FlowLayout());
+        JLabel info = new JLabel("Nuovi messaggi");
+        nord.add(info);
+
+        ArrayList<String[]> messaggi = ControlloStatoPrenotazioniBusiness.getInstance().getMessaggiAmministratore();
+
+
+        if(messaggi.size()!=0){
+            centro.setLayout(new GridLayout(messaggi.size()*2,1));
+            for (String[] strings : messaggi) {
+                JLabel testo = new JLabel(strings[1]);
+                centro.add(testo);
+                centro.add(new JLabel("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"));
+            }
+        }
+        else{
+            System.out.println("non ci sono messaggi non letti");
+        }
+
+
+        repaint();
+        revalidate();
     }
 }

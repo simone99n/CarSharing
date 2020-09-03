@@ -2,11 +2,13 @@ package it.unisalento.pps1920.carsharing.view.Listener;
 
 import it.unisalento.pps1920.carsharing.business.ControlloStatoPrenotazioniBusiness;
 import it.unisalento.pps1920.carsharing.model.Operatore;
+import it.unisalento.pps1920.carsharing.util.DateUtil;
 import it.unisalento.pps1920.carsharing.util.Session;
 import it.unisalento.pps1920.carsharing.view.FinestraOperatore;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 public class BottonOperatorListener implements ActionListener {
 
@@ -48,7 +50,9 @@ public class BottonOperatorListener implements ActionListener {
             win.panelloRiscontro();
         }
         else if (PULSANTE_INVIA_DEF.equals(command)){
-            ControlloStatoPrenotazioniBusiness.getInstance().inviaRiscontro(win.testoRiscontro.getText(), Integer.parseInt(win.campoId.getText()));
+            Operatore operatoreLoggato = (Operatore) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
+            String data = DateUtil.stringFromDate(new Date());
+            ControlloStatoPrenotazioniBusiness.getInstance().inviaRiscontro("[Operatore della "+ControlloStatoPrenotazioniBusiness.getInstance().nomeStazioneFromOperatore(operatoreLoggato.getId_operatore())+" ] "+data+":        "+win.testoRiscontro.getText(), Integer.parseInt(win.campoId.getText()));
             win.mostraPannelloSegnalazioni();
         }
     }

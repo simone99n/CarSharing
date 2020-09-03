@@ -64,6 +64,12 @@ public class MessaggioDAO implements IMessaggioDAO {
         return DbConnection.getInstance().eseguiQuery(sql1);
     }
 
+    public ArrayList<String[]> getMessaggiAmministratore(){
+        Amministratore amministratoreeLoggato = (Amministratore) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
+        String sql1 = "SELECT * FROM messaggio WHERE destinatario='"+amministratoreeLoggato.getId()+"' AND letto='0';";
+        return DbConnection.getInstance().eseguiQuery(sql1);
+    }
+
     public String getNomeFromId(int idSorgente){
         String sql1 = "SELECT nome FROM amministratore WHERE utente_idutente='"+idSorgente+"';";
         return DbConnection.getInstance().eseguiQuery(sql1).get(0)[0];

@@ -8,4 +8,5 @@ public interface IStazioneDAO extends IBaseDAO<Stazione> {
     public int modificaStazione(int newIdPartenza, int newIdArrivo, int idPrenotazione);
     public Stazione findStationByOperatorId(int id);
     public Stazione findStationByAddettoId(int id);
+    public String nomeStazioneFromOperatore(int idOperatore);
 }
