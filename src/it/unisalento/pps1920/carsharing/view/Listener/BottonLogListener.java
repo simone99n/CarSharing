@@ -1,9 +1,16 @@
 package it.unisalento.pps1920.carsharing.view.Listener;
 
 import it.unisalento.pps1920.carsharing.business.LoginBusiness;
+import it.unisalento.pps1920.carsharing.dao.interfaces.IAddettoDAO;
+import it.unisalento.pps1920.carsharing.dao.interfaces.IAmministratoreDAO;
 import it.unisalento.pps1920.carsharing.dao.interfaces.IClienteDAO;
+import it.unisalento.pps1920.carsharing.dao.interfaces.IOperatoreDAO;
+import it.unisalento.pps1920.carsharing.dao.mysql.AmministratoreDAO;
 import it.unisalento.pps1920.carsharing.dao.mysql.ClienteDAO;
+import it.unisalento.pps1920.carsharing.dao.mysql.OperatoreDAO;
+import it.unisalento.pps1920.carsharing.model.Amministratore;
 import it.unisalento.pps1920.carsharing.model.Cliente;
+import it.unisalento.pps1920.carsharing.model.Operatore;
 import it.unisalento.pps1920.carsharing.model.Utente;
 import it.unisalento.pps1920.carsharing.model.model_support.Recogniser;
 import it.unisalento.pps1920.carsharing.util.Session;
@@ -44,6 +51,9 @@ public class BottonLogListener implements ActionListener
                 win.dispose();
                 switch (rec.getType()) {
                     case "Operatore":
+                        IOperatoreDAO ooop=new OperatoreDAO();
+                        Operatore operatoreLoggato = ooop.findById(rec.getId());
+                        Session.getInstance().inserisci(Session.UTENTE_LOGGATO, operatoreLoggato);
                         FinestraOperatore fop = new FinestraOperatore(rec.getId(), rec.getNome());
                         break;
                     case "Cliente":
@@ -57,6 +67,9 @@ public class BottonLogListener implements ActionListener
                         FinestraAddetto fad = new FinestraAddetto(rec.getId(), rec.getNome());
                         break;
                     case "Amministratore":
+                        IAmministratoreDAO aDAO = new AmministratoreDAO();
+                        Amministratore amministratoreLoggato = aDAO.findById(rec.getId());
+                        Session.getInstance().inserisci(Session.UTENTE_LOGGATO, amministratoreLoggato);
                         FinestraAmministratore fam = new FinestraAmministratore(rec.getId(), rec.getNome());
                         break;
                 }

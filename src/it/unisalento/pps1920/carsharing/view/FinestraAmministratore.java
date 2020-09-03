@@ -1,16 +1,12 @@
 package it.unisalento.pps1920.carsharing.view;
 
 import it.unisalento.pps1920.carsharing.business.ControlloPrenotazioniAdminBusiness;
-import it.unisalento.pps1920.carsharing.business.ControlloStatoPrenotazioniBusiness;
 import it.unisalento.pps1920.carsharing.business.PrenotazioneBusiness;
 import it.unisalento.pps1920.carsharing.dao.mysql.PrenotazioneDAO;
-import it.unisalento.pps1920.carsharing.model.Modello;
-import it.unisalento.pps1920.carsharing.model.Prenotazione;
-import it.unisalento.pps1920.carsharing.model.Stazione;
+import it.unisalento.pps1920.carsharing.model.*;
 import it.unisalento.pps1920.carsharing.util.PdfHelper;
 import it.unisalento.pps1920.carsharing.view.Listener.BottonAdminListener;
 import it.unisalento.pps1920.carsharing.view.Listener.BottonErrorListener.AllErrorMessages;
-import it.unisalento.pps1920.carsharing.view.Listener.BottonOperatorListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,6 +17,11 @@ public class FinestraAmministratore extends JFrame
     public JComboBox<Stazione> partenza = new JComboBox<Stazione>();
     public JComboBox<String> modello = new JComboBox<String>();
     public JComboBox<Modello> marca = new JComboBox<Modello>();
+    public JComboBox<Stazione> addettoComboBox = new JComboBox<Stazione>();
+    public JComboBox<Stazione> operatoreComboBox = new JComboBox<Stazione>();
+
+    public JTextArea messJTA;
+
     public JPanel jp1 = new JPanel();
     public JPanel jp2 = new JPanel();
     public JPanel jp3 = new JPanel();
@@ -49,7 +50,7 @@ public class FinestraAmministratore extends JFrame
     {
 
         super("AMMINISTRATORE : " + nome.toUpperCase());
-        this.setSize(1000,800);
+        this.setSize(1300,800);
         listener = new BottonAdminListener(this);
         b1.addActionListener(listener);
         b1.setActionCommand(BottonAdminListener.PULSANTE_DATA);
@@ -113,14 +114,21 @@ public class FinestraAmministratore extends JFrame
 
     public void setupPannelloPrenotazioni(int id) {
         ArrayList<Prenotazione> prenotazioni = new PrenotazioneDAO().findAll();
-        TablePrenotazioniOperatore tmp = new TablePrenotazioniOperatore(prenotazioni);
+        TablePrenotazioniAmministratore tmp = new TablePrenotazioniAmministratore(prenotazioni);
         JTable tabellaPrenotazioni = new JTable(tmp);
-        JTable intestazione = new JTable(1,5);
+        JTable intestazione = new JTable(1,10);
         intestazione.setValueAt("ID PRENOTAZIONE",0,0);
-        intestazione.setValueAt("DATA",0,1);
-        intestazione.setValueAt("DATA/ORA INZIO",0,2);
-        intestazione.setValueAt("DATA/ORA FINE",0,3);
-        intestazione.setValueAt("STATO",0,4);
+        intestazione.setValueAt("PARTENZA",0,1);
+        intestazione.setValueAt("ARRIVO",0,2);
+        intestazione.setValueAt("LOCALITA'",0,3);
+        intestazione.setValueAt("POSTI OCCUPATI",0,4);
+
+        intestazione.setValueAt("VEICOLO",0,5);
+
+        intestazione.setValueAt("DATA",0,6);
+        intestazione.setValueAt("DATA/ORA INZIO",0,7);
+        intestazione.setValueAt("DATA/ORA FINE",0,8);
+        intestazione.setValueAt("STATO",0,9);
         jp1.add(intestazione, BorderLayout.NORTH);
         jp1.add(tabellaPrenotazioni,BorderLayout.CENTER);
     }
@@ -157,7 +165,7 @@ public class FinestraAmministratore extends JFrame
         BorderLayout bl = (BorderLayout) this.getContentPane().getLayout();
         this.getContentPane().remove(bl.getLayoutComponent(BorderLayout.CENTER));
         this.getContentPane().remove(bl.getLayoutComponent(BorderLayout.NORTH));
-        this.setSize(1000,800);
+        this.setSize(1300,800);
         ControlloPrenotazioniAdminBusiness ad= new ControlloPrenotazioniAdminBusiness();
         ArrayList<Prenotazione>pre = new ArrayList<Prenotazione>();
         pre=ad.checkPrenotazioniFromDate(data);
@@ -180,15 +188,22 @@ public class FinestraAmministratore extends JFrame
             fp2.add(jp2_1,BorderLayout.NORTH);
             jp2_1.add(b8,BorderLayout.NORTH);
 
-            TablePrenotazioniOperatore tmp = new TablePrenotazioniOperatore(pre);
-
+            TablePrenotazioniAmministratore tmp = new TablePrenotazioniAmministratore(pre);
             JTable tabellaPrenotazioni = new JTable(tmp);
-            JTable intestazione = new JTable(1,5);
+
+            JTable intestazione = new JTable(1,10);
             intestazione.setValueAt("ID PRENOTAZIONE",0,0);
-            intestazione.setValueAt("DATA",0,1);
-            intestazione.setValueAt("DATA/ORA INZIO",0,2);
-            intestazione.setValueAt("DATA/ORA FINE",0,3);
-            intestazione.setValueAt("STATO",0,4);
+            intestazione.setValueAt("PARTENZA",0,1);
+            intestazione.setValueAt("ARRIVO",0,2);
+            intestazione.setValueAt("LOCALITA'",0,3);
+            intestazione.setValueAt("POSTI OCCUPATI",0,4);
+
+            intestazione.setValueAt("VEICOLO",0,5);
+
+            intestazione.setValueAt("DATA",0,6);
+            intestazione.setValueAt("DATA/ORA INZIO",0,7);
+            intestazione.setValueAt("DATA/ORA FINE",0,8);
+            intestazione.setValueAt("STATO",0,9);
             jp2_1.add(intestazione, BorderLayout.SOUTH);
             fp1.add(tabellaPrenotazioni,BorderLayout.CENTER);
             setVisible(true);
@@ -228,7 +243,7 @@ public class FinestraAmministratore extends JFrame
         BorderLayout el = (BorderLayout) this.getContentPane().getLayout();
         this.getContentPane().remove(el.getLayoutComponent(BorderLayout.CENTER));
         this.getContentPane().remove(el.getLayoutComponent(BorderLayout.NORTH));
-        this.setSize(1000,800);
+        this.setSize(1300,800);
         ControlloPrenotazioniAdminBusiness ad= new ControlloPrenotazioniAdminBusiness();
         ArrayList<Prenotazione> pre= new ArrayList<>();
         pre=ad.checkPrenotazioniFromStation(staz.getNome());
@@ -250,15 +265,22 @@ public class FinestraAmministratore extends JFrame
             ff2.add(jp2_1,BorderLayout.NORTH);
             jp2_1.add(b9,BorderLayout.NORTH);
 
-            TablePrenotazioniOperatore   tmp = new TablePrenotazioniOperatore(pre);
+            TablePrenotazioniAmministratore tmp = new TablePrenotazioniAmministratore(pre);
 
             JTable tabellaPrenotazioni = new JTable(tmp);
-            JTable intestazione = new JTable(1,5);
+            JTable intestazione = new JTable(1,10);
             intestazione.setValueAt("ID PRENOTAZIONE",0,0);
-            intestazione.setValueAt("DATA",0,1);
-            intestazione.setValueAt("DATA/ORA INZIO",0,2);
-            intestazione.setValueAt("DATA/ORA FINE",0,3);
-            intestazione.setValueAt("STATO",0,4);
+            intestazione.setValueAt("PARTENZA",0,1);
+            intestazione.setValueAt("ARRIVO",0,2);
+            intestazione.setValueAt("LOCALITA'",0,3);
+            intestazione.setValueAt("POSTI OCCUPATI",0,4);
+
+            intestazione.setValueAt("VEICOLO",0,5);
+
+            intestazione.setValueAt("DATA",0,6);
+            intestazione.setValueAt("DATA/ORA INZIO",0,7);
+            intestazione.setValueAt("DATA/ORA FINE",0,8);
+            intestazione.setValueAt("STATO",0,9);
             jp2_1.add(intestazione, BorderLayout.SOUTH);
             ff1.add(tabellaPrenotazioni,BorderLayout.CENTER);
             Dimension screenSize = Toolkit.getDefaultToolkit ( ).getScreenSize ( );
@@ -320,7 +342,7 @@ public class FinestraAmministratore extends JFrame
             BorderLayout fl = (BorderLayout) this.getContentPane().getLayout();
             this.getContentPane().remove(fl.getLayoutComponent(BorderLayout.CENTER));
             this.getContentPane().remove(fl.getLayoutComponent(BorderLayout.NORTH));
-            this.setSize(1000,800);
+            this.setSize(1300,800);
 
             JPanel fg1 = new JPanel(new BorderLayout());
             JPanel fg2 = new JPanel(new BorderLayout());
@@ -332,14 +354,21 @@ public class FinestraAmministratore extends JFrame
             fg2.add(jp2_1,BorderLayout.NORTH);
             jp2_1.add(b10,BorderLayout.NORTH);
 
-            TablePrenotazioniOperatore   tmp = new TablePrenotazioniOperatore(pre);
+            TablePrenotazioniAmministratore tmp = new TablePrenotazioniAmministratore(pre);
             JTable tabellaPrenotazioni = new JTable(tmp);
-            JTable intestazione = new JTable(1,5);
+            JTable intestazione = new JTable(1,10);
             intestazione.setValueAt("ID PRENOTAZIONE",0,0);
-            intestazione.setValueAt("DATA",0,1);
-            intestazione.setValueAt("DATA/ORA INZIO",0,2);
-            intestazione.setValueAt("DATA/ORA FINE",0,3);
-            intestazione.setValueAt("STATO",0,4);
+            intestazione.setValueAt("PARTENZA",0,1);
+            intestazione.setValueAt("ARRIVO",0,2);
+            intestazione.setValueAt("LOCALITA'",0,3);
+            intestazione.setValueAt("POSTI OCCUPATI",0,4);
+
+            intestazione.setValueAt("VEICOLO",0,5);
+
+            intestazione.setValueAt("DATA",0,6);
+            intestazione.setValueAt("DATA/ORA INZIO",0,7);
+            intestazione.setValueAt("DATA/ORA FINE",0,8);
+            intestazione.setValueAt("STATO",0,9);
             fg2.add(intestazione, BorderLayout.SOUTH);
             fg1.add(tabellaPrenotazioni,BorderLayout.CENTER);
             Dimension screenSize = Toolkit.getDefaultToolkit ( ).getScreenSize ( );
@@ -386,7 +415,7 @@ public class FinestraAmministratore extends JFrame
         BorderLayout il = (BorderLayout) this.getContentPane().getLayout();
         this.getContentPane().remove(il.getLayoutComponent(BorderLayout.CENTER));
         this.getContentPane().remove(il.getLayoutComponent(BorderLayout.NORTH));
-        this.setSize(1000,800);
+        this.setSize(1300,800);
         ControlloPrenotazioniAdminBusiness ad= new ControlloPrenotazioniAdminBusiness();
         ArrayList<Prenotazione> pre= new ArrayList<>();
         pre=ad.checkPrenotazioniFromBrand(mod.getNome());
@@ -411,14 +440,21 @@ public class FinestraAmministratore extends JFrame
             kk2.add(jp2_1,BorderLayout.NORTH);
             jp2_1.add(b11,BorderLayout.NORTH);
 
-            TablePrenotazioniOperatore   tmp = new TablePrenotazioniOperatore(pre);
+            TablePrenotazioniAmministratore tmp = new TablePrenotazioniAmministratore(pre);
             JTable tabellaPrenotazioni = new JTable(tmp);
-            JTable intestazione = new JTable(1,5);
+            JTable intestazione = new JTable(1,10);
             intestazione.setValueAt("ID PRENOTAZIONE",0,0);
-            intestazione.setValueAt("DATA",0,1);
-            intestazione.setValueAt("DATA/ORA INZIO",0,2);
-            intestazione.setValueAt("DATA/ORA FINE",0,3);
-            intestazione.setValueAt("STATO",0,4);
+            intestazione.setValueAt("PARTENZA",0,1);
+            intestazione.setValueAt("ARRIVO",0,2);
+            intestazione.setValueAt("LOCALITA'",0,3);
+            intestazione.setValueAt("POSTI OCCUPATI",0,4);
+
+            intestazione.setValueAt("VEICOLO",0,5);
+
+            intestazione.setValueAt("DATA",0,6);
+            intestazione.setValueAt("DATA/ORA INZIO",0,7);
+            intestazione.setValueAt("DATA/ORA FINE",0,8);
+            intestazione.setValueAt("STATO",0,9);
             kk2.add(intestazione, BorderLayout.SOUTH);
             kk1.add(tabellaPrenotazioni,BorderLayout.CENTER);
             Dimension screenSize = Toolkit.getDefaultToolkit ( ).getScreenSize ( );
@@ -427,14 +463,17 @@ public class FinestraAmministratore extends JFrame
         }
     }
 
-    public void stampaPdf()
-    {
+    public void stampaPdf() {
         ArrayList<Prenotazione> prenotazioni = new PrenotazioneDAO().findAll();
         ArrayList<String> testo = new ArrayList<String>();
 
-        for (Prenotazione p : prenotazioni)
-        {
+        for (Prenotazione p : prenotazioni) {
             testo.add("Codice prenotazione: "+p.getId());
+            testo.add("Stazione partenza: "+p.getPartenza().getNome());
+            testo.add("Stazione arrivo: "+p.getArrivo().getNome());
+            testo.add("Località : "+p.getLocalita().getCitta());
+            testo.add("Posti occupati: "+p.getNumPostiOccupati());
+            testo.add("Veicolo: "+p.getMezzo().getModello().getNome());
             testo.add("Data e ora prenotazione: "+p.getData());
             testo.add("Data e ora di inizio noleggio: "+p.getDataInizio());
             testo.add("Data e ora di fine noleggio: "+p.getDataFine());
@@ -444,19 +483,25 @@ public class FinestraAmministratore extends JFrame
         PdfHelper.getInstance().creaPdf(testo);
     }
 
-    public void stampaPdfDataFiltering(String data)
-    {
+    public void stampaPdfDataFiltering(String data) {
         ArrayList<Prenotazione> prenotazioni = new ControlloPrenotazioniAdminBusiness().checkPrenotazioniFromDate(data);
         ArrayList<String> testo = new ArrayList<String>();
 
-        for (Prenotazione p : prenotazioni)
-        {
+        for (Prenotazione p : prenotazioni) {
+
             testo.add("Codice prenotazione: "+p.getId());
+            testo.add("Stazione partenza: "+p.getPartenza().getNome());
+            testo.add("Stazione arrivo: "+p.getArrivo().getNome());
+            testo.add("Località : "+p.getLocalita().getCitta());
+            testo.add("Posti occupati: "+p.getNumPostiOccupati());
+            testo.add("Veicolo: "+p.getMezzo().getModello().getNome());
             testo.add("Data e ora prenotazione: "+p.getData());
             testo.add("Data e ora di inizio noleggio: "+p.getDataInizio());
             testo.add("Data e ora di fine noleggio: "+p.getDataFine());
             testo.add("Stato: CONFERMATA");
             testo.add("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+
+
         }
         PdfHelper.getInstance().creaPdf(testo);
     }
@@ -469,11 +514,18 @@ public class FinestraAmministratore extends JFrame
         for (Prenotazione p : prenotazioni)
         {
             testo3.add("Codice prenotazione: "+p.getId());
+            testo3.add("Stazione partenza: "+p.getPartenza().getNome());
+            testo3.add("Stazione arrivo: "+p.getArrivo().getNome());
+            testo3.add("Località : "+p.getLocalita().getCitta());
+            testo3.add("Posti occupati: "+p.getNumPostiOccupati());
+            testo3.add("Veicolo: "+p.getMezzo().getModello().getNome());
             testo3.add("Data e ora prenotazione: "+p.getData());
             testo3.add("Data e ora di inizio noleggio: "+p.getDataInizio());
             testo3.add("Data e ora di fine noleggio: "+p.getDataFine());
             testo3.add("Stato: CONFERMATA");
             testo3.add("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+
+
         }
         PdfHelper.getInstance().creaPdf(testo3);
     }
@@ -485,24 +537,34 @@ public class FinestraAmministratore extends JFrame
 
         for (Prenotazione p : prenotazioni)
         {
+
             testo1.add("Codice prenotazione: "+p.getId());
+            testo1.add("Stazione partenza: "+p.getPartenza().getNome());
+            testo1.add("Stazione arrivo: "+p.getArrivo().getNome());
+            testo1.add("Località : "+p.getLocalita().getCitta());
+            testo1.add("Posti occupati: "+p.getNumPostiOccupati());
+            testo1.add("Veicolo: "+p.getMezzo().getModello().getNome());
             testo1.add("Data e ora prenotazione: "+p.getData());
             testo1.add("Data e ora di inizio noleggio: "+p.getDataInizio());
             testo1.add("Data e ora di fine noleggio: "+p.getDataFine());
             testo1.add("Stato: CONFERMATA");
             testo1.add("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+
         }
         PdfHelper.getInstance().creaPdf(testo1);
     }
 
-    public void stampaPdfBrandFiltering(Modello mod)
-    {
+    public void stampaPdfBrandFiltering(Modello mod) {
         ArrayList<Prenotazione> prenotazioni = new ControlloPrenotazioniAdminBusiness().checkPrenotazioniFromBrand(mod.getNome());
         ArrayList<String> testo2 = new ArrayList<String>();
 
-        for (Prenotazione p : prenotazioni)
-        {
+        for (Prenotazione p : prenotazioni) {
             testo2.add("Codice prenotazione: "+p.getId());
+            testo2.add("Stazione partenza: "+p.getPartenza().getNome());
+            testo2.add("Stazione arrivo: "+p.getArrivo().getNome());
+            testo2.add("Località : "+p.getLocalita().getCitta());
+            testo2.add("Posti occupati: "+p.getNumPostiOccupati());
+            testo2.add("Veicolo: "+p.getMezzo().getModello().getNome());
             testo2.add("Data e ora prenotazione: "+p.getData());
             testo2.add("Data e ora di inizio noleggio: "+p.getDataInizio());
             testo2.add("Data e ora di fine noleggio: "+p.getDataFine());
@@ -513,16 +575,108 @@ public class FinestraAmministratore extends JFrame
     }
 
     public void menu() {
+        operatoreComboBox.removeAllItems();
+        addettoComboBox.removeAllItems();
+
         BorderLayout cl = (BorderLayout) this.getContentPane().getLayout();
         this.getContentPane().remove(cl.getLayoutComponent(BorderLayout.CENTER));
         this.getContentPane().remove(cl.getLayoutComponent(BorderLayout.NORTH));
 
         this.getContentPane().add(new JScrollPane(jp1), BorderLayout.CENTER);
         this.getContentPane().add(jp2, BorderLayout.NORTH);
-        this.setSize(1000,800);
+        this.setSize(1200,800);
         repaint();
         revalidate();
         Dimension screenSize = Toolkit.getDefaultToolkit ( ).getScreenSize ( );
         setLocation ( ( screenSize.width / 2 ) - ( this.getWidth ( ) / 2 ), (screenSize.height / 2 ) - ( this.getHeight ( ) / 2 ) );
+    }
+
+    public void mostraPannelloSegnalazioni() {
+
+        BorderLayout segnP = (BorderLayout) this.getContentPane().getLayout();
+        this.getContentPane().remove(segnP.getLayoutComponent(BorderLayout.CENTER));
+        this.getContentPane().remove(segnP.getLayoutComponent(BorderLayout.NORTH));
+        this.setSize(480,200);
+
+
+        JButton segnalazioneAddetto= new JButton("Invia Segnalazione");
+        segnalazioneAddetto.addActionListener(listener);
+        segnalazioneAddetto.setActionCommand(BottonAdminListener.PULSANTE_SEGNALAZIONE_ADDETTO);
+
+        JButton segnalazioneOperatore= new JButton("Invia Segnalazione");
+        segnalazioneOperatore.addActionListener(listener);
+        segnalazioneOperatore.setActionCommand(BottonAdminListener.PULSANTE_SEGNALAZIONE_OPERATORE);
+
+        JPanel pp1 = new JPanel(new FlowLayout());
+        JPanel pp2 = new JPanel(new GridLayout(2,3));
+        this.getContentPane().add(pp1, BorderLayout.NORTH);
+        this.getContentPane().add(pp2, BorderLayout.CENTER);
+
+        pp2.add(new JLabel("Seleziona addetto: "));
+        pp2.add(addettoComboBox);
+        pp2.add(segnalazioneAddetto);
+        pp2.add(new JLabel("Seleziona operatore: "));
+        pp2.add(operatoreComboBox);
+        pp2.add(segnalazioneOperatore);
+
+        ArrayList<Stazione> arrayStazioni = PrenotazioneBusiness.getInstance().getStazioni();
+
+        for(Stazione staz : arrayStazioni){
+            addettoComboBox.addItem(staz);
+            operatoreComboBox.addItem(staz);
+        }
+
+        pp1.add(new JLabel("Invia Segnalazione"));
+
+        repaint();
+        revalidate();
+        Dimension screenSize = Toolkit.getDefaultToolkit ( ).getScreenSize ( );
+        setLocation ( ( screenSize.width / 2 ) - ( this.getWidth ( ) / 2 ), (screenSize.height / 2 ) - ( this.getHeight ( ) / 2 ) );
+    }
+
+    public void inserisciTestoSegnalazioneAddetto() {
+        this.operatoreComboBox.removeAllItems();
+        BorderLayout segnP = (BorderLayout) this.getContentPane().getLayout();
+        this.getContentPane().remove(segnP.getLayoutComponent(BorderLayout.CENTER));
+        this.getContentPane().remove(segnP.getLayoutComponent(BorderLayout.NORTH));
+        this.setSize(400,300);
+
+        messJTA = new JTextArea(5,30);
+
+        JButton invia = new JButton("INVIA");
+        invia.addActionListener(listener);
+        invia.setActionCommand(BottonAdminListener.PULSANTE_INVIA_SEGNALAZIONE);
+
+        JPanel pp1 = new JPanel(new FlowLayout());
+        JPanel pp2 = new JPanel(new FlowLayout());
+        this.getContentPane().add(pp1, BorderLayout.NORTH);
+        this.getContentPane().add(pp2, BorderLayout.CENTER);
+        pp1.add(new JLabel("Inserisci messaggio:"));
+        pp2.add(messJTA);
+        pp2.add(invia);
+
+    }
+
+    public void inserisciTestoSegnalazioneOperatore() {
+        this.addettoComboBox.removeAllItems();
+        BorderLayout segnP = (BorderLayout) this.getContentPane().getLayout();
+        this.getContentPane().remove(segnP.getLayoutComponent(BorderLayout.CENTER));
+        this.getContentPane().remove(segnP.getLayoutComponent(BorderLayout.NORTH));
+        this.setSize(400,300);
+
+        messJTA = new JTextArea(5,30);
+
+        JButton invia = new JButton("INVIA");
+        invia.addActionListener(listener);
+        invia.setActionCommand(BottonAdminListener.PULSANTE_INVIA_SEGNALAZIONE);
+
+        JPanel pp1 = new JPanel(new FlowLayout());
+        JPanel pp2 = new JPanel(new FlowLayout());
+        this.getContentPane().add(pp1, BorderLayout.NORTH);
+        this.getContentPane().add(pp2, BorderLayout.CENTER);
+        pp1.add(new JLabel("Inserisci messaggio:"));
+        pp2.add(messJTA);
+        pp2.add(invia);
+
     }
 }

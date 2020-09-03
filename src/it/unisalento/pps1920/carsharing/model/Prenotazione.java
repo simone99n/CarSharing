@@ -14,6 +14,24 @@ public class Prenotazione {
     private Localita localita;
     private Date dataInizio;
     private Date dataFine;
+    private boolean mezzoPreparato;
+    int pagato;
+
+    public boolean isMezzoPreparato() {
+        return mezzoPreparato;
+    }
+
+    public void setMezzoPreparato(boolean mezzoPreparato) {
+        this.mezzoPreparato = mezzoPreparato;
+    }
+
+    public int getPagato() {
+        return pagato;
+    }
+
+    public void setPagato(int pagato) {
+        this.pagato = pagato;
+    }
 
     public Date getDataInizio() {
         return dataInizio;

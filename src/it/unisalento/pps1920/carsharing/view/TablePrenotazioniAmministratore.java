@@ -6,10 +6,11 @@ import it.unisalento.pps1920.carsharing.util.DateUtil;
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 
-public class TablePrenotazioniOperatore extends AbstractTableModel {
+public class TablePrenotazioniAmministratore extends AbstractTableModel {
+
     private ArrayList<Prenotazione> prenotazioni;
 
-    public TablePrenotazioniOperatore(ArrayList<Prenotazione> prenotazioni)
+    public TablePrenotazioniAmministratore(ArrayList<Prenotazione> prenotazioni)
     {
         this.prenotazioni = prenotazioni;
     }
@@ -42,11 +43,7 @@ public class TablePrenotazioniOperatore extends AbstractTableModel {
             case 6: return DateUtil.stringFromDate(p.getData());
             case 7: return DateUtil.stringFromDate(p.getDataInizio());
             case 8: return DateUtil.stringFromDate(p.getDataFine());
-            case 9:
-                if(p.getPagato()==0)
-                    return "NON PAGATO";
-                else
-                    return "PAGATO";
+            case 9: return "CONFERMATA";
         }
 
         return "-";

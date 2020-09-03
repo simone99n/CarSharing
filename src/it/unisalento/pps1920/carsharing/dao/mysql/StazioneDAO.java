@@ -1,10 +1,7 @@
 package it.unisalento.pps1920.carsharing.dao.mysql;
 
 import it.unisalento.pps1920.carsharing.DbConnection;
-import it.unisalento.pps1920.carsharing.dao.interfaces.IAddettoDAO;
-import it.unisalento.pps1920.carsharing.dao.interfaces.IClienteDAO;
-import it.unisalento.pps1920.carsharing.dao.interfaces.IPrenotazioneDAO;
-import it.unisalento.pps1920.carsharing.dao.interfaces.IStazioneDAO;
+import it.unisalento.pps1920.carsharing.dao.interfaces.*;
 import it.unisalento.pps1920.carsharing.model.Cliente;
 import it.unisalento.pps1920.carsharing.model.Prenotazione;
 import it.unisalento.pps1920.carsharing.model.Stazione;
@@ -19,7 +16,7 @@ public class StazioneDAO implements IStazioneDAO {
     public Stazione findById(int id) {
         Stazione s = null;
 
-        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT S.idstazione, S.nome, S.latitudine, S.longitudine, S.addetto_utente_idutente FROM stazione AS S INNER JOIN addetto AS A ON S.addetto_utente_idutente = A.utente_idutente WHERE S.idstazione = "+id+";");
+        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT S.idstazione, S.nome, S.latitudine, S.longitudine, S.addetto_utente_idutente, S.operatore_utente_idutente FROM stazione AS S INNER JOIN addetto AS A ON S.addetto_utente_idutente = A.utente_idutente WHERE S.idstazione = "+id+";");
 
         if(res.size() == 1 ) {
             String riga[] = res.get(0);
@@ -29,7 +26,9 @@ public class StazioneDAO implements IStazioneDAO {
             s.setLatitudine(Double.parseDouble(riga[2]));
             s.setLongitudine(Double.parseDouble(riga[3]));
             IAddettoDAO aDao = new AddettoDAO();
+            IOperatoreDAO oDao = new OperatoreDAO();
             s.setAddetto(aDao.findById(Integer.parseInt(riga[4])));
+            s.setOperatore(oDao.findById(Integer.parseInt(riga[5])));
         }
 
         return s;

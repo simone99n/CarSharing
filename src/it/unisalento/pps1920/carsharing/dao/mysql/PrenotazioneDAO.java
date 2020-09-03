@@ -40,7 +40,8 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
             p.setLocalita(l);
             p.setDataInizio(DateUtil.dateTimeFromString(riga[7]));
             p.setDataFine(DateUtil.dateTimeFromString(riga[8]));
-
+            p.setMezzoPreparato(Integer.parseInt(riga[9]) != 0);
+            p.setPagato(Integer.parseInt(riga[10]));
         }
 
         return p;
@@ -295,8 +296,6 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         return prenotazioni;
     }
 
-
-
     @Override
     public ArrayList<Prenotazione> findForData(String data) {
         ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT * FROM prenotazione WHERE dataInizio LIKE '"+data+"%';");
@@ -304,9 +303,26 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         if(!res.isEmpty()) {
 
             for(String[] riga : res) {
+
+                IStazioneDAO sDao = new StazioneDAO();
+                IMezzoDAO mDao = new MezzoDAO();
+                ILocalitaDAO lDao = new LocalitaDAO();
+
                 Prenotazione p= new Prenotazione();
+                Mezzo mezzo = mDao.findById(Integer.parseInt(riga[2]));
+                Stazione partenza = sDao.findById(Integer.parseInt(riga[4]));
+                Stazione arrivo = sDao.findById(Integer.parseInt(riga[5]));
+                Localita l = lDao.findById(Integer.parseInt(riga[6]));
+
                 p.setId(Integer.parseInt(riga[0]));
                 p.setData(DateUtil.dateTimeFromString(riga[1]));
+                p.setMezzo(mezzo);
+                p.setNumPostiOccupati(Integer.parseInt(riga[3]));
+
+
+                p.setPartenza(partenza);
+                p.setArrivo(arrivo);
+                p.setLocalita(l);
                 p.setDataInizio(DateUtil.dateTimeFromString(riga[7]));
                 p.setDataFine(DateUtil.dateTimeFromString(riga[8]));
                 pre.add(p);
@@ -327,9 +343,29 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         if(!res.isEmpty()) {
 
             for(String[] riga : res) {
-                Prenotazione p= new Prenotazione();
+                /*Prenotazione p= new Prenotazione();
                 p.setId(Integer.parseInt(riga[0]));
                 p.setData(DateUtil.dateTimeFromString(riga[1]));
+                p.setDataInizio(DateUtil.dateTimeFromString(riga[7]));
+                p.setDataFine(DateUtil.dateTimeFromString(riga[8]));
+                pre.add(p);*/
+                IStazioneDAO sDao = new StazioneDAO();
+                IMezzoDAO mDao = new MezzoDAO();
+                ILocalitaDAO lDao = new LocalitaDAO();
+
+                Prenotazione p= new Prenotazione();
+                Mezzo mezzo = mDao.findById(Integer.parseInt(riga[2]));
+                Stazione partenza = sDao.findById(Integer.parseInt(riga[4]));
+                Stazione arrivo = sDao.findById(Integer.parseInt(riga[5]));
+                Localita l = lDao.findById(Integer.parseInt(riga[6]));
+
+                p.setId(Integer.parseInt(riga[0]));
+                p.setData(DateUtil.dateTimeFromString(riga[1]));
+                p.setMezzo(mezzo);
+                p.setNumPostiOccupati(Integer.parseInt(riga[3]));
+                p.setPartenza(partenza);
+                p.setArrivo(arrivo);
+                p.setLocalita(l);
                 p.setDataInizio(DateUtil.dateTimeFromString(riga[7]));
                 p.setDataFine(DateUtil.dateTimeFromString(riga[8]));
                 pre.add(p);
@@ -349,9 +385,29 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         if(!res.isEmpty()) {
 
             for(String[] riga : res) {
-                Prenotazione p= new Prenotazione();
+               /* Prenotazione p= new Prenotazione();
                 p.setId(Integer.parseInt(riga[0]));
                 p.setData(DateUtil.dateTimeFromString(riga[1]));
+                p.setDataInizio(DateUtil.dateTimeFromString(riga[7]));
+                p.setDataFine(DateUtil.dateTimeFromString(riga[8]));
+                pre.add(p);*/
+                IStazioneDAO sDao = new StazioneDAO();
+                IMezzoDAO mDao = new MezzoDAO();
+                ILocalitaDAO lDao = new LocalitaDAO();
+
+                Prenotazione p= new Prenotazione();
+                Mezzo mezzo = mDao.findById(Integer.parseInt(riga[2]));
+                Stazione partenza = sDao.findById(Integer.parseInt(riga[4]));
+                Stazione arrivo = sDao.findById(Integer.parseInt(riga[5]));
+                Localita l = lDao.findById(Integer.parseInt(riga[6]));
+
+                p.setId(Integer.parseInt(riga[0]));
+                p.setData(DateUtil.dateTimeFromString(riga[1]));
+                p.setMezzo(mezzo);
+                p.setNumPostiOccupati(Integer.parseInt(riga[3]));
+                p.setPartenza(partenza);
+                p.setArrivo(arrivo);
+                p.setLocalita(l);
                 p.setDataInizio(DateUtil.dateTimeFromString(riga[7]));
                 p.setDataFine(DateUtil.dateTimeFromString(riga[8]));
                 pre.add(p);
@@ -370,9 +426,29 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         if(!res.isEmpty()) {
 
             for(String[] riga : res) {
-                Prenotazione p= new Prenotazione();
+                /*Prenotazione p= new Prenotazione();
                 p.setId(Integer.parseInt(riga[0]));
                 p.setData(DateUtil.dateTimeFromString(riga[1]));
+                p.setDataInizio(DateUtil.dateTimeFromString(riga[7]));
+                p.setDataFine(DateUtil.dateTimeFromString(riga[8]));
+                pre.add(p);*/
+                IStazioneDAO sDao = new StazioneDAO();
+                IMezzoDAO mDao = new MezzoDAO();
+                ILocalitaDAO lDao = new LocalitaDAO();
+
+                Prenotazione p= new Prenotazione();
+                Mezzo mezzo = mDao.findById(Integer.parseInt(riga[2]));
+                Stazione partenza = sDao.findById(Integer.parseInt(riga[4]));
+                Stazione arrivo = sDao.findById(Integer.parseInt(riga[5]));
+                Localita l = lDao.findById(Integer.parseInt(riga[6]));
+
+                p.setId(Integer.parseInt(riga[0]));
+                p.setData(DateUtil.dateTimeFromString(riga[1]));
+                p.setMezzo(mezzo);
+                p.setNumPostiOccupati(Integer.parseInt(riga[3]));
+                p.setPartenza(partenza);
+                p.setArrivo(arrivo);
+                p.setLocalita(l);
                 p.setDataInizio(DateUtil.dateTimeFromString(riga[7]));
                 p.setDataFine(DateUtil.dateTimeFromString(riga[8]));
                 pre.add(p);
@@ -382,5 +458,10 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         }
         pre=null;
         return pre;
+    }
+
+    public void setPagato(int idPrenotazione){
+        String sql1 = "UPDATE prenotazione SET pagato=1 WHERE idPrenotazione='"+idPrenotazione+"';";
+        DbConnection.getInstance().eseguiAggiornamento(sql1);
     }
 }

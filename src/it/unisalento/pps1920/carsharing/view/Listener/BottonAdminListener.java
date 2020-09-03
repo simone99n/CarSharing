@@ -1,20 +1,16 @@
 package it.unisalento.pps1920.carsharing.view.Listener;
 
 import it.unisalento.pps1920.carsharing.business.ControlloPrenotazioniAdminBusiness;
-import it.unisalento.pps1920.carsharing.model.Modello;
-import it.unisalento.pps1920.carsharing.model.Prenotazione;
-import it.unisalento.pps1920.carsharing.model.Stazione;
+import it.unisalento.pps1920.carsharing.model.*;
+import it.unisalento.pps1920.carsharing.util.Session;
 import it.unisalento.pps1920.carsharing.view.FinestraAmministratore;
-import it.unisalento.pps1920.carsharing.view.TablePrenotazioniOperatore;
 
-import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class BottonAdminListener implements ActionListener
 {
+
     private FinestraAmministratore win;
     public static final String PULSANTE_DATA = "PULSANTE_DATA";
     public static final String PULSANTE_SEGNALAZIONI = "PULSANTE_SEGNALAZIONI";
@@ -31,6 +27,9 @@ public class BottonAdminListener implements ActionListener
     public static final String PULSANTE_STAMPA_PDF_STAZIONE = "PULSANTE_STAMPA_PDF_STAZIONE";
     public static final String PULSANTE_STAMPA_PDF_MODELLO = "PULSANTE_STAMPA_PDF_MODELLO";
     public static final String PULSANTE_STAMPA_PDF_MARCA = "PULSANTE_STAMPA_PDF_MARCA";
+    public static final String PULSANTE_SEGNALAZIONE_ADDETTO = "PULSANTE_SEGNALAZIONE_ADDETTO";
+    public static final String PULSANTE_SEGNALAZIONE_OPERATORE = "PULSANTE_SEGNALAZIONE_OPERATORE";
+    public static final String PULSANTE_INVIA_SEGNALAZIONE = "PULSANTE_INVIA_SEGNALAZIONE";
 
     public BottonAdminListener(FinestraAmministratore win) {
         this.win=win;
@@ -49,8 +48,6 @@ public class BottonAdminListener implements ActionListener
             System.out.println("entro action listner bottone");
             win.showPrenotazioniPerData(win.jt.getText());
         }
-
-
         if(PULSANTE_MENU.equals(command)) {
             win.partenza.removeAll();
             win.menu();
@@ -104,6 +101,37 @@ public class BottonAdminListener implements ActionListener
             Modello mod= new Modello();
             mod=(Modello) win.marca.getSelectedItem();
             win.stampaPdfBrandFiltering(mod);
+        }
+        if(PULSANTE_SEGNALAZIONI.equals(command)){
+            win.addettoComboBox.removeAllItems();
+            win.operatoreComboBox.removeAllItems();
+            win.mostraPannelloSegnalazioni();
+        }
+        if(PULSANTE_SEGNALAZIONE_ADDETTO.equals(command)){
+            win.inserisciTestoSegnalazioneAddetto();
+        }
+        if(PULSANTE_SEGNALAZIONE_OPERATORE.equals(command)){
+           win.inserisciTestoSegnalazioneOperatore();
+        }
+        if(PULSANTE_INVIA_SEGNALAZIONE.equals(command)){
+            System.out.println("Pulsante invia prenotazione premutp");
+            Amministratore amministratoreLoggato = (Amministratore) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
+
+            if(win.operatoreComboBox.getSelectedItem()==null){
+                System.out.println("entro win.operatoreComboBox==null");
+                Stazione stazione = (Stazione) win.addettoComboBox.getSelectedItem();
+                ControlloPrenotazioniAdminBusiness.getInstance().inviaSegnalazione(amministratoreLoggato.getId(), stazione.getAddetto().getId(), win.messJTA.getText()); //(idSorgente,idDestinatario)
+                win.partenza.removeAll();
+                win.menu();
+            }
+            else if(win.addettoComboBox.getSelectedItem()==null){
+                System.out.println("win.addettoComboBox==null");
+                Stazione stazione = (Stazione) win.operatoreComboBox.getSelectedItem();
+                ControlloPrenotazioniAdminBusiness.getInstance().inviaSegnalazione(amministratoreLoggato.getId(), stazione.getOperatore().getId_operatore(), win.messJTA.getText()); //(idSorgente,idDestinatario)
+                win.partenza.removeAll();
+                win.menu();
+            }
+
         }
 
     }

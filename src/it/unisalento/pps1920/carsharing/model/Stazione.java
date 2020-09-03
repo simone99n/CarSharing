@@ -7,6 +7,7 @@ public class Stazione {
     private Double latitudine;
     private Double longitudine;
     private Addetto addetto;
+    private Operatore operatore;
 
     public int getId() {
         return id;
@@ -46,6 +47,14 @@ public class Stazione {
 
     public void setAddetto(Addetto addetto) {
         this.addetto = addetto;
+    }
+
+    public Operatore getOperatore() {
+        return operatore;
+    }
+
+    public void setOperatore(Operatore operatore) {
+        this.operatore = operatore;
     }
 
     public String toString(){

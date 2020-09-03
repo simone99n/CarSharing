@@ -24,7 +24,7 @@ public interface IPrenotazioneDAO extends IBaseDAO<Prenotazione> {
     public int getPostiTableEffettua(int idPrenotazione);
     public int getIdUltimaPrenotazione(int idCliente);
 
-
+    public void setPagato(int idPrenotazione);
 
     public ArrayList<Prenotazione> findForData(String data);
     public ArrayList<Prenotazione> findForModel(String mod);

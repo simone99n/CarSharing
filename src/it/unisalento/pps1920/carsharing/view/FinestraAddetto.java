@@ -1,13 +1,10 @@
 package it.unisalento.pps1920.carsharing.view;
 
 import it.unisalento.pps1920.carsharing.business.ControlloAutomezziAddettoBusiness;
-import it.unisalento.pps1920.carsharing.business.ControlloStatoPrenotazioniBusiness;
-import it.unisalento.pps1920.carsharing.dao.mysql.PrenotazioneDAO;
 import it.unisalento.pps1920.carsharing.model.Accessorio;
 import it.unisalento.pps1920.carsharing.model.Modello;
 import it.unisalento.pps1920.carsharing.model.Prenotazione;
 import it.unisalento.pps1920.carsharing.view.Listener.BottonAddettoListener;
-import it.unisalento.pps1920.carsharing.view.Listener.BottonAdminListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -61,7 +58,7 @@ public class FinestraAddetto extends  JFrame
         ArrayList<Prenotazione>prenotazioni= new ArrayList<Prenotazione>();
         ControlloAutomezziAddettoBusiness cont = new ControlloAutomezziAddettoBusiness();
         prenotazioni=cont.checkPrenotazioni(id);
-        TablePrenotazioniOperatore tmp = new TablePrenotazioniOperatore(prenotazioni);
+        TablePrenotazioniAmministratore tmp = new TablePrenotazioniAmministratore(prenotazioni);
         JTable tabellaPrenotazioni = new JTable(tmp);
         JTable intestazione = new JTable(1,5);
         intestazione.setValueAt("ID PRENOTAZIONE",0,0);

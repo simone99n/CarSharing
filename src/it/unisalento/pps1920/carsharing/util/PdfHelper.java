@@ -31,7 +31,6 @@ public class PdfHelper {
         try {
 
             PDPageContentStream contentStream = new PDPageContentStream(document, page);
-
             //Begin the Content stream
             contentStream.beginText();
 
@@ -40,7 +39,6 @@ public class PdfHelper {
 
             //Setting the position for the line
             contentStream.newLineAtOffset(25, 700);
-
             //String text = "This is the sample document and we are adding content to it.";
 
             for(String text : testo) {

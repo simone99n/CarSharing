@@ -4,6 +4,7 @@ import it.unisalento.pps1920.carsharing.DbConnection;
 import it.unisalento.pps1920.carsharing.dao.interfaces.*;
 import it.unisalento.pps1920.carsharing.model.*;
 import it.unisalento.pps1920.carsharing.util.DateUtil;
+import it.unisalento.pps1920.carsharing.util.Session;
 
 import java.util.ArrayList;
 
@@ -47,11 +48,34 @@ public class MessaggioDAO implements IMessaggioDAO {
         return null;
     }
 
-    public void inserisciMessaggio(Utente sorgente, Utente destinatario, String testo){
+    public void inserisciMessaggio(int idSorgente, int idDestinatario, String testo){
 
-        int idSorgente = sorgente.getId();
-        int idDestinatario = destinatario.getId();
-        String sql1 = "INSERT INTO messaggio (NULL, messaggio, sorgente, destinatario) VALUES ('"+testo+"', '"+idSorgente+"', '"+idDestinatario+"');";
+        String sql1 = "INSERT INTO messaggio (idsegnalazione, messaggio, sorgente, destinatario) VALUES (NULL, '"+testo+"', '"+idSorgente+"', '"+idDestinatario+"');";
+        if(DbConnection.getInstance().eseguiAggiornamento(sql1))
+            System.out.println("Inserimento messaggio eseguito");
+        else
+            System.out.println("Inserimento messaggio NON eseguito");
 
+    }
+
+    public ArrayList<String[]> getMessaggiOperatore(){
+        Operatore operatoreLoggato = (Operatore) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
+        String sql1 = "SELECT * FROM messaggio WHERE destinatario='"+operatoreLoggato.getId_operatore()+"' AND letto='0';";
+        return DbConnection.getInstance().eseguiQuery(sql1);
+    }
+
+    public String getNomeFromId(int idSorgente){
+        String sql1 = "SELECT nome FROM amministratore WHERE utente_idutente='"+idSorgente+"';";
+        return DbConnection.getInstance().eseguiQuery(sql1).get(0)[0];
+    }
+
+    public int getIdSorgenteFromIdSegnalazione(int idSegnalazione){
+        String sql1 = "SELECT sorgente FROM messaggio WHERE idsegnalazione='"+idSegnalazione+"';";
+        return Integer.parseInt(DbConnection.getInstance().eseguiQuery(sql1).get(0)[0]);
+    }
+
+    public void setLetto(int id){
+        String sql1 = "UPDATE messaggio SET letto='1' WHERE idsegnalazione='"+id+"';";
+        DbConnection.getInstance().eseguiAggiornamento(sql1);
     }
 }
