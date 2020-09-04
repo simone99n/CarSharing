@@ -3,6 +3,7 @@ package it.unisalento.pps1920.carsharing.view;
 import it.unisalento.pps1920.carsharing.business.ControlloPrenotazioniAdminBusiness;
 import it.unisalento.pps1920.carsharing.business.ControlloStatoPrenotazioniBusiness;
 import it.unisalento.pps1920.carsharing.business.PrenotazioneBusiness;
+import it.unisalento.pps1920.carsharing.business.SegnalazioneBusiness;
 import it.unisalento.pps1920.carsharing.dao.mysql.PrenotazioneDAO;
 import it.unisalento.pps1920.carsharing.model.*;
 import it.unisalento.pps1920.carsharing.util.PdfHelper;
@@ -704,7 +705,7 @@ public class FinestraAmministratore extends JFrame
         JLabel info = new JLabel("Nuovi messaggi");
         nord.add(info);
 
-        ArrayList<String[]> messaggi = ControlloStatoPrenotazioniBusiness.getInstance().getMessaggiAmministratore();
+        ArrayList<String[]> messaggi = SegnalazioneBusiness.getInstance().getMessaggiAmministratore();
 
 
         if(messaggi.size()!=0){

@@ -4,6 +4,7 @@ import it.unisalento.pps1920.carsharing.DbConnection;
 import it.unisalento.pps1920.carsharing.business.ControlloAutomezziAddettoBusiness;
 import it.unisalento.pps1920.carsharing.business.ControlloPrenotazioniAdminBusiness;
 import it.unisalento.pps1920.carsharing.business.ControlloStatoPrenotazioniBusiness;
+import it.unisalento.pps1920.carsharing.business.SegnalazioneBusiness;
 import it.unisalento.pps1920.carsharing.model.Operatore;
 import it.unisalento.pps1920.carsharing.model.Prenotazione;
 import it.unisalento.pps1920.carsharing.util.Session;
@@ -142,13 +143,13 @@ public class FinestraOperatore extends  JFrame {
         nord.setLayout(new FlowLayout());
         JLabel info = new JLabel("Nuovi messaggi");
         nord.add(info);
-        ArrayList<String[]> messaggi = ControlloStatoPrenotazioniBusiness.getInstance().getMessaggiOperatore();
+        ArrayList<String[]> messaggi = SegnalazioneBusiness.getInstance().getMessaggiOperatore();
 
         if(messaggi.size()!=0){
             centro.setLayout(new GridLayout(messaggi.size()*3,1));
             for (String[] strings : messaggi) {
                 //JLabel idSegn = new JLabel(strings[1]);
-                JLabel nome = new JLabel("[ID: "+strings[0]+"]     [ADMIN: "+ControlloStatoPrenotazioniBusiness.getInstance().getNomeFromId(Integer.parseInt(strings[3])) + "] ");
+                JLabel nome = new JLabel("[ID: "+strings[0]+"]     [ADMIN: "+SegnalazioneBusiness.getInstance().getNomeFromId(Integer.parseInt(strings[3])) + "] ");
                 JLabel testo = new JLabel(strings[1]);
                 centro.add(nome);
                 centro.add(testo);
