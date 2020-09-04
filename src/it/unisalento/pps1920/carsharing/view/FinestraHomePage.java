@@ -27,6 +27,7 @@ public class FinestraHomePage extends JFrame {
         super("CarSharing");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(920,700);
+
         Dimension screenSize = Toolkit.getDefaultToolkit ( ).getScreenSize ( );
         setLocation ( ( screenSize.width / 2 ) - ( this.getWidth ( ) / 2 ), (screenSize.height / 2 ) - ( this.getHeight ( ) / 2 ) );
         setResizable(false);
@@ -71,28 +72,37 @@ public class FinestraHomePage extends JFrame {
 
         centro.setLayout(new GridLayout(5,3));
 
-        //centro.add(new JLabel(" "));
-        centro.add(new JLabel("                                  Veicolo: "));
+
+        JLabel l1 = new JLabel("                                  VEICOLO: ");
+        l1.setForeground(Color.BLUE);
+        centro.add(l1);
         centro.add(modelloComboBox);
         centro.add(new JLabel(" "));
 
-        //centro.add(new JLabel(" "));
-        centro.add(new JLabel("                                  Prezzo: "));
+        JLabel l2 = new JLabel("                                  PREZZO GIORNALIERO: ");
+        l2.setForeground(Color.BLUE);
+        centro.add(l2);
         centro.add(new JLabel(String.valueOf(((Modello) Objects.requireNonNull(modelloComboBox.getSelectedItem())).getPrezzo())+" €/giorno"));
         centro.add(new JLabel(" "));
 
-        //centro.add(new JLabel(" "));
-        centro.add(new JLabel("                                  Numero posti: "));
+        JLabel l3 = new JLabel("                                  NUMERO POSTI DISPONIBILI: ");
+        l3.setForeground(Color.BLUE);
+        centro.add(l3);
+        //centro.add(new JLabel("                                  NUMERO POSTI: "));
         centro.add(new JLabel(String.valueOf(((Modello) Objects.requireNonNull(modelloComboBox.getSelectedItem())).getNumPosti())));
         centro.add(new JLabel(" "));
 
-        //centro.add(new JLabel(" "));
-        centro.add(new JLabel("                                  Tipologia: "));
+        JLabel l4 = new JLabel("                                  TIPOLOGIA VEICOLO: ");
+        l4.setForeground(Color.BLUE);
+        centro.add(l4);
+        //centro.add(new JLabel("                                  TIPOLOGIA VEICOLO: "));
         centro.add(new JLabel(String.valueOf(((Modello) Objects.requireNonNull(modelloComboBox.getSelectedItem())).getTipologia())));
         centro.add(new JLabel(" "));
 
-        //centro.add(new JLabel(" "));
-        centro.add(new JLabel("                                  Foto: "));
+        JLabel l5 = new JLabel("                                  FOTO VEICOLO: ");
+        l5.setForeground(Color.BLUE);
+        centro.add(l5);
+        //centro.add(new JLabel("                                  FOTO VEICOLO: "));
         JLabel foto = new JLabel(new ImageIcon(modelli.get(modelloComboBox.getSelectedIndex()).getFoto())); //TODO sistemare visualizzazioni immagini
         centro.add(foto);
         foto.addMouseListener(new MouseAdapter() {
@@ -125,7 +135,7 @@ public class FinestraHomePage extends JFrame {
 
         JLabel offerte =new JLabel("----------------------------------------------------------------------------------------------------------------------------------" +
                 "    OFFERTE SPECIALI    ----------------------------------------------------------------------------------------------------------------------------------");
-        offerte.setForeground( Color.red );
+        offerte.setForeground( Color.RED );
         sud_nord.setLayout(new FlowLayout());
         sud_nord.add(offerte);
 
@@ -169,28 +179,36 @@ public class FinestraHomePage extends JFrame {
     public void setupInfo() {
         centro.removeAll();
 
-        //centro.add(new JLabel(" "));
-        centro.add(new JLabel("                                  Veicolo: "));
+        JLabel l1 = new JLabel("                                  VEICOLO: ");
+        l1.setForeground(Color.BLUE);
+        centro.add(l1);
         centro.add(modelloComboBox);
         centro.add(new JLabel(" "));
 
-        //centro.add(new JLabel(" "));
-        centro.add(new JLabel("                                  Prezzo: "));
+        JLabel l2 = new JLabel("                                  PREZZO GIORNALIERO: ");
+        l2.setForeground(Color.BLUE);
+        centro.add(l2);
         centro.add(new JLabel(String.valueOf(((Modello) Objects.requireNonNull(modelloComboBox.getSelectedItem())).getPrezzo())+" €/giorno"));
         centro.add(new JLabel(" "));
 
-        //centro.add(new JLabel(" "));
-        centro.add(new JLabel("                                  Numero posti: "));
+        JLabel l3 = new JLabel("                                  NUMERO POSTI DISPONIBILI: ");
+        l3.setForeground(Color.BLUE);
+        centro.add(l3);
+        //centro.add(new JLabel("                                  NUMERO POSTI: "));
         centro.add(new JLabel(String.valueOf(((Modello) Objects.requireNonNull(modelloComboBox.getSelectedItem())).getNumPosti())));
         centro.add(new JLabel(" "));
 
-        //centro.add(new JLabel(" "));
-        centro.add(new JLabel("                                  Tipologia: "));
+        JLabel l4 = new JLabel("                                  TIPOLOGIA VEICOLO: ");
+        l4.setForeground(Color.BLUE);
+        centro.add(l4);
+        //centro.add(new JLabel("                                  TIPOLOGIA VEICOLO: "));
         centro.add(new JLabel(String.valueOf(((Modello) Objects.requireNonNull(modelloComboBox.getSelectedItem())).getTipologia())));
         centro.add(new JLabel(" "));
 
-        //centro.add(new JLabel(" "));
-        centro.add(new JLabel("                                  Foto: "));
+        JLabel l5 = new JLabel("                                  FOTO VEICOLO: ");
+        l5.setForeground(Color.BLUE);
+        centro.add(l5);
+        //centro.add(new JLabel("                                  FOTO VEICOLO: "));
         JLabel foto = new JLabel(new ImageIcon(modelli.get(modelloComboBox.getSelectedIndex()).getFoto())); //TODO sistemare visualizzazioni immagini
         centro.add(foto);
         foto.addMouseListener(new MouseAdapter() {

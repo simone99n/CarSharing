@@ -99,32 +99,33 @@ public class FinestraAddetto extends  JFrame {
     }
 
 
-    public void visualizzaAccessoriAutomezzo(int idPrenotazione)
-    {
+    public void visualizzaAccessoriAutomezzo(int idPrenotazione) {
         int state=0;
         ControlloAutomezziAddettoBusiness cont = new ControlloAutomezziAddettoBusiness();
         ArrayList<String[]> st= new ArrayList<>();
         st=cont.checkPrenotazioniFilteredByIdStation(idAdd,idPrenotazione);
 
-        if(st.get(0)[0].equals("-1"))
-        {
+        if(st.get(0)[0].equals("-1")) {
             state=1;
             menu();
             AllErrorMessages msg= new AllErrorMessages(9);
         }
 
-        if(st.get(0)[0].equals("-2"))
-        {
+        if(st.get(0)[0].equals("-2")) {
             state=2;
             menu();
             AllErrorMessages msg= new AllErrorMessages(10);
+        }
+        if(st.get(0)[0].equals("-3")) {
+            state=3;
+            menu();
+            AllErrorMessages msg= new AllErrorMessages(12);
         }
 
         ArrayList<Accessorio> acc= new ArrayList<>();
         acc=cont.getAccessoriFromIdPrenotazione(idPrenotazione);
 
-        if(state==0)
-        {
+        if(state==0) {
             BorderLayout al = (BorderLayout) this.getContentPane().getLayout();
             this.getContentPane().remove(al.getLayoutComponent(BorderLayout.CENTER));
             this.getContentPane().remove(al.getLayoutComponent(BorderLayout.NORTH));
@@ -149,8 +150,7 @@ public class FinestraAddetto extends  JFrame {
             pan.add(butt2);
             butt1.setBackground(Color.green);
             butt2.setBackground(Color.red);
-            if(acc.isEmpty())
-            {
+            if(acc.isEmpty()) {
                 pan.remove(butt1);
                 pan.remove(butt2);
                 pan.setLayout(new BorderLayout());
@@ -220,12 +220,9 @@ public class FinestraAddetto extends  JFrame {
         revalidate();
     }
 
-
-    void getIdAdd(int idAddetto)
-    {
+    void getIdAdd(int idAddetto) {
         this.idAdd=idAddetto;
     }
-
 
     public void mostraPannelloSegnalazioni() {
 

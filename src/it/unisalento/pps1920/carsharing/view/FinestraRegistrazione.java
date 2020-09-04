@@ -61,7 +61,7 @@ public class FinestraRegistrazione extends JFrame
         centro.add(password);
         centro.add(new JLabel("     Residenza: "));
         centro.add(residenza);
-        centro.add(new JLabel("     Eta' (Anno di nascita es: 1998): "));
+        centro.add(new JLabel("     Anno nascita: "));
         centro.add(eta);
 
         sud.setLayout(new FlowLayout());

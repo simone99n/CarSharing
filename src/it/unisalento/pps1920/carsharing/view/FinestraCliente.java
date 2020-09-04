@@ -109,7 +109,7 @@ public class FinestraCliente extends JFrame {
        // sud.add(subSud);
 
 
-        JMenuBar bar = new JMenuBar();
+        /*JMenuBar bar = new JMenuBar();
         JMenu file = new JMenu("File");
         JMenu edit = new JMenu("Edit");
         JMenu move = new JMenu("Move");
@@ -122,7 +122,7 @@ public class FinestraCliente extends JFrame {
         JMenuItem down = new JMenuItem("Down");
         edit.add(random);
         move.add(up);
-        move.add(down);
+        move.add(down);*/
 
         btn1.addActionListener(listener);
         btn1.setActionCommand(BottonBarListener.PULSANTE_NUOVA_PRENOTAZONE);

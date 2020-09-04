@@ -38,7 +38,6 @@ public class BottonAddettoListener implements ActionListener {
         this.nomeAddetto=nomeAddetto;
     }
 
-
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton button = (JButton) e.getSource();
@@ -46,8 +45,10 @@ public class BottonAddettoListener implements ActionListener {
 
         if (PULSANTE_VISUALIZZA_ACCESSORI_AUTOMEZZO.equals(command)) {
             int id;
-            id=Integer.parseInt(win.jt.getText());
-            win.visualizzaAccessoriAutomezzo(id);
+            if(!win.jt.getText().isBlank()) {
+                id=Integer.parseInt(win.jt.getText());
+                win.visualizzaAccessoriAutomezzo(id);
+            }
         }
         if (PULSANTE_PRONTO.equals(command)) {
             int id= Integer.parseInt(win.jt.getText());

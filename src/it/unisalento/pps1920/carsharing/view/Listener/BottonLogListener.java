@@ -21,9 +21,11 @@ import java.awt.event.ActionEvent;
 
 public class BottonLogListener implements ActionListener
 {
+
     private FinestraLogin win;
     public static final String PULSANTE_ACCEDI = "PULSANTE_ACCEDI";
     public static final String PULSANTE_REGISTRATI = "PULSANTE_REGISTRATI";
+    public static final String PULSANTE_ANNULLA = "PULSANTE_ANNULLA";
     public BottonLogListener(FinestraLogin win)
     {
         this.win=win;
@@ -80,6 +82,11 @@ public class BottonLogListener implements ActionListener
         else if(PULSANTE_REGISTRATI.equals(command)) {
             win.dispose();
             FinestraRegistrazione reg= new FinestraRegistrazione();
+        }
+        else if(PULSANTE_ANNULLA.equals(command)){
+            win.dispose();
+            FinestraHomePage home = new FinestraHomePage();
+            home.setVisible(true);
         }
 
     }
