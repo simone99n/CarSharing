@@ -24,8 +24,7 @@ public class FinestraRegistrazione extends JFrame
     public JTextField residenza = new JTextField(20);
     public JTextField eta = new JTextField(20);
 
-    public FinestraRegistrazione()
-    {
+    public FinestraRegistrazione() {
 
         super("REGISTRAZIONE");
         listener = new BottonRegListener(this);
@@ -68,10 +67,10 @@ public class FinestraRegistrazione extends JFrame
         sud.setLayout(new FlowLayout());
         this.setSize(400,400);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Dimension screenSize = Toolkit.getDefaultToolkit ( ).getScreenSize ( );
+        setLocation ( ( screenSize.width / 2 ) - ( this.getWidth ( ) / 2 ), (screenSize.height / 2 ) - ( this.getHeight ( ) / 2 ) );
         this.setVisible(true);
         this.setResizable(false);
-
     }
-
 
 }

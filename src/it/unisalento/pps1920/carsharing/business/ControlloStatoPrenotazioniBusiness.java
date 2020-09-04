@@ -1,13 +1,11 @@
 
 package it.unisalento.pps1920.carsharing.business;
 
+import it.unisalento.pps1920.carsharing.dao.interfaces.IAddettoDAO;
 import it.unisalento.pps1920.carsharing.dao.interfaces.IMessaggioDAO;
 import it.unisalento.pps1920.carsharing.dao.interfaces.IPrenotazioneDAO;
 import it.unisalento.pps1920.carsharing.dao.interfaces.IStazioneDAO;
-import it.unisalento.pps1920.carsharing.dao.mysql.MessaggioDAO;
-import it.unisalento.pps1920.carsharing.dao.mysql.OperatoreDAO;
-import it.unisalento.pps1920.carsharing.dao.mysql.PrenotazioneDAO;
-import it.unisalento.pps1920.carsharing.dao.mysql.StazioneDAO;
+import it.unisalento.pps1920.carsharing.dao.mysql.*;
 import it.unisalento.pps1920.carsharing.model.Operatore;
 import it.unisalento.pps1920.carsharing.model.Prenotazione;
 import it.unisalento.pps1920.carsharing.model.Stazione;
@@ -25,6 +23,16 @@ public class ControlloStatoPrenotazioniBusiness {           //Eseguita dall'oper
         return instance;
     }
 
+    public ArrayList<String[]> mostraVeicoliPronti(int idOperatore) {
+        ArrayList<String[]> pre = new ArrayList<String[]>();
+        OperatoreDAO odao = new OperatoreDAO();
+        StazioneDAO sdao = new StazioneDAO();
+        Stazione s = new Stazione();
+        IAddettoDAO iDao = new AddettoDAO();
+        s = sdao.findStationByAddettoId(iDao.getIdAddettoFromIdOperatore(idOperatore));
+        pre = odao.findByStation3(s);
+        return pre;
+    }
 
     public ArrayList<Prenotazione> checkPrenotazioni(int id) {
         OperatoreDAO odao = new OperatoreDAO();
@@ -46,6 +54,11 @@ public class ControlloStatoPrenotazioniBusiness {           //Eseguita dall'oper
         return mDAO.getMessaggiOperatore();
     }
 
+    public ArrayList<String[]> getMessaggiAddetto() {
+        IMessaggioDAO mDAO = new MessaggioDAO();
+        return mDAO.getMessaggiAddetto();
+    }
+
     public ArrayList<String[]> getMessaggiAmministratore() {
         IMessaggioDAO mDAO = new MessaggioDAO();
         return mDAO.getMessaggiAmministratore();
@@ -56,7 +69,7 @@ public class ControlloStatoPrenotazioniBusiness {           //Eseguita dall'oper
         return mDAO.getNomeFromId(idSorgente);
     }
 
-    public void inviaRiscontro(String testo, int idSegnalazione){
+    public void inviaRiscontroOperatore(String testo, int idSegnalazione){
         IMessaggioDAO mDAO = new MessaggioDAO();
         int idAdmin = mDAO.getIdSorgenteFromIdSegnalazione(idSegnalazione);
         Operatore operatoreLoggato = (Operatore) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
@@ -72,6 +85,11 @@ public class ControlloStatoPrenotazioniBusiness {           //Eseguita dall'oper
     public String nomeStazioneFromOperatore(int idOperatore){
         IStazioneDAO iDao = new StazioneDAO();
         return  iDao.nomeStazioneFromOperatore(idOperatore);
+    }
+
+    public String nomeStazioneFromAddetto(int idAddetto) {
+        IStazioneDAO iDao = new StazioneDAO();
+        return  iDao.nomeStazioneFromAddetto(idAddetto);
     }
 
 

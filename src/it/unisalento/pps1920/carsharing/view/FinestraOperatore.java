@@ -1,10 +1,14 @@
 package it.unisalento.pps1920.carsharing.view;
 
 import it.unisalento.pps1920.carsharing.DbConnection;
+import it.unisalento.pps1920.carsharing.business.ControlloAutomezziAddettoBusiness;
 import it.unisalento.pps1920.carsharing.business.ControlloPrenotazioniAdminBusiness;
 import it.unisalento.pps1920.carsharing.business.ControlloStatoPrenotazioniBusiness;
+import it.unisalento.pps1920.carsharing.model.Operatore;
 import it.unisalento.pps1920.carsharing.model.Prenotazione;
+import it.unisalento.pps1920.carsharing.util.Session;
 import it.unisalento.pps1920.carsharing.view.Listener.BottonAdminListener;
+import it.unisalento.pps1920.carsharing.view.Listener.BottonErrorListener.AllErrorMessages;
 import it.unisalento.pps1920.carsharing.view.Listener.BottonOperatorListener;
 
 import javax.swing.*;
@@ -13,8 +17,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class FinestraOperatore extends  JFrame
-{
+public class FinestraOperatore extends  JFrame {
     JPanel jp1 = new JPanel();
     JPanel jp2 = new JPanel();
     JPanel jp3 = new JPanel();
@@ -36,9 +39,9 @@ public class FinestraOperatore extends  JFrame
         c.add(jp2,BorderLayout.SOUTH);
         c.add(jp3,BorderLayout.NORTH);
 
-        JButton b1= new JButton("Esci");
-        JButton b2= new JButton("Pannello Segnalazioni");
-        JButton b3= new JButton("Veicoli pronti");
+        JButton b1= new JButton("ESCI");
+        JButton b2= new JButton("PANNELLO SEGNALAZIONI");
+        JButton b3= new JButton("VEICOL PRONTI");
 
         jp1.setLayout(new BorderLayout());
         setupPannelloPrenotazioni(id);
@@ -141,9 +144,6 @@ public class FinestraOperatore extends  JFrame
         nord.add(info);
         ArrayList<String[]> messaggi = ControlloStatoPrenotazioniBusiness.getInstance().getMessaggiOperatore();
 
-
-
-
         if(messaggi.size()!=0){
             centro.setLayout(new GridLayout(messaggi.size()*3,1));
             for (String[] strings : messaggi) {
@@ -152,27 +152,67 @@ public class FinestraOperatore extends  JFrame
                 JLabel testo = new JLabel(strings[1]);
                 centro.add(nome);
                 centro.add(testo);
-
                 centro.add(new JLabel("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"));
-
             }
         }
         else{
             System.out.println("non ci sono messaggi non letti");
         }
 
-
-
-        //3. refresh della UI
         repaint();
         revalidate();
     }
 
     public void mostraVeicoliPronti() {
         //1. eliminare quello che c'è nell'area centrale
-        //BorderLayout al = (BorderLayout) this.getContentPane().getLayout();
-       // this.getContentPane().remove(al.getLayoutComponent(BorderLayout.CENTER));
-        //this.getContentPane().remove(al.getLayoutComponent(BorderLayout.NORTH));
+        BorderLayout al = (BorderLayout) this.getContentPane().getLayout();
+        this.getContentPane().remove(al.getLayoutComponent(BorderLayout.CENTER));
+        this.getContentPane().remove(al.getLayoutComponent(BorderLayout.NORTH));
+        this.getContentPane().remove(al.getLayoutComponent(BorderLayout.SOUTH));
+
+        Operatore operatoreLoggato = (Operatore) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
+
+        ArrayList<String[]>prenotazioni= new ArrayList<String[]>();
+
+        prenotazioni = ControlloStatoPrenotazioniBusiness.getInstance().mostraVeicoliPronti(operatoreLoggato.getId_operatore());
+
+        JPanel nord = new JPanel(new FlowLayout());
+        JPanel centro = new JPanel(new BorderLayout());
+        JPanel sud = new JPanel(new FlowLayout());
+        this.getContentPane().add(nord, BorderLayout.NORTH);
+        this.getContentPane().add(new JScrollPane(centro), BorderLayout.CENTER);
+        this.getContentPane().add(sud, BorderLayout.SOUTH);
+        JButton indietro = new JButton("<- INDIETRO");
+        sud.add(indietro);
+        sud.setBackground(Color.cyan);
+        indietro.addActionListener(listener);
+        indietro.setActionCommand(BottonOperatorListener.PULSANTE_INDIETRO);
+        nord.add(new JLabel("VEICOLI PRONTI"));
+
+        if(prenotazioni==null) {
+            /*jp2_1.add(new JLabel("Non ci sono automezzi da preparare in questo momento!"));
+            menu();
+            jp2_1.remove(butt);
+            jp2_1.remove(lab);
+            jp2_1.remove(jt);
+            AllErrorMessages al= new AllErrorMessages(3);*/
+            centro.setLayout(new FlowLayout());
+            centro.add(new JLabel("Non ci sono automezzi pronti in questo momento!"));
+        }
+        else {
+            TablePrenotazioniAddetto tmp = new TablePrenotazioniAddetto(prenotazioni);
+            JTable tabellaPrenotazioni = new JTable(tmp);
+            JTable intestazione = new JTable(1,4);
+            intestazione.setValueAt("ID PRENOTAZIONE",0,0);
+            intestazione.setValueAt("MARCA",0,1);
+            intestazione.setValueAt("TIPOLOGIA",0,2);
+            intestazione.setValueAt("DATA INIZIO NOLEGGIO",0,3);
+            //jp2_2.add(intestazione, BorderLayout.SOUTH);
+            centro.add(intestazione,BorderLayout.NORTH);
+            centro.add(tabellaPrenotazioni,BorderLayout.CENTER);
+        }
+        repaint();
+        revalidate();
     }
 
     public void tornaHome() {

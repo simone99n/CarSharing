@@ -11,4 +11,5 @@ public interface IAddettoDAO extends IBaseDAO<Addetto> {
     public ArrayList<Prenotazione> findByStation(Stazione staz);
     public Modello findModelByIdPrenotazione(int id);
     public ArrayList<String[]> findByStation2(Stazione staz);
+    public int getIdAddettoFromIdOperatore(int idOperatore);
 }

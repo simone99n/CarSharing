@@ -4,6 +4,7 @@ import it.unisalento.pps1920.carsharing.business.RegistrazioneBusiness;
 import it.unisalento.pps1920.carsharing.model.Cliente;
 import it.unisalento.pps1920.carsharing.model.Utente;
 import it.unisalento.pps1920.carsharing.view.FinestraCliente;
+import it.unisalento.pps1920.carsharing.view.FinestraLogin;
 import it.unisalento.pps1920.carsharing.view.FinestraRegistrazione;
 import it.unisalento.pps1920.carsharing.view.Listener.BottonErrorListener.AllErrorMessages;
 
@@ -17,46 +18,39 @@ public class BottonRegListener implements ActionListener {
     private FinestraRegistrazione win;
     public static final String PULSANTE_REGISTRATI = "PULSANTE_REGISTRATI";
     public static final String PULSANTE_ANNULLA = "PULSANTE_ANNULLA";
-    public BottonRegListener(FinestraRegistrazione win)
-    {
+    public BottonRegListener(FinestraRegistrazione win) {
         this.win=win;
     }
     @Override
-    public void actionPerformed(ActionEvent e)
-    {
+    public void actionPerformed(ActionEvent e) {
         JButton button = (JButton)e.getSource();
         String command = e.getActionCommand();
-        if(PULSANTE_REGISTRATI.equals(command))
-        {
+        if(PULSANTE_REGISTRATI.equals(command)) {
             int state;
             state=salvaRegistrazione();
-            if(state==3)
-            {
+            if(state==3) {
                 win.dispose();
-                FinestraCliente fcl=new FinestraCliente();
+                FinestraLogin login = new FinestraLogin();
+                login.setVisible(true);
             }
-            else if(state==-1)
-            {
+            else if(state==-1) {
                 int tipo=4;
                 AllErrorMessages u= new AllErrorMessages(tipo);
             }
-            else if(state==-2)
-            {
+            else if(state==-2) {
                 int tipo=5;
                 AllErrorMessages u= new AllErrorMessages(tipo);
             }
+
+
         }
 
         if(PULSANTE_ANNULLA.equals(command))
-        {
             win.dispose();
-        }
 
     }
 
-    private int salvaRegistrazione()
-    {
-
+    private int salvaRegistrazione() {
         int state;
         RegistrazioneBusiness reg = new RegistrazioneBusiness();
         cli.setNome(win.nome.getText());

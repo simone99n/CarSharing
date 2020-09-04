@@ -45,13 +45,12 @@ public class AddettoDAO implements IAddettoDAO {
 
     public ArrayList<Prenotazione> findByStation(Stazione staz) {
         ArrayList<String []>res= DbConnection.getInstance().eseguiQuery("SELECT * FROM prenotazione WHERE idstazione_partenza="+staz.getId()+";");
-        if(res.isEmpty()) {
+        if(res.isEmpty())
             return null;
-        }
+
         ArrayList<Prenotazione>pre= new ArrayList<Prenotazione>();
         Prenotazione p;
-        for(String[] riga : res)
-        {
+        for(String[] riga : res) {
             p=new Prenotazione();
             p.setId(Integer.parseInt(riga[0]));
             p.setData(DateUtil.dateTimeFromString(riga[1]));
@@ -66,18 +65,17 @@ public class AddettoDAO implements IAddettoDAO {
 
 
 
- public ArrayList<String[]> findByStation2(Stazione staz) // restitiusce i record situati nella tabella appena effettuato il login dell'addetto.
-    {
+ public ArrayList<String[]> findByStation2(Stazione staz){ // restitiusce i record situati nella tabella appena effettuato il login dell'addetto.
+
         ArrayList<String []>res= DbConnection.getInstance().eseguiQuery("SELECT idprenotazione,dataInizio FROM prenotazione WHERE idstazione_partenza="+staz.getId()+" AND mezzoPreparato='0' ;");
         if(res.isEmpty())
-        {
             return null;
-        }
+
         ArrayList<String[]>str= new ArrayList<>();
         Prenotazione p;
         Modello a;
-        for(String[] riga : res)
-        {
+        for(String[] riga : res){
+
             String[] record= new String[4];
             p=new Prenotazione();
             a=new Modello();
@@ -92,7 +90,31 @@ public class AddettoDAO implements IAddettoDAO {
         return str;
     }
 
+    public ArrayList<String[]> findByStation3(Stazione staz){ // restitiusce i record situati nella tabella appena effettuato il login dell'addetto.
+
+        ArrayList<String []>res= DbConnection.getInstance().eseguiQuery("SELECT idprenotazione,dataInizio FROM prenotazione WHERE idstazione_partenza="+staz.getId()+" AND mezzoPreparato='1' ;");
+        if(res.isEmpty())
+            return null;
+
+        ArrayList<String[]>str= new ArrayList<>();
+        Prenotazione p;
+        Modello a;
+        for(String[] riga : res) {
+            String[] record= new String[4];
+            p=new Prenotazione();
+            a=new Modello();
+            a=findModelByIdPrenotazione(Integer.parseInt(riga[0]));
+            record[0]=riga[0];
+            record[1]=riga[1];
+            record[2]=a.getNome();
+            record[3]=a.getTipologia();
+            str.add(record);
+        }
+        return str;
+    }
 
 
-
+    public int getIdAddettoFromIdOperatore(int idOperatore){
+        return Integer.parseInt(DbConnection.getInstance().eseguiQuery("SELECT addetto_utente_idutente FROM stazione WHERE operatore_utente_idutente='"+idOperatore+"';").get(0)[0]);
+    }
 }

@@ -52,7 +52,7 @@ public class BottonOperatorListener implements ActionListener {
         else if (PULSANTE_INVIA_DEF.equals(command)){
             Operatore operatoreLoggato = (Operatore) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
             String data = DateUtil.stringFromDate(new Date());
-            ControlloStatoPrenotazioniBusiness.getInstance().inviaRiscontro("[Operatore della "+ControlloStatoPrenotazioniBusiness.getInstance().nomeStazioneFromOperatore(operatoreLoggato.getId_operatore())+" ] "+data+":        "+win.testoRiscontro.getText(), Integer.parseInt(win.campoId.getText()));
+            ControlloStatoPrenotazioniBusiness.getInstance().inviaRiscontroOperatore("[Operatore della "+ControlloStatoPrenotazioniBusiness.getInstance().nomeStazioneFromOperatore(operatoreLoggato.getId_operatore())+" ] "+data+":        "+win.testoRiscontro.getText(), Integer.parseInt(win.campoId.getText()));
             win.mostraPannelloSegnalazioni();
         }
     }

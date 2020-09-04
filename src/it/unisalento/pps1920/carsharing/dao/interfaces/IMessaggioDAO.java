@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public interface IMessaggioDAO extends IBaseDAO<Messaggio> {
     public void inserisciMessaggio(int idSorgente, int idDestinatario, String testo);
     public ArrayList<String[]> getMessaggiOperatore();
+    public ArrayList<String[]> getMessaggiAddetto();
     public ArrayList<String[]> getMessaggiAmministratore();
     public String getNomeFromId(int idSorgente);
     public int getIdSorgenteFromIdSegnalazione(int idSegnalazione);

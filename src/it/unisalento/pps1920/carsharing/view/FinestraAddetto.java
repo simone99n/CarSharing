@@ -9,6 +9,7 @@ import it.unisalento.pps1920.carsharing.model.Prenotazione;
 import it.unisalento.pps1920.carsharing.view.Listener.BottonAddettoListener;
 import it.unisalento.pps1920.carsharing.view.Listener.BottonAdminListener;
 import it.unisalento.pps1920.carsharing.view.Listener.BottonErrorListener.AllErrorMessages;
+import it.unisalento.pps1920.carsharing.view.Listener.BottonOperatorListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +27,9 @@ public class FinestraAddetto extends  JFrame {
     JPanel jp2_1= new JPanel(new FlowLayout());
     JPanel jp2_2= new JPanel(new BorderLayout());
     public JTextField jt = new JTextField(20);
-    JButton b2= new JButton("Pannello Segnalazioni");
+    public JTextField campoId;
+    public JTextArea testoRiscontro;
+    JButton b2= new JButton("PANNELLO SEGNALAZIONI");
     BottonAddettoListener listener;
 
     public FinestraAddetto(int idAddetto, String nomeAddetto) {
@@ -49,6 +52,8 @@ public class FinestraAddetto extends  JFrame {
 
         butt.addActionListener(listener);
         butt.setActionCommand(BottonAddettoListener.PULSANTE_VISUALIZZA_ACCESSORI_AUTOMEZZO);
+        b2.addActionListener(listener);
+        b2.setActionCommand(BottonAddettoListener.PULSANTE_CENTRO_SEGNALAZIONI);
         jp2_1.add(lab);
         jp2_1.add(jt);
         jp2_1.add(butt);
@@ -65,9 +70,9 @@ public class FinestraAddetto extends  JFrame {
     public void setupPannelloPrenotazioni() {
 
         ArrayList<String[]>prenotazioni= new ArrayList<String[]>();
-        ControlloAutomezziAddettoBusiness cont = new ControlloAutomezziAddettoBusiness();
-        prenotazioni=cont.checkPrenotazioni(idAdd);
-
+        //ControlloAutomezziAddettoBusiness cont = new ControlloAutomezziAddettoBusiness();
+        //prenotazioni=cont.checkPrenotazioni(idAdd);
+        prenotazioni=ControlloAutomezziAddettoBusiness.getInstance().checkPrenotazioni(idAdd);
         if(prenotazioni==null) {
             jp2_1.add(new JLabel("Non ci sono automezzi da preparare in questo momento!"));
             menu();
@@ -169,10 +174,8 @@ public class FinestraAddetto extends  JFrame {
 
     }
 
-    public void menu()
-    {
-        if(stato==1) //se ==1 almeno una volta
-        {
+    public void menu() {
+        if(stato==1){ //se ==1 almeno una volta
             BorderLayout cl = (BorderLayout) this.getContentPane().getLayout();
             this.getContentPane().remove(cl.getLayoutComponent(BorderLayout.CENTER));
             this.getContentPane().remove(cl.getLayoutComponent(BorderLayout.NORTH));
@@ -191,6 +194,32 @@ public class FinestraAddetto extends  JFrame {
         revalidate();
     }
 
+    public void indietro() {
+        BorderLayout cl = (BorderLayout) this.getContentPane().getLayout();
+        this.getContentPane().remove(cl.getLayoutComponent(BorderLayout.CENTER));
+        this.getContentPane().remove(cl.getLayoutComponent(BorderLayout.NORTH));
+        this.getContentPane().remove(cl.getLayoutComponent(BorderLayout.SOUTH));
+
+        this.getContentPane().add(new JScrollPane(jp1), BorderLayout.CENTER);
+        this.getContentPane().add(jp2, BorderLayout.NORTH);
+        this.getContentPane().add(jp3,BorderLayout.SOUTH);
+
+        jp3.add(b2);
+        JLabel bb= new JLabel("  ");
+        jp3.add(bb);
+        jp3.setBackground(Color.yellow);
+        b2.addActionListener(listener);
+        b2.setActionCommand(BottonAddettoListener.PULSANTE_CENTRO_SEGNALAZIONI);
+
+        this.setSize(800,800);
+        setupPannelloPrenotazioni();
+
+        Dimension screenSize = Toolkit.getDefaultToolkit ( ).getScreenSize ( );
+        setLocation ( ( screenSize.width / 2 ) - ( this.getWidth ( ) / 2 ), (screenSize.height / 2 ) - ( this.getHeight ( ) / 2 ) );
+        repaint();
+        revalidate();
+    }
+
 
     void getIdAdd(int idAddetto)
     {
@@ -198,4 +227,106 @@ public class FinestraAddetto extends  JFrame {
     }
 
 
+    public void mostraPannelloSegnalazioni() {
+
+
+        //1. eliminare quello che c'è nell'area centrale
+        BorderLayout al = (BorderLayout) this.getContentPane().getLayout();
+        this.getContentPane().remove(al.getLayoutComponent(BorderLayout.CENTER));
+        this.getContentPane().remove(al.getLayoutComponent(BorderLayout.NORTH));
+        this.getContentPane().remove(al.getLayoutComponent(BorderLayout.SOUTH));
+
+        //2. inserire pannello della funzionalita specifica
+        this.setSize(850,400);
+        this.setResizable(false);
+        JPanel nord = new JPanel(new BorderLayout());
+        JPanel centro = new JPanel(new BorderLayout());
+        JPanel sud = new JPanel(new FlowLayout());
+        sud.setBackground(Color.yellow);
+        this.getContentPane().add(new JScrollPane(centro), BorderLayout.CENTER);
+        this.getContentPane().add(nord, BorderLayout.NORTH);
+        this.getContentPane().add(sud, BorderLayout.SOUTH);
+        JButton indietro = new JButton("<- INDIETRO");
+        JButton avanti = new JButton("INVIA RISCONTRO");
+        JLabel spazio = new JLabel("                                                                                ");
+        JLabel idLabel = new JLabel("Inserisci id: ");
+        campoId = new JTextField(6);
+        sud.add(indietro);
+        sud.add(spazio);
+        sud.add(idLabel);
+        sud.add(campoId);
+        sud.add(avanti);
+        indietro.addActionListener(listener);
+        indietro.setActionCommand(BottonAddettoListener.PULSANTE_INDIETRO);
+        avanti.addActionListener(listener);
+        avanti.setActionCommand(BottonAddettoListener.PULSANTE_INVIA_RISCONTRO);
+        nord.setLayout(new FlowLayout());
+        JLabel info = new JLabel("Nuovi messaggi");
+        nord.add(info);
+        ArrayList<String[]> messaggi = ControlloStatoPrenotazioniBusiness.getInstance().getMessaggiAddetto();
+
+
+
+
+        if(messaggi.size()!=0){
+            centro.setLayout(new GridLayout(messaggi.size()*3,1));
+            for (String[] strings : messaggi) {
+                //JLabel idSegn = new JLabel(strings[1]);
+                JLabel nome = new JLabel("[ID: "+strings[0]+"]     [ADMIN: "+ControlloStatoPrenotazioniBusiness.getInstance().getNomeFromId(Integer.parseInt(strings[3])) + "] ");
+                JLabel testo = new JLabel(strings[1]);
+                centro.add(nome);
+                centro.add(testo);
+
+                centro.add(new JLabel("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"));
+
+            }
+        }
+        else{
+            System.out.println("non ci sono messaggi non letti");
+        }
+
+
+
+        //3. refresh della UI
+        repaint();
+        revalidate();
+
+
+    }
+
+    public void panelloRiscontro() {
+        BorderLayout cl = (BorderLayout) this.getContentPane().getLayout();
+        this.getContentPane().remove(cl.getLayoutComponent(BorderLayout.CENTER));
+        this.getContentPane().remove(cl.getLayoutComponent(BorderLayout.NORTH));
+        this.getContentPane().remove(cl.getLayoutComponent(BorderLayout.SOUTH));
+        this.setSize(350,250);
+        JPanel nord = new JPanel(new FlowLayout());
+        JPanel centro = new JPanel(new FlowLayout());
+        JPanel sud = new JPanel(new FlowLayout());
+        sud.setBackground(Color.cyan);
+        this.getContentPane().add(centro, BorderLayout.CENTER);
+        this.getContentPane().add(nord, BorderLayout.NORTH);
+        this.getContentPane().add(sud, BorderLayout.SOUTH);
+        nord.add(new JLabel("INSERISCI MESSAGGIO: "));
+        testoRiscontro = new JTextArea(5,25);
+        centro.add(testoRiscontro);
+        JButton home = new JButton("HOME");
+        JButton indietro = new JButton("<-INDIETRO");
+        JButton salva = new JButton("INVIA");
+        home.addActionListener(listener);
+        home.setActionCommand(BottonAddettoListener.PULSANTE_INDIETRO);
+        indietro.addActionListener(listener);
+        indietro.setActionCommand(BottonAddettoListener.PULSANTE_SEGNALAZIONI);
+        salva.addActionListener(listener);
+        salva.setActionCommand(BottonAddettoListener.PULSANTE_INVIA_DEF);
+        sud.add(home);
+        sud.add(indietro);
+        sud.add(new JLabel("                "));
+        sud.add(salva);
+        Dimension screenSize = Toolkit.getDefaultToolkit ( ).getScreenSize ( );
+        setLocation ( ( screenSize.width / 2 ) - ( this.getWidth ( ) / 2 ), (screenSize.height / 2 ) - ( this.getHeight ( ) / 2 ) );
+
+        repaint();
+        revalidate();
+    }
 }

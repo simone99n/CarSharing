@@ -9,4 +9,5 @@ public interface IStazioneDAO extends IBaseDAO<Stazione> {
     public Stazione findStationByOperatorId(int id);
     public Stazione findStationByAddettoId(int id);
     public String nomeStazioneFromOperatore(int idOperatore);
+    public String nomeStazioneFromAddetto(int idAddetto);
 }

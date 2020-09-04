@@ -87,4 +87,40 @@ public class OperatoreDAO implements IOperatoreDAO {
         }
         return pre;
     }
+
+    public Modello findModelByIdPrenotazione(int id) {
+        Modello mod=new Modello();
+        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT modello.tipologia,modello.nome FROM modello INNER JOIN mezzo ON modello.idmodello=mezzo.modello_idmodello INNER JOIN prenotazione ON prenotazione.mezzo_idmezzo=mezzo.idmezzo WHERE prenotazione.idprenotazione="+id+" ;");
+        if(!res.isEmpty()) {
+            String[] riga= res.get(0);
+            mod.setNome(riga[1]);
+            mod.setTipologia(riga[0]);
+            return mod;
+        }
+        mod.setId(0);
+        return mod;
+    }
+
+    public ArrayList<String[]> findByStation3(Stazione staz){
+
+        ArrayList<String []>res= DbConnection.getInstance().eseguiQuery("SELECT idprenotazione,dataInizio FROM prenotazione WHERE idstazione_partenza="+staz.getId()+" AND mezzoPreparato='1' ;");
+        if(res.isEmpty())
+            return null;
+
+        ArrayList<String[]>str= new ArrayList<>();
+        Prenotazione p;
+        Modello a;
+        for(String[] riga : res) {
+            String[] record= new String[4];
+            p=new Prenotazione();
+            a=new Modello();
+            a=findModelByIdPrenotazione(Integer.parseInt(riga[0]));
+            record[0]=riga[0];
+            record[1]=riga[1];
+            record[2]=a.getNome();
+            record[3]=a.getTipologia();
+            str.add(record);
+        }
+        return str;
+    }
 }

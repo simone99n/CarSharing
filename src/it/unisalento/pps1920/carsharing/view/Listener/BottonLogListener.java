@@ -5,13 +5,11 @@ import it.unisalento.pps1920.carsharing.dao.interfaces.IAddettoDAO;
 import it.unisalento.pps1920.carsharing.dao.interfaces.IAmministratoreDAO;
 import it.unisalento.pps1920.carsharing.dao.interfaces.IClienteDAO;
 import it.unisalento.pps1920.carsharing.dao.interfaces.IOperatoreDAO;
+import it.unisalento.pps1920.carsharing.dao.mysql.AddettoDAO;
 import it.unisalento.pps1920.carsharing.dao.mysql.AmministratoreDAO;
 import it.unisalento.pps1920.carsharing.dao.mysql.ClienteDAO;
 import it.unisalento.pps1920.carsharing.dao.mysql.OperatoreDAO;
-import it.unisalento.pps1920.carsharing.model.Amministratore;
-import it.unisalento.pps1920.carsharing.model.Cliente;
-import it.unisalento.pps1920.carsharing.model.Operatore;
-import it.unisalento.pps1920.carsharing.model.Utente;
+import it.unisalento.pps1920.carsharing.model.*;
 import it.unisalento.pps1920.carsharing.model.model_support.Recogniser;
 import it.unisalento.pps1920.carsharing.util.Session;
 import it.unisalento.pps1920.carsharing.view.*;
@@ -64,6 +62,9 @@ public class BottonLogListener implements ActionListener
                         fcl.setVisible(true);
                         break;
                     case "Addetto":
+                        IAddettoDAO adDao = new AddettoDAO();
+                        Addetto addettoLoggato = adDao.findById(rec.getId());
+                        Session.getInstance().inserisci(Session.UTENTE_LOGGATO, addettoLoggato);
                         FinestraAddetto fad = new FinestraAddetto(rec.getId(), rec.getNome());
                         break;
                     case "Amministratore":

@@ -139,7 +139,12 @@ public class StazioneDAO implements IStazioneDAO {
     }
 
     public String nomeStazioneFromOperatore(int idOperatore){
-        String sql1="SELECT nome FROM stazione WHERE operatore_utente_idutente='"+idOperatore+"'";
+        String sql1="SELECT nome FROM stazione WHERE operatore_utente_idutente='"+idOperatore+"';";
+        return DbConnection.getInstance().eseguiQuery(sql1).get(0)[0];
+    }
+
+    public String nomeStazioneFromAddetto(int idAddetto){
+        String sql1="SELECT nome FROM stazione WHERE addetto_utente_idutente='"+idAddetto+"';";
         return DbConnection.getInstance().eseguiQuery(sql1).get(0)[0];
     }
 }

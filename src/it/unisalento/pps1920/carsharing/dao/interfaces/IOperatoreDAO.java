@@ -8,4 +8,5 @@ import java.util.ArrayList;
 
 public interface IOperatoreDAO extends IBaseDAO<Operatore> {
     public ArrayList<Prenotazione> findByStation(Stazione staz);
+    public ArrayList<String[]> findByStation3(Stazione staz);
 }
