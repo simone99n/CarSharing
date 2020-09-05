@@ -43,7 +43,7 @@ public class FinestraOperatore extends  JFrame {
 
         JButton b1= new JButton("ESCI");
         JButton b2= new JButton("PANNELLO SEGNALAZIONI");
-        JButton b3= new JButton("VEICOL PRONTI");
+        JButton b3= new JButton("VEICOLI PRONTI");
 
         jp1.setLayout(new BorderLayout());
         setupPannelloPrenotazioni(id);
