@@ -81,14 +81,14 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
 
         //4.Trovare tutte le prenotazioni con quei mezzi con caratteristiche uguali alla nostra Prenotazione p
 
-        for (String[] strings : arrayMezzi) { //todo controllare se lo scorrimento del "for" si ferma al punto giusto
+        for (String[] strings : arrayMezzi) {
             String query2 = "SELECT idprenotazione,num_posti_occupati FROM prenotazione WHERE mezzo_idmezzo=" + strings[0] + " AND " +
                     "idstazione_partenza='" + p.getPartenza().getId() + "' AND idstazione_arrivo='" + p.getArrivo().getId() + "' AND localita_idlocalita= '" + p.getLocalita().getId() + "'" +
                     " AND dataInizio='" + DateUtil.stringFromDate(p.getDataInizio()) + "' AND dataFine='" + DateUtil.stringFromDate(p.getDataFine()) + "';";
 
             ArrayList<String[]> arrayPrenotazioni = DbConnection.getInstance().eseguiQuery(query2);
 
-            //todo aggiungere controllo se query restituisce NULL
+
 
             int[] idPrenotazione = new int[arrayPrenotazioni.size()];
             int[] numeroPosti = new int[arrayPrenotazioni.size()];
@@ -123,7 +123,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         System.out.println("Il numero di posti consente lo Sharing");
         //Cliente clienteLoggato = (Cliente) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
         String sql1 = "INSERT INTO effettua VALUES (" + array.get(1) + "," + array.get(2) +"," + array.get(3) + ", 99999999, '12-21', 222)";
-        //todo sistemare inserimento dati carta
+
         if (DbConnection.getInstance().eseguiAggiornamento(sql1))
             System.out.println("1. SHARING correttamente salvato nel DB (tabella EFFETTUA)");
         else{
@@ -146,7 +146,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         ArrayList<String[]> emails = new ArrayList<>();
         for (String[] strings : clienti) {
             String emailsql = "SELECT email FROM utente WHERE idutente=" + strings[0] + ";";
-            emails.add(DbConnection.getInstance().eseguiQuery(emailsql).get(0)); //todo ma funziona?!
+            emails.add(DbConnection.getInstance().eseguiQuery(emailsql).get(0));
         }
 
         FinestraSharing.idPrenotazione= Integer.parseInt(array.get(2));
@@ -179,7 +179,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         p.setId(Integer.parseInt(res.get(0)[0]));
 
         Cliente clienteLoggato = (Cliente) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
-        sql = "INSERT INTO effettua VALUES ("+clienteLoggato.getId()+","+p.getId()+","+p.getNumPostiOccupati()+",123456, '15-21', 666);"; //TODO sistemare inserimento dati carta
+        sql = "INSERT INTO effettua VALUES ("+clienteLoggato.getId()+","+p.getId()+","+p.getNumPostiOccupati()+",123456, '15-21', 666);";
 
         if(DbConnection.getInstance().eseguiAggiornamento(sql))
             System.out.println("Prenotazione correttamente salvata nel DB (tabella EFFETTUA)");
