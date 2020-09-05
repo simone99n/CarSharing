@@ -40,8 +40,7 @@ public class ControlloStatoPrenotazioniBusiness {           //Eseguita dall'oper
         ArrayList<Prenotazione>pre = new ArrayList<Prenotazione>();
         s=sdao.findStationByOperatorId(id);
         pre= odao.findByStation(s);
-        if(pre==null)
-        {
+        if(pre==null) {
             System.out.println("Mi spiace ma al momento non sono presenti delle prenotazioni.");
             return null;
         }

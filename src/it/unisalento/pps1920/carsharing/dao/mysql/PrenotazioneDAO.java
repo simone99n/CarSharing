@@ -51,7 +51,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
 
         ArrayList<Prenotazione> prenotazioni = new ArrayList<Prenotazione>();
 
-        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT idprenotazione FROM prenotazione");
+        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT idprenotazione FROM prenotazione ORDER BY idprenotazione DESC");
 
         for(String[] riga : res) {
             Prenotazione p = findById(Integer.parseInt(riga[0]));
@@ -168,7 +168,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         String strDataFine = DateUtil.stringFromDate(p.getDataFine());
 
         String sql = "INSERT INTO prenotazione VALUES (NULL, '"+strDataPrenotazione+"',"+p.getMezzo().getId()+","+p.getNumPostiOccupati()+","+
-                p.getPartenza().getId()+","+p.getArrivo().getId()+","+p.getLocalita().getId()+",'"+strDataInizio+"','"+strDataFine+"','0');";
+                p.getPartenza().getId()+","+p.getArrivo().getId()+","+p.getLocalita().getId()+",'"+strDataInizio+"','"+strDataFine+"','0','0');";
         //System.out.println(sql);
         if(DbConnection.getInstance().eseguiAggiornamento(sql))
             System.out.println("Prenotazione correttamente salvata nel DB");
@@ -287,7 +287,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
     public ArrayList<Prenotazione> findAllForCliente(){
         Cliente clienteLoggato = (Cliente) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
         ArrayList<Prenotazione> prenotazioni = new ArrayList<Prenotazione>();
-        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT prenotazione_idprenotazione FROM effettua WHERE cliente_utente_idutente ='"+clienteLoggato.getId()+"';");
+        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT prenotazione_idprenotazione FROM effettua WHERE cliente_utente_idutente ='"+clienteLoggato.getId()+"' ORDER BY prenotazione_idprenotazione DESC;");
         for (String[] re : res) {
             Prenotazione p = findById(Integer.parseInt(re[0]));
             prenotazioni.add(p);

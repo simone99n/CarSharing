@@ -57,8 +57,8 @@ public class PrenotazioneBusiness {
             testo.add("Codice prenotazione con Sharing: "+arrayInfo.get(2));
             testo.add("Veicolo: "+p.getMezzo().getModello().getNome());
             testo.add("TARGA: "+p.getMezzo().getTarga());
-            testo.add("Data inizio "+p.getDataInizio());
-            testo.add("Data fine "+p.getDataFine());
+            testo.add("Data inizio: "+p.getDataInizio());
+            testo.add("Data fine: "+p.getDataFine());
             testo.add("Date e ora prenotazione: "+p.getData());
             testo.add("Stampa questo file e presentati in stazione");
             PdfHelper.getInstance().creaPdf(testo);                                 // 4. generare pdf per l'utente

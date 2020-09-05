@@ -9,7 +9,9 @@ import java.awt.*;
 public class FinestraLogin extends JFrame
 {
     public JTextField username=new JTextField();
-    public JTextField password=new JTextField();
+    //public JTextField password=new JTextField();
+    public JPasswordField password=new JPasswordField();
+
     JPanel centro = new JPanel();
     JPanel sud = new JPanel();
     JButton b3 = new JButton("ANNULLA");
@@ -18,8 +20,7 @@ public class FinestraLogin extends JFrame
     BottonLogListener listener;
 
 
-    public FinestraLogin()
-    {
+    public FinestraLogin() {
         super("Login");
         Dimension screenSize = Toolkit.getDefaultToolkit ( ).getScreenSize ( );
         setLocation ( ( screenSize.width / 2 ) - ( this.getWidth ( ) / 2 ), (screenSize.height / 2 ) - ( this.getHeight ( ) / 2 ) );
@@ -34,6 +35,7 @@ public class FinestraLogin extends JFrame
         c.setLayout(new BorderLayout());
         c.add(centro,BorderLayout.CENTER);
         c.add(sud,BorderLayout.SOUTH);
+        password.setEchoChar('*');
         sud.setLayout(new FlowLayout());
         sud.setBackground(Color.red);
         centro.setBackground(Color.yellow);

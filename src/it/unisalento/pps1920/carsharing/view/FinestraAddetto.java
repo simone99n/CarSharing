@@ -51,6 +51,16 @@ public class FinestraAddetto extends  JFrame {
         jp3.add(bb);
         jp3.setBackground(Color.yellow);
 
+
+        JMenuBar bar = new JMenuBar();
+        JMenu file = new JMenu("File");
+        bar.add(file);
+        setJMenuBar(bar);
+        JMenuItem logout = new JMenuItem("Logout");
+        file.add(logout);
+        logout.addActionListener(listener);
+        logout.setActionCommand(BottonAddettoListener.PULSANTE_LOGOUT);
+
         butt.addActionListener(listener);
         butt.setActionCommand(BottonAddettoListener.PULSANTE_VISUALIZZA_ACCESSORI_AUTOMEZZO);
         b2.addActionListener(listener);

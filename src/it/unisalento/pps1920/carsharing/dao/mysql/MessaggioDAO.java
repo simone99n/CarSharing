@@ -33,10 +33,7 @@ public class MessaggioDAO implements IMessaggioDAO {
             utente2 = uDAO.findById(Integer.parseInt(riga[4]));
             m.setSorgente(utente1);
             m.setDestinatario(utente2);
-/*
-            Mezzo mezzo = mDao.findById(Integer.parseInt(riga[2]));
-            p.setMezzo(mezzo);
- */
+
         }
 
         return m;

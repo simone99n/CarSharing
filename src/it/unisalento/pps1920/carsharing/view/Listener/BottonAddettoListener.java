@@ -8,6 +8,7 @@ import it.unisalento.pps1920.carsharing.model.Operatore;
 import it.unisalento.pps1920.carsharing.util.DateUtil;
 import it.unisalento.pps1920.carsharing.util.Session;
 import it.unisalento.pps1920.carsharing.view.FinestraAddetto;
+import it.unisalento.pps1920.carsharing.view.FinestraHomePage;
 import it.unisalento.pps1920.carsharing.view.Listener.SuccessMessagesListener.AllSuccessMessages;
 
 import javax.swing.*;
@@ -30,6 +31,7 @@ public class BottonAddettoListener implements ActionListener {
     public static final String PULSANTE_INVIA_RISCONTRO = "PULSANTE_INVIA_RISCONTRO";
     public static final String PULSANTE_INVIA_DEF = "PULSANTE_INVIA_DEF";
     public static final String PULSANTE_SEGNALAZIONI = "PULSANTE_SEGNALAZIONI";
+    public static final String PULSANTE_LOGOUT = "PULSANTE_LOGOUT";
 
     public BottonAddettoListener(FinestraAddetto win,int idAddetto,String nomeAddetto) {
 
@@ -40,7 +42,7 @@ public class BottonAddettoListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        JButton button = (JButton) e.getSource();
+        //JButton button = (JButton) e.getSource();
         String command = e.getActionCommand();
 
         if (PULSANTE_VISUALIZZA_ACCESSORI_AUTOMEZZO.equals(command)) {
@@ -77,6 +79,12 @@ public class BottonAddettoListener implements ActionListener {
             String data = DateUtil.stringFromDate(new Date());
             ControlloAutomezziAddettoBusiness.getInstance().inviaRiscontroAddetto("[Addetto della "+ControlloStatoPrenotazioniBusiness.getInstance().nomeStazioneFromAddetto(addettoLoggato.getId())+" ] "+data+":        "+win.testoRiscontro.getText(), Integer.parseInt(win.campoId.getText()));
             win.mostraPannelloSegnalazioni();
+        }
+        if (PULSANTE_LOGOUT.equals(command)){
+            Session.getInstance().rimuovi(Session.UTENTE_LOGGATO);
+            FinestraHomePage home = new FinestraHomePage();
+            home.setVisible(true);
+            win.dispose();
         }
 
     }

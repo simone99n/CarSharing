@@ -24,7 +24,7 @@ public class FinestraHomePage extends JFrame {
 
     public FinestraHomePage(){
 
-        super("CarSharing");
+        super("CarSharing: Catalogo");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(920,700);
 

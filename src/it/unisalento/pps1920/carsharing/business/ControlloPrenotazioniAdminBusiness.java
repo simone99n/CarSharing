@@ -50,9 +50,5 @@ public class ControlloPrenotazioniAdminBusiness {
         return prenotazioni;
     }
 
-    public void inviaSegnalazione(int idSorgente,int idDestinatario, String testo){
-        IMessaggioDAO tmp = new MessaggioDAO();
-        tmp.inserisciMessaggio(idSorgente,idDestinatario,testo);
-    }
 
 }

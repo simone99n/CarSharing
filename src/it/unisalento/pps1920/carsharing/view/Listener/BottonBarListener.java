@@ -10,6 +10,7 @@ import it.unisalento.pps1920.carsharing.util.DateUtil;
 import it.unisalento.pps1920.carsharing.util.Session;
 import it.unisalento.pps1920.carsharing.view.FinestraCliente;
 import it.unisalento.pps1920.carsharing.view.FinestraErrorCompilPren;
+import it.unisalento.pps1920.carsharing.view.FinestraHomePage;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -34,6 +35,7 @@ public class BottonBarListener implements ActionListener {
     public static final String PULSANTE_AVANTI2 = "PULSANTE_AVANTI2";
     public static final String PULSANTE_AVANTI3 = "PULSANTE_AVANTI3";
     public static final String PULSANTE_CANCELLA_PRENOTAZIONE = "PULSANTE_CANCELLA_PRENOTAZIONE";
+    public static final String PULSANTE_LOGOUT = "PULSANTE_LOGOUT";
     Prenotazione nuova, p;
     FinestraErrorCompilPren error;
 
@@ -46,7 +48,7 @@ public class BottonBarListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        JButton button = (JButton)e.getSource();
+        //JButton button = (JButton)e.getSource();
         //System.out.println("Pulsante premuto "+button.getText());
 
         /* SBAGLIATO !!!
@@ -328,6 +330,12 @@ public class BottonBarListener implements ActionListener {
             win.dispose();
             FinestraCliente win = new FinestraCliente();
             win.setVisible(true);
+        }
+        else if (PULSANTE_LOGOUT.equals(command)){
+            Session.getInstance().rimuovi(Session.UTENTE_LOGGATO);
+            FinestraHomePage home = new FinestraHomePage();
+            home.setVisible(true);
+            win.dispose();
         }
 
     }

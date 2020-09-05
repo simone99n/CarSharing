@@ -1,15 +1,18 @@
 package it.unisalento.pps1920.carsharing.view.Listener;
 
 import it.unisalento.pps1920.carsharing.business.ControlloPrenotazioniAdminBusiness;
+import it.unisalento.pps1920.carsharing.business.SegnalazioneBusiness;
 import it.unisalento.pps1920.carsharing.model.*;
 import it.unisalento.pps1920.carsharing.util.Session;
 import it.unisalento.pps1920.carsharing.view.FinestraAmministratore;
+import it.unisalento.pps1920.carsharing.view.FinestraHomePage;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class BottonAdminListener implements ActionListener
 {
+
 
 
     private FinestraAmministratore win;
@@ -32,6 +35,7 @@ public class BottonAdminListener implements ActionListener
     public static final String PULSANTE_SEGNALAZIONE_OPERATORE = "PULSANTE_SEGNALAZIONE_OPERATORE";
     public static final String PULSANTE_INVIA_SEGNALAZIONE = "PULSANTE_INVIA_SEGNALAZIONE";
     public static final String PULSANTE_RISCONTRO = "PULSANTE_RISCONTRO";
+    public static final String PULSANTE_LOGOUT = "PULSANTE_LOGOUT";
 
     public BottonAdminListener(FinestraAmministratore win) {
         this.win=win;
@@ -116,20 +120,17 @@ public class BottonAdminListener implements ActionListener
            win.inserisciTestoSegnalazioneOperatore();
         }
         if(PULSANTE_INVIA_SEGNALAZIONE.equals(command)){
-            System.out.println("Pulsante invia prenotazione premutp");
             Amministratore amministratoreLoggato = (Amministratore) Session.getInstance().ottieni(Session.UTENTE_LOGGATO);
 
             if(win.operatoreComboBox.getSelectedItem()==null){
-                System.out.println("entro win.operatoreComboBox==null");
                 Stazione stazione = (Stazione) win.addettoComboBox.getSelectedItem();
-                ControlloPrenotazioniAdminBusiness.getInstance().inviaSegnalazione(amministratoreLoggato.getId(), stazione.getAddetto().getId(), win.messJTA.getText()); //(idSorgente,idDestinatario)
+                SegnalazioneBusiness.getInstance().inviaSegnalazione(amministratoreLoggato.getId(), stazione.getAddetto().getId(), win.messJTA.getText()); //(idSorgente,idDestinatario)
                 win.partenza.removeAll();
                 win.menu();
             }
             else if(win.addettoComboBox.getSelectedItem()==null){
-                System.out.println("win.addettoComboBox==null");
                 Stazione stazione = (Stazione) win.operatoreComboBox.getSelectedItem();
-                ControlloPrenotazioniAdminBusiness.getInstance().inviaSegnalazione(amministratoreLoggato.getId(), stazione.getOperatore().getId_operatore(), win.messJTA.getText()); //(idSorgente,idDestinatario)
+                SegnalazioneBusiness.getInstance().inviaSegnalazione(amministratoreLoggato.getId(), stazione.getOperatore().getId_operatore(), win.messJTA.getText()); //(idSorgente,idDestinatario)
                 win.partenza.removeAll();
                 win.menu();
             }
@@ -137,6 +138,12 @@ public class BottonAdminListener implements ActionListener
         }
         if(PULSANTE_RISCONTRO.equals(command)){
             win.mostraPannelloRiscontroSegnalazioni();
+        }
+        if (PULSANTE_LOGOUT.equals(command)){
+            Session.getInstance().rimuovi(Session.UTENTE_LOGGATO);
+            FinestraHomePage home = new FinestraHomePage();
+            home.setVisible(true);
+            win.dispose();
         }
 
     }

@@ -9,6 +9,7 @@ import it.unisalento.pps1920.carsharing.model.Operatore;
 import it.unisalento.pps1920.carsharing.model.Prenotazione;
 import it.unisalento.pps1920.carsharing.util.Session;
 import it.unisalento.pps1920.carsharing.view.Listener.BottonAdminListener;
+import it.unisalento.pps1920.carsharing.view.Listener.BottonBarListener;
 import it.unisalento.pps1920.carsharing.view.Listener.BottonErrorListener.AllErrorMessages;
 import it.unisalento.pps1920.carsharing.view.Listener.BottonOperatorListener;
 
@@ -26,7 +27,7 @@ public class FinestraOperatore extends  JFrame {
     public JTextField campoId;
     public boolean bufferModifica=false;
 
-    BottonOperatorListener listener;
+    public BottonOperatorListener listener;
     public FinestraOperatore(int id, String nome)
     {
         super("OPERATORE : "+nome.toUpperCase());
@@ -47,6 +48,13 @@ public class FinestraOperatore extends  JFrame {
         jp1.setLayout(new BorderLayout());
         setupPannelloPrenotazioni(id);
 
+
+        JMenuBar bar = new JMenuBar();
+        JMenu file = new JMenu("File");
+        bar.add(file);
+        setJMenuBar(bar);
+
+
         jp2.setLayout(new FlowLayout());
         jp2.add(b1);
         jp2.add(b2);
@@ -60,7 +68,7 @@ public class FinestraOperatore extends  JFrame {
         listener = new BottonOperatorListener(this);
 
         b1.addActionListener(listener);
-        b1.setActionCommand(BottonOperatorListener.PULSANTE_ESCI);
+        b1.setActionCommand(BottonOperatorListener.PULSANTE_LOGOUT);
         b2.addActionListener(listener);
         b2.setActionCommand(BottonOperatorListener.PULSANTE_SEGNALAZIONI);
         b3.addActionListener(listener);

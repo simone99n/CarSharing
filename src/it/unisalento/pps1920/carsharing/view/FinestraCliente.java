@@ -109,20 +109,24 @@ public class FinestraCliente extends JFrame {
        // sud.add(subSud);
 
 
-        /*JMenuBar bar = new JMenuBar();
+        JMenuBar bar = new JMenuBar();
         JMenu file = new JMenu("File");
-        JMenu edit = new JMenu("Edit");
-        JMenu move = new JMenu("Move");
+       // JMenu edit = new JMenu("Edit");
+        //JMenu move = new JMenu("Move");
         bar.add(file);
-        bar.add(edit);
-        edit.add(move);
+        //bar.add(edit);
+       // edit.add(move);
         setJMenuBar(bar);
-        JMenuItem random = new JMenuItem("Random");
-        JMenuItem up = new JMenuItem("Up");
-        JMenuItem down = new JMenuItem("Down");
-        edit.add(random);
-        move.add(up);
-        move.add(down);*/
+        JMenuItem logout = new JMenuItem("Logout");
+        file.add(logout);
+        logout.addActionListener(listener);
+        logout.setActionCommand(BottonBarListener.PULSANTE_LOGOUT);
+        //JMenuItem random = new JMenuItem("Random");
+        //JMenuItem up = new JMenuItem("Up");
+        //JMenuItem down = new JMenuItem("Down");
+        //edit.add(random);
+       // move.add(up);
+        //move.add(down);
 
         btn1.addActionListener(listener);
         btn1.setActionCommand(BottonBarListener.PULSANTE_NUOVA_PRENOTAZONE);

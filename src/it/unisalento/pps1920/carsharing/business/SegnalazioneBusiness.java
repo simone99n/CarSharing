@@ -43,4 +43,10 @@ public class SegnalazioneBusiness
         mDAO.inserisciMessaggio(operatoreLoggato.getId_operatore(), idAdmin, testo);
         mDAO.setLetto(idSegnalazione);
     }
+
+    public void inviaSegnalazione(int idSorgente,int idDestinatario, String testo){
+        IMessaggioDAO tmp = new MessaggioDAO();
+        tmp.inserisciMessaggio(idSorgente,idDestinatario,testo);
+    }
+
 }

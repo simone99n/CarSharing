@@ -7,6 +7,7 @@ import it.unisalento.pps1920.carsharing.business.SegnalazioneBusiness;
 import it.unisalento.pps1920.carsharing.dao.mysql.PrenotazioneDAO;
 import it.unisalento.pps1920.carsharing.model.*;
 import it.unisalento.pps1920.carsharing.util.PdfHelper;
+import it.unisalento.pps1920.carsharing.view.Listener.BottonAddettoListener;
 import it.unisalento.pps1920.carsharing.view.Listener.BottonAdminListener;
 import it.unisalento.pps1920.carsharing.view.Listener.BottonErrorListener.AllErrorMessages;
 import it.unisalento.pps1920.carsharing.view.Listener.BottonOperatorListener;
@@ -50,8 +51,7 @@ public class FinestraAmministratore extends JFrame
 
 
     public BottonAdminListener listener;
-    public FinestraAmministratore(int id,String nome)
-    {
+    public FinestraAmministratore(int id,String nome) {
 
         super("AMMINISTRATORE : " + nome.toUpperCase());
         this.setSize(1300,800);
@@ -106,6 +106,19 @@ public class FinestraAmministratore extends JFrame
         jp3.add(b6);
         jp3.add(b12);
         jp3.setBackground(Color.RED);
+
+
+
+        JMenuBar bar = new JMenuBar();
+        JMenu file = new JMenu("File");
+        bar.add(file);
+        setJMenuBar(bar);
+        JMenuItem logout = new JMenuItem("Logout");
+        file.add(logout);
+        logout.addActionListener(listener);
+        logout.setActionCommand(BottonAdminListener.PULSANTE_LOGOUT);
+
+
         JLabel tx= new JLabel("<<<TABELLA PRENOTAZIONI>>>");
         jp2_1.add(tx);
         setupPannelloPrenotazioni(id);

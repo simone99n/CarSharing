@@ -46,7 +46,7 @@ public class OperatoreDAO implements IOperatoreDAO {
     @Override
     public ArrayList<Prenotazione> findByStation(Stazione staz) // Funzione per il controllo prenotazioni e pagamenti da parte dell'operatore
     {
-        ArrayList<String []>res= DbConnection.getInstance().eseguiQuery("SELECT * FROM prenotazione WHERE idstazione_partenza="+staz.getId()+";");
+        ArrayList<String []>res= DbConnection.getInstance().eseguiQuery("SELECT * FROM prenotazione WHERE idstazione_partenza="+staz.getId()+" ORDER BY idprenotazione DESC;");
         if(res.isEmpty())
         {
             return null;
@@ -103,7 +103,7 @@ public class OperatoreDAO implements IOperatoreDAO {
 
     public ArrayList<String[]> findByStation3(Stazione staz){
 
-        ArrayList<String []>res= DbConnection.getInstance().eseguiQuery("SELECT idprenotazione,dataInizio FROM prenotazione WHERE idstazione_partenza="+staz.getId()+" AND mezzoPreparato='1' ;");
+        ArrayList<String []>res= DbConnection.getInstance().eseguiQuery("SELECT idprenotazione,dataInizio FROM prenotazione WHERE idstazione_partenza="+staz.getId()+" AND mezzoPreparato='1' ORDER BY idprenotazione DESC;");
         if(res.isEmpty())
             return null;
 
